@@ -1,170 +1,69 @@
 "use client"
 
-import Link from "next/link"
+// Importaciones principales de React y hooks personalizados
+import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { useAuth } from "@/hooks/useAuth"
 import { menuItems } from "@/constants/menuItems"
-import { useState } from "react"
-import {
-  ChevronRight,
-  ChevronDown,
-  LogOut,
-  Menu,
-  ArrowLeft
-} from "lucide-react"
-import { usePathname } from "next/navigation"
 
+// Importación de estilos y componentes del sidebar
 import "@/styles/sidebar.css"
+import { SidebarHeader } from "./SidebarHeader"
+import { SidebarMenu } from "./SidebarMenu"
+import { SidebarBottom } from "./SidebarBottom"
 
 export const Sidebar = () => {
   const { user } = useAuth()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Cargamos estado inicial desde localStorage si existe
+    const stored = localStorage.getItem("sidebar-collapsed")
+    return stored ? stored === "true" : window.innerWidth < 768
+  })
   const pathname = usePathname()
 
-  const mainItems = menuItems.filter(
-    item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route)
-  )
+  // Guardar en localStorage y sincronizar clase del body
+  useEffect(() => {
+    document.body.classList.toggle("sidebar-collapsed", isCollapsed)
+    localStorage.setItem("sidebar-collapsed", String(isCollapsed))
+  }, [isCollapsed])
 
-  const bottomItems = menuItems.filter(
-    item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route)
-  )
+  // Escuchar cambios de tamaño si no hay preferencia en localStorage
+  useEffect(() => {
+    const handleResize = () => {
+      if (!localStorage.getItem("sidebar-collapsed")) {
+        setIsCollapsed(window.innerWidth < 768)
+      }
+    }
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const toggleSidebar = () => setIsCollapsed(prev => !prev)
+  const toggleSubmenu = (route: string) => setOpenMenu(prev => (prev === route ? null : route))
 
-  const toggleSubmenu = (route: string) => {
-    setOpenMenu(prev => (prev === route ? null : route))
-  }
+  const mainItems = menuItems.filter(item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route))
+  const bottomItems = menuItems.filter(item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route))
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
-      <div className="sidebar__header">
-        <div className="sidebar__brand">
-          {!isCollapsed && <h2 className="sidebar__logo">CrediBridge</h2>}
-          <button onClick={toggleSidebar} className="sidebar__toggle" title="Colapsar menú">
-            {isCollapsed ? <Menu size={20} /> : <ArrowLeft size={20} />}
-          </button>
-        </div>
-      </div>
-
-      <span className="sidebar__section-label">
-        {!isCollapsed && "Menú"}
-      </span>
-
-      <div className="sidebar__scroll-area">
-        <ul className="sidebar__menu">
-          {mainItems
-            .filter(item => item.roles.includes(user.rol))
-            .map((item, i) => {
-              const isOpen = openMenu === item.route
-              const hasChildren = !!item.children
-
-              return (
-                <li
-                  key={i}
-                  className="sidebar__item"
-                  style={{ position: "relative" }}
-                >
-                  {hasChildren ? (
-                    <>
-                      <div
-                        className="sidebar__link sidebar__link--with-sub"
-                        onClick={() => !isCollapsed && toggleSubmenu(item.route)}
-                      >
-                        <item.icon size={20} className="sidebar__icon" />
-                        {!isCollapsed && <span>{item.label}</span>}
-                        {!isCollapsed &&
-                          (isOpen ? (
-                            <ChevronDown size={16} className="sidebar__arrow" />
-                          ) : (
-                            <ChevronRight size={16} className="sidebar__arrow" />
-                          ))}
-                      </div>
-
-                      {/* Submenú normal */}
-                      {!isCollapsed && isOpen && (
-                        <ul className="sidebar__submenu">
-                          {item.children
-                            .filter(child => child.roles.includes(user.rol))
-                            .map((child, j) => (
-                              <li key={j}>
-                                <Link
-                                  href={child.route}
-                                  className={`sidebar__sublink ${
-                                    pathname === child.route
-                                      ? "sidebar__sublink--active"
-                                      : ""
-                                  }`}
-                                >
-                                  {child.label}
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      )}
-
-                      {/* Popover si está colapsado */}
-                      {isCollapsed && (
-                        <div className="sidebar__popover">
-                          {item.children
-                            .filter(child => child.roles.includes(user.rol))
-                            .map((child, j) => (
-                              <Link key={j} href={child.route}>
-                                {child.label}
-                              </Link>
-                            ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <Link href={item.route} className="sidebar__link">
-                        <item.icon size={20} className="sidebar__icon" />
-                        {!isCollapsed && <span>{item.label}</span>}
-                      </Link>
-
-                      {/* Tooltip para colapsado */}
-                      {isCollapsed && <div className="sidebar__tooltip">{item.label}</div>}
-                    </>
-                  )}
-                </li>
-              )
-            })}
-        </ul>
-      </div>
-
-      <div className="sidebar__bottom">
-        {bottomItems
-          .filter(item => item.roles.includes(user.rol))
-          .map((item, i) => (
-            <Link
-              key={i}
-              href={item.route}
-              className="sidebar__link sidebar__link--bottom"
-              title={isCollapsed ? item.label : ""}
-            >
-              <item.icon size={20} className="sidebar__icon" />
-              {!isCollapsed && <span>{item.label}</span>}
-            </Link>
-          ))}
-
-        {!isCollapsed && (
-          <>
-            <div className="sidebar__perfil-label">Perfil</div>
-            <div className="sidebar__perfil">
-              <div className="sidebar__avatar" />
-              <div className="sidebar__perfil-info">
-                <strong>{user.nombre}</strong>
-                <p className="sidebar__perfil-rol">administrador sistemas</p>
-              </div>
-            </div>
-          </>
-        )}
-
-        <button className="sidebar__logout" title="Cerrar sesión">
-          <LogOut size={18} />
-          {!isCollapsed && <span>cerrar sesión</span>}
-        </button>
-      </div>
+      <SidebarHeader isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+      <SidebarMenu
+        items={mainItems}
+        user={user}
+        isCollapsed={isCollapsed}
+        openMenu={openMenu}
+        toggleSubmenu={toggleSubmenu}
+        pathname={pathname}
+      />
+      <SidebarBottom
+        items={bottomItems}
+        user={user}
+        isCollapsed={isCollapsed}
+        openMenu={openMenu}
+        toggleSubmenu={toggleSubmenu}
+        pathname={pathname}
+      />
     </aside>
   )
 }

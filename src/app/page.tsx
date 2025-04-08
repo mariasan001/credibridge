@@ -1,9 +1,11 @@
-// /app/page.tsx
-export default function HomePage() {
+// app/comparativas/page.tsx o en tus rutas
+import { PageLayout } from "@/components/PageLayout"
+
+export default function InicioPage() {
   return (
-    <section>
-      <h1 className="text-2xl font-bold mb-4">Bienvenido a CrediBridge</h1>
-      <p className="text-gray-700">Selecciona una opción del menú para comenzar.</p>
-    </section>
+    <PageLayout>
+      <h1>Pagina de Inicio </h1>
+      <p>Contenido de la sección</p>
+    </PageLayout>
   )
 }

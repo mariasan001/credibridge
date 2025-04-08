@@ -1,11 +1,10 @@
+import { PageLayout } from "@/components/PageLayout"
 
-const RankingInstitucionesPage = () => {
-    return (
-      <div>
-        <h1>Ranking de Instituciones</h1>
-        {/* Tu contenido aquí */}
-      </div>
-    )
-  }
-  
-  export default RankingInstitucionesPage
+export default function RankInstitucionesPage() {
+  return (
+    <PageLayout>
+      <h1>Pagina Rankind de instituciones  </h1>
+      <p>Contenido de la sección</p>
+    </PageLayout>
+  )
+}

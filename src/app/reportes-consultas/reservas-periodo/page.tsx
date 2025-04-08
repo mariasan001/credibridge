@@ -1,9 +1,10 @@
+
 import { PageLayout } from "@/components/PageLayout"
 
-export default function InstaladosNominaPage() {
+export default function RervPeriodoPage() {
   return (
     <PageLayout>
-      <h1>Pagina de de Instalados por nomina </h1>
+      <h1>Pagina de Reservas del periodo</h1>
       <p>Contenido de la sección</p>
     </PageLayout>
   )

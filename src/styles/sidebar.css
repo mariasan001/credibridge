@@ -1,19 +1,24 @@
+/* --- Estructura Principal del Sidebar --- */
 .sidebar {
-  width: 270px;
+  width: 285px; /* Ancho cuando está expandido */
   height: 100vh;
   background-color: #fff;
   border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
-  padding: 20px 6px;
+  padding: 20px 10px;
   position: fixed;
   transition: width 0.3s ease;
   z-index: 1000;
-  overflow: visible; /* importante para tooltips/popovers */
+  overflow: visible; /* Necesario para tooltips y popovers */
+}
+
+ul {
+  list-style: none;
 }
 
 .sidebar.collapsed {
-  width: 80px;
+  width: 80px; /* Ancho cuando está colapsado */
 }
 
 .sidebar__header {
@@ -29,28 +34,35 @@
 
 .sidebar__logo {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   padding: 0;
   margin-top: 10px;
+  margin-right: 50px;
 }
 
 .sidebar__toggle {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  margin-left: 8px;
-  color: #000;
+  padding: 6px;
+  color: #363636;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%; 
 }
 
-/* Etiqueta "Menú" */
+.sidebar__link--active {
+  background-color: #fea5001a;
+  color: #fea600;
+  font-weight: 600;
+}
+
+/* --- Sección Menú --- */
 .sidebar__section-label {
   color: #a0a0a0;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.5px;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -61,11 +73,12 @@
   overflow-y: auto;
   padding-right: 4px;
 }
+
 .sidebar.collapsed .sidebar__scroll-area {
   overflow: visible;
 }
 
-/* Scroll estilizado */
+/* Scroll personalizado */
 .sidebar__scroll-area::-webkit-scrollbar {
   width: 6px;
 }
@@ -77,7 +90,6 @@
   background: transparent;
 }
 
-/* Menú */
 .sidebar__menu {
   list-style: none;
   padding: 0;
@@ -86,13 +98,13 @@
 
 .sidebar__item {
   margin-bottom: 4px;
-  position: relative;
+  position: relative; /* Requerido para tooltip/popover */
 }
 
 .sidebar__link {
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 14px;
   gap: 10px;
   color: #212121;
   padding: 10px 12px;
@@ -119,10 +131,10 @@
   margin-left: auto;
 }
 
-/* Submenú expandido */
+/* --- Submenú Expandido --- */
 .sidebar__submenu {
   margin-left: 16px;
-  margin-top: 6px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -133,8 +145,9 @@
 .sidebar__sublink {
   font-size: 14px;
   color: #666;
-  padding: 8px 12px;
+  padding: 4px 10px;
   border-radius: 6px;
+  margin-top: 10px;
   transition: all 0.2s ease-in-out;
 }
 
@@ -149,7 +162,7 @@
   font-weight: 500;
 }
 
-/* Parte inferior */
+/* --- Parte Inferior del Sidebar --- */
 .sidebar__bottom {
   padding-top: 20px;
   border-top: 1px solid #ddd;
@@ -228,7 +241,7 @@
   background-color: #e69500;
 }
 
-/* Elementos colapsados */
+/* --- Elementos que desaparecen al colapsar --- */
 .sidebar.collapsed .sidebar__logo,
 .sidebar.collapsed .sidebar__section-label,
 .sidebar.collapsed .sidebar__perfil-info,
@@ -243,7 +256,7 @@
   padding: 12px 0;
 }
 
-/* Tooltip */
+/* --- Tooltip para ítems colapsados --- */
 .sidebar__tooltip {
   position: absolute;
   left: 100%;
@@ -266,28 +279,24 @@
   opacity: 1;
 }
 
-/* Popover para submenú colapsado */
-.sidebar__item {
-  position: relative;
-}
-
+/* --- Popover para submenús colapsados --- */
 .sidebar__popover {
   position: absolute;
-  left: 100%;
+  left: 80%;
   top: 0;
   background-color: #fff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   padding: 8px;
   z-index: 999;
-  min-width: 200px;
+  min-width: 210px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-left: 10px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity .4s ease-out;
 }
 
 .sidebar__item:hover .sidebar__popover {
@@ -306,4 +315,34 @@
 .sidebar__popover a:hover {
   background-color: #fea5001a;
   color: #fea600;
+}
+
+/* --- Responsive para pantallas pequeñas --- */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .sidebar__logo,
+  .sidebar__section-label,
+  .sidebar__perfil-info,
+  .sidebar__perfil-label,
+  .sidebar__link span,
+  .sidebar__logout span {
+    display: none;
+  }
+
+  .sidebar__link {
+    justify-content: center;
+    padding: 12px 0;
+  }
+
+  .sidebar__scroll-area {
+    overflow: visible;
+  }
+}
+/* Elimina cualquier marcador de lista */
+li::marker {
+  display: none !important;
+  content: "" !important;
 }

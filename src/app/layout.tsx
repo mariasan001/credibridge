@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Sidebar />
 
         {/* Contenido que cambia según la ruta */}
-        <main className="flex-1 p-6 bg-gray-100">{children}</main>
+        <main className="flex-1 ">{children}</main>
       </body>
     </html>
   )
