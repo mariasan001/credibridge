@@ -1,12 +1,12 @@
 "use client"
 
-// Importaciones principales de React y hooks personalizados
+// Hooks y utilidades
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { useAuth } from "@/hooks/useAuth"
 import { menuItems } from "@/constants/menuItems"
 
-// Importación de estilos y componentes del sidebar
+// Estilos y componentes del sidebar
 import "@/styles/sidebar.css"
 import { SidebarHeader } from "./SidebarHeader"
 import { SidebarMenu } from "./SidebarMenu"
@@ -15,35 +15,42 @@ import { SidebarBottom } from "./SidebarBottom"
 export const Sidebar = () => {
   const { user } = useAuth()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    // Cargamos estado inicial desde localStorage si existe
-    const stored = localStorage.getItem("sidebar-collapsed")
-    return stored ? stored === "true" : window.innerWidth < 768
-  })
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
 
-  // Guardar en localStorage y sincronizar clase del body
-  useEffect(() => {
-    document.body.classList.toggle("sidebar-collapsed", isCollapsed)
-    localStorage.setItem("sidebar-collapsed", String(isCollapsed))
-  }, [isCollapsed])
+  const isBrowser = typeof window !== "undefined"
 
-  // Escuchar cambios de tamaño si no hay preferencia en localStorage
+  // Cargar el estado desde localStorage en el cliente
   useEffect(() => {
-    const handleResize = () => {
-      if (!localStorage.getItem("sidebar-collapsed")) {
-        setIsCollapsed(window.innerWidth < 768)
+    if (isBrowser) {
+      const savedState = localStorage.getItem("sidebar-collapsed")
+      setIsCollapsed(savedState === "true")
+
+      // También colapsar automáticamente si pantalla es pequeña
+      if (window.innerWidth < 768) {
+        setIsCollapsed(true)
       }
     }
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  const toggleSidebar = () => setIsCollapsed(prev => !prev)
-  const toggleSubmenu = (route: string) => setOpenMenu(prev => (prev === route ? null : route))
+  // Guardar el estado de colapso en localStorage + agregar clase al body
+  useEffect(() => {
+    if (isBrowser) {
+      localStorage.setItem("sidebar-collapsed", String(isCollapsed))
+      document.body.classList.toggle("sidebar-collapsed", isCollapsed)
+    }
+  }, [isCollapsed])
 
-  const mainItems = menuItems.filter(item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route))
-  const bottomItems = menuItems.filter(item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route))
+  const toggleSidebar = () => setIsCollapsed(prev => !prev)
+  const toggleSubmenu = (route: string) =>
+    setOpenMenu(prev => (prev === route ? null : route))
+
+  const mainItems = menuItems.filter(
+    item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route)
+  )
+  const bottomItems = menuItems.filter(
+    item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route)
+  )
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>

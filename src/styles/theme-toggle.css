@@ -1,0 +1,29 @@
+/* Botón de cambio de tema */
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--text-size-sm);
+    color: var(--color-text-main);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .theme-toggle-btn:hover {
+    background-color: rgba(254, 165, 0, 0.1); /* color ámbar suave */
+  }
+  
+  /* Etiqueta al lado del ícono */
+  .theme-label {
+    font-weight: var(--font-weight-regular);
+  }
+  
+  /* Ocultar texto al colapsar el sidebar */
+  .sidebar.collapsed .theme-label {
+    display: none;
+  }
+  

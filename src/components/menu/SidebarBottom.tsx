@@ -4,6 +4,8 @@
 import Link from "next/link"
 import { LogOut } from "lucide-react"
 import { SidebarLinkWithSub } from "./SidebarLinkWithSub"
+import { ThemeToggleButton } from "../theme/ThemeToggle"
+
 
 // Componente SidebarBottom: muestra la parte inferior del menú lateral
 export const SidebarBottom = ({
@@ -32,6 +34,7 @@ export const SidebarBottom = ({
           />
         ) : (
           // Si no tiene subopciones, renderizamos un link simple
+          
           <Link
             key={i}
             href={item.route}
@@ -45,6 +48,9 @@ export const SidebarBottom = ({
           </Link>
         )
       )}
+
+    {/* El bóton para cambiar de apariencia */}
+    <ThemeToggleButton isCollapsed={isCollapsed} />
 
     {/* Información de perfil del usuario (solo si no está colapsado) */}
     {!isCollapsed && (
@@ -60,6 +66,7 @@ export const SidebarBottom = ({
       </>
     )}
 
+    
     {/* Botón para cerrar sesión */}
     <button className="sidebar__logout" title="Cerrar sesión">
       <LogOut size={18} />

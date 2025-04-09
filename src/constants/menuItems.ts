@@ -132,6 +132,9 @@ export const menuItems = [
     icon: Settings,
     route: "/configuracion",
     roles: [0, 1, 2],
+    children: [
+     // { label: "Modo Oscuro", route: "/configuracion/modo-oscuro", roles: [0, 1, 2] },
+    ],
   },
   {
     label: "Cartera de Clientes",

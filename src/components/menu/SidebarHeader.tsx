@@ -10,6 +10,7 @@ interface Props {
 }
 
 // Componente SidebarHeader: muestra el encabezado del sidebar (logo y botón de colapso)
+
 export const SidebarHeader = ({ isCollapsed, toggleSidebar }: Props) => (
   <div className="sidebar__header">
     <div className="sidebar__brand">
