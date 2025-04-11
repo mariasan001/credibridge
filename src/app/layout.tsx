@@ -1,6 +1,7 @@
 // /app/layout.tsx
 import "./globals.css"
 import { Sidebar } from "@/components/menu/Sidebar"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export const metadata = {
   title: "CrediBridge",
