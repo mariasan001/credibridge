@@ -1,0 +1,37 @@
+  .search-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+  
+  .search-header-texts {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-header-title {
+    font-size: var(--text-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-strong);
+  }
+  
+  .search-header-subtitle {
+    font-size: var(--text-size-sm);
+    color: var(--color-text-muted);
+  }
+  /* Contenedor de ambas tarjetas */
+.search-cards-row {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+  
+  /* Tarjetas individuales */
+  .search-cards-row > * {
+    flex: 1;
+    min-width: 300px; /* Responsivo */
+  }
+  

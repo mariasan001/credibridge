@@ -1,0 +1,12 @@
+.download-btn {
+    padding: 8px 16px;
+    background-color: var(--color-bg-download-button);
+    color: white;
+    font-size: var(--text-size-sm);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }

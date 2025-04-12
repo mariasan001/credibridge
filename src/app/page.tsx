@@ -5,7 +5,7 @@ import { PageLayout } from "@/components/PageLayout"
 import { SummaryCard } from "@/components/dashboard/SummaryCard"
 import { RankingChart } from "@/components/dashboard/RankingChart"
 import { NewsCard } from "@/components/dashboard/NewsCard"
-import { InicioSkeleton } from "@/components/dashboard/InicioSkeleton"
+import { InicioSkeleton } from "@/components/theme/InicioSkeleton"
 import 'react-loading-skeleton/dist/skeleton.css' 
 
 export default function InicioPage() {

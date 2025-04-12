@@ -8,6 +8,9 @@
 @import url("../styles/dashboard.css");
 @import url("../styles/sidebar.css");
 @import url("./estilosInicio.css");
+@import url("../styles/search.css");
+@import url("../styles/buttons.css");
+@import url("./gestion-personal/buscar-servidor/styles.css");
 
 /* Reset básico */
 * {
