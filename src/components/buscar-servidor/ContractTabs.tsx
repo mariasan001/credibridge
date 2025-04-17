@@ -26,3 +26,4 @@ export const ContractTabs = ({ activeTab = "Contratos Terminados", onChange }: C
     </div>
   )
 }
+//

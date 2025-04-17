@@ -28,40 +28,39 @@ export default function BuscarServidorPage() {
         {/* Cabecera de búsqueda */}
         <SearchHeader />
          {/* Tarjeta del usuario */}
-         <UserInfoCard 
+         <div className="search-cards-grid">
+        <UserInfoCard 
           nombre="Juan Perez Ortega" 
           correo="juan@correo.com" 
           descuentosActivos={1} 
           contratosTerminados={1} 
         />
 
-        {/* Info Personal + Laboral */}
-        <div className="search-cards-row">
-          <PersonalInfoCard
-            nombre="Juan Perez Ortega"
-            correo="juan@correo.com"
-            genero="Masculino"
-            fechaNacimiento="24 de Febrero, 1987"
-            telefono="7293234764"
-            estadoCivil="Soltero (a)"
-            curp="TAJH990228HMCILM03"
-            rfc="TAJH990228N79"
-            madre="Sin Registro"
-            padre="Sin Registro"
-          />
+        <PersonalInfoCard
+          nombre="Juan Perez Ortega"
+          correo="juan@correo.com"
+          genero="Masculino"
+          fechaNacimiento="24 de Febrero, 1987"
+          telefono="7293234764"
+          estadoCivil="Soltero (a)"
+          curp="TAJH990228HMCILM03"
+          rfc="TAJH990228N79"
+          madre="Sin Registro"
+          padre="Sin Registro"
+        />
 
-          <LaborInfoCard
-            unidadAdministrativa="ADRIÁN - DESCRIPCIÓN NO DISPONIBLE"
-            puesto="ANALISTA ESPECIALIZADO A 'C'"
-            estatus="ACTIVO PERMANENTE 999999"
-            noEmpleado="210048332"
-            nomina="Gobierno Estado de México"
-            institucion="22 – DEPÓSITO BANORTE"
-            situacion="Activo"
-            fechaIngreso="16/10/2024"
-            cuenta="00001295601129" 
-          />
-        </div>
+        <LaborInfoCard
+          unidadAdministrativa="AH00126451 - DESCRIPCION NO DISPONIBLE"
+          puesto="ANALISTA ESPECIALIZADA, O 'C' ACTIVA PERMANENTE 99999999"
+          estatus="Activo"
+          noEmpleado="210048332"
+          nomina="Gobierno Estado de México"
+          institucion="22 – DEPÓSITO BANORTE"
+          situacion="Activo"
+          fechaIngreso="16/10/2024"
+          cuenta="00001295601129" 
+        />
+      </div>
 
       </section>
     </PageLayout>
