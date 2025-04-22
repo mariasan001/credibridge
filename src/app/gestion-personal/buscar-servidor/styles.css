@@ -34,3 +34,19 @@
     flex: 1;
     min-width: 300px; /* Responsivo */
   }
+
+  /*cpntneidor de las tarjeras al colapasar el menu*/
+    body.sidebar-collapsed .search-cards-grid {
+    grid-template-columns: 1.5fr 3.8fr 2.4fr;
+  }
+  .text-blue {
+    color: var(  --color-bg-download-button); 
+  }
+  
+  .text-success {
+    color: var(--color-status-activo-text);
+  }
+  
+  .text-danger {
+    color: var(--color-text-danger);
+  }

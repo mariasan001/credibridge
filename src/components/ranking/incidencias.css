@@ -1,0 +1,90 @@
+/* ============================
+   STYLES: IncidenciasPorInstitucion
+============================ */
+
+.incidencias-card {
+    background-color: var(--color-bg-container);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .incidencias-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .incidencias-header h3 {
+    font-size: var(--text-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-main);
+  }
+  
+  .incidencias-select {
+    font-size: var(--text-size-sm);
+    color: var(--color-text-main);
+    background-color: var(--color-bg-container);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .incidencias-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-height: 288px; /* Altura máxima antes de scroll */
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  
+  .incidencias-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .incidencias-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: var(--radius-full);
+  }
+  
+  .incidencias-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .incidencias-item__top {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-size-sm);
+    color: var(--color-text-main);
+    margin-bottom: 4px;
+  }
+  
+  .incidencias-item__value {
+    font-weight: var(--font-weight-bold);
+  }
+  
+  .incidencias-bar {
+    background-color: #f3f3f3;
+    height: 6px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  
+  .incidencias-bar__fill {
+    background-color: #2563eb;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: var(--radius-full);
+  }
+  

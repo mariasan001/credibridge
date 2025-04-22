@@ -1,16 +1,23 @@
 "use client"
 
 import { useEffect, useState } from "react"
+
+// Layout principal
 import { PageLayout } from "@/components/PageLayout"
+
+// Componentes de dashboard
 import { SummaryCard } from "@/components/dashboard/SummaryCard"
 import { RankingChart } from "@/components/dashboard/RankingChart"
 import { NewsCard } from "@/components/dashboard/NewsCard"
+
+// Skeleton para carga inicial
 import { InicioSkeleton } from "@/components/theme/InicioSkeleton"
 import 'react-loading-skeleton/dist/skeleton.css' 
 
 export default function InicioPage() {
   const [loading, setLoading] = useState(true)
 
+  // Simulación de carga
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500)
     return () => clearTimeout(timer)
@@ -19,27 +26,35 @@ export default function InicioPage() {
   return (
     <PageLayout>
       {loading ? (
+        // === Vista de carga ===
         <InicioSkeleton />
       ) : (
+        // === Vista real del dashboard ===
         <div className="dashboard-container">
+          {/* === Encabezado principal === */}
           <div className="dashboard-main">
             <div className="dashboard-header">
               <h2>Bienvenido 👋</h2>
               <p>Aquí podrás observar el comportamiento de las dependencias.</p>
             </div>
 
+            {/* === Tarjetas resumen === */}
             <div className="summary-cards-container">
               <SummaryCard title="Total de incidencias" value={123} />
               <SummaryCard title="Expiradas" value={25} />
               <SummaryCard title="Activas" value={20} />
-              <SummaryCard title="Atendidadd" value={100} />
+              <SummaryCard title="Atendidas" value={100} />
             </div>
 
+            {/* === Gráfico de ranking === */}
             <RankingChart />
           </div>
 
+          {/* === Noticias recientes === */}
           <aside className="dashboard-news">
             <h3 className="news-title">¡Últimas Noticias!</h3>
+
+            {/* === Cards de noticias (puedes mapear en el futuro si son dinámicas) === */}
             <NewsCard
               entidad="Total CREDI"
               estado="comunicado"

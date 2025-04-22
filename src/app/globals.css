@@ -11,6 +11,7 @@
 @import url("../styles/search.css");
 @import url("../styles/buttons.css");
 @import url("./gestion-personal/buscar-servidor/styles.css");
+@import url("./comparativas/ranking-instituciones/ranking.css");
 
 /* Reset básico */
 * {
@@ -143,6 +144,7 @@ body.dark-mode {
   --color-text-muted: #bbbbbb;
   --color-text-strong: #ffffff;
   --color-text-secondary: #cccccc;
+ 
   --color-text-contrast: #000000;
   --color-text-label-comunicado: #a0f0c0;
 

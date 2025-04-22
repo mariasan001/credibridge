@@ -1,0 +1,131 @@
+/* ============================
+   STYLES: TiempoRespuestaTable
+============================ */
+
+.respuesta-card {
+  background-color: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.respuesta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.respuesta-btn-pdf {
+  padding: 6px 12px;
+  font-size: var(--text-size-sm);
+  background-color: var( --color-bg-download-button);
+  color: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.respuesta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing-lg);
+}
+
+.respuesta-table thead {
+  background-color: var(--color-border);
+  
+}
+
+.respuesta-table th,
+.respuesta-table td {
+  padding: var(--spacing-sm);
+  font-size: var(--text-size-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Encabezados */
+.respuesta-table th {
+  color: var(--color-text-main);
+  text-align: center;
+}
+
+/* Celdas del cuerpo */
+.respuesta-table td {
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* Primeras columnas (Tiempo e Institución) alineadas a la izquierda */
+.respuesta-table th:first-child,
+.respuesta-table th:nth-child(2),
+.respuesta-table td:first-child,
+.respuesta-table td:nth-child(2) {
+  text-align: left;
+  color: var(--color-text-main);
+}
+
+/* Badges con semaforización */
+.badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-weight: var( --font-weight-regula);
+  font-size: var(--text-size-sm);
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+}
+
+.badge-success {
+  background-color: var(--color-bg-success);
+  color: var(--color-text-success);
+}
+
+.badge-warning {
+  background-color:var( --color-declaracion-carta-bg);
+  color: var(--color-text-warning);
+}
+
+.badge-danger {
+  background-color: var(--color-bg-danger);
+  color: var(--color-text-danger);
+}
+
+/* Paginación */
+.respuesta-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.respuesta-btn {
+  background-color: var(--color-border);
+  color: var( --color-text-subtitle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  font-size: var(--text-size-sm);
+  cursor: pointer;
+}
+
+.respuesta-pages {
+  display: flex;
+  gap: 4px;
+}
+
+.respuesta-page {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  font-size: var(--text-size-sm);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+}
+
+.respuesta-page.active {
+  background-color: var(--color-border);
+  color: var(--color-text-main);
+}
