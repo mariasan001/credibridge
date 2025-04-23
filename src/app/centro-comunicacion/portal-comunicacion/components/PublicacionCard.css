@@ -1,0 +1,122 @@
+/* =============================
+   COMPONENTE: PublicacionCard
+============================= */
+
+.publicacion-card {
+  background-color: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Top: tipo + fecha */
+.publicacion-card__top {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* Etiqueta del tipo */
+.publicacion-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: var(--font-weight-bold);
+  text-transform: capitalize;
+}
+
+/* Título principal */
+.publicacion-card__titulo {
+  font-size: var(--text-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+}
+
+/* Descripción */
+.publicacion-card__descripcion {
+  font-size: var(--text-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Emitido por */
+.publicacion-card__emitido {
+  font-size: var(--text-size-sm);
+  color: var(--color-text-main);
+}
+
+/* Footer */
+.publicacion-card__footer {
+  margin-top: var(--spacing-sm);
+  font-size: var(--text-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Colores por tipo */
+.tipo-comunicado .publicacion-card__tag {
+  color: var(--color-text-label-comunicado);
+}
+.tipo-importante .publicacion-card__tag {
+  color: var(--color-general-rojo);
+}
+.tipo-recordatorio .publicacion-card__tag {
+  color: var(--color-general-naranja);
+}
+
+/* ========== Archivos Adjuntos ========== */
+
+.publicacion-card__archivos {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.publicacion-card__archivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background-color: #f5f5f5;
+  font-size: var(--text-size-sm);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border);
+  text-decoration: none; /* ← Evita subrayado */
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+
+.publicacion-card__archivo:hover {
+  background-color: #f0f0f0;
+}
+
+.publicacion-card__archivo svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+/*  ========== Franja inferior por tipo ==========*/
+.publicacion-card__barra {
+  height: 4px;
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  margin-top: var(--spacing-sm);
+}
+
+.tipo-comunicado .publicacion-card__barra {
+  background-color: var(--color-text-label-comunicado);
+}
+
+.tipo-importante .publicacion-card__barra {
+  background-color: var(--color-general-rojo);
+}
+
+.tipo-recordatorio .publicacion-card__barra {
+  background-color: var(--color-general-naranja);
+}

@@ -1,0 +1,46 @@
+/* =============================
+   STYLES: Portal de Comunicación
+============================= */
+
+.portal-comunicacion-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+  
+  .portal-comunicacion__titulo {
+    font-size: var(--text-size-xl);
+    font-weight: var(--font-weight-bold);
+    padding: 0;
+    color: var(--color-text-main);
+  }
+  
+  .portal-comunicacion__subtitulo {
+    font-size: var(--text-size-md);
+    color: var(--color-text-secondary);
+  }
+  
+  /* Layout 2 columnas */
+  .portal-comunicacion__contenido {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .portal-comunicacion__publicaciones {
+    flex: 2;
+    min-width: 400px;
+  }
+  
+  .portal-comunicacion__formulario {
+    flex: 1;
+    min-width: 320px;
+  }
+  
+  @media (max-width: 768px) {
+    .portal-comunicacion__contenido {
+      flex-direction: column;
+    }
+  }
+  

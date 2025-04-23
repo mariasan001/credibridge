@@ -1,0 +1,33 @@
+/* =============================
+   COMPONENTE: ListadoPublicaciones
+============================= */
+/* ================================
+   COMPONENTE: ListadoPublicaciones
+=================================== */
+
+.listado-publicaciones {
+   max-height: 650px; /* Altura fija ajustable */
+   overflow-y: auto;
+   padding-right: 8px;
+   display: flex;
+   flex-direction: column;
+   gap: var(--spacing-md);
+  
+   background-color: var(--color-bg-container);
+   scroll-behavior: smooth;
+ }
+ 
+ /* Personaliza el scroll */
+ .listado-publicaciones::-webkit-scrollbar {
+   width: 6px;
+ }
+ 
+ .listado-publicaciones::-webkit-scrollbar-thumb {
+   background-color: #ccc;
+   border-radius: 3px;
+ }
+ 
+ .listado-publicaciones::-webkit-scrollbar-track {
+   background-color: transparent;
+ }
+ 
