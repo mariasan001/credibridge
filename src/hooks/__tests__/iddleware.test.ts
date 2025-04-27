@@ -11,7 +11,7 @@ jest.mock('next/server', () => ({
   
   // ✨ Mock de request personalizado
   function createMockRequest(pathname: string, cookies: Record<string, string> = {}) {
-    const origin = "http://localhost:3000";
+    const origin = "http://localhost:3001";
   
     return {
       nextUrl: { pathname, origin },
@@ -32,7 +32,7 @@ jest.mock('next/server', () => ({
       const response = middleware(request);
   
       expect(response?.status).toBe(307);
-      expect(response?.headers.get("location")).toBe("http://localhost:3000/user/inicar-sesion");
+      expect(response?.headers.get("location")).toBe("http://localhost:3001/user/inicar-sesion");
     });
   
     it("permite pasar si está autenticado", () => {
@@ -49,7 +49,7 @@ jest.mock('next/server', () => ({
       const response = middleware(request);
   
       expect(response?.status).toBe(307);
-      expect(response?.headers.get("location")).toBe("http://localhost:3000/inicio");
+      expect(response?.headers.get("location")).toBe("http://localhost:3001/inicio");
 
     });
   });
