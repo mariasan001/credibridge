@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Role } from "@/model/usuario.models"
 import { loginRequest } from "@/services/auth/authService"
-
+import { setCookie, getCookie, deleteCookie } from "cookies-next"
 
 interface User {
   username: string
@@ -29,12 +29,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token")
-    const storedUser = localStorage.getItem("user")
-    if (storedToken && storedUser) {
-      setToken(storedToken)
-      setUser(JSON.parse(storedUser))
+    const auth = getCookie("auth")
+    const storedToken = getCookie("token")
+    const storedUser = getCookie("user")
+
+    if (auth === "true" && storedToken && storedUser) {
+      setToken(storedToken as string)
+      setUser(JSON.parse(storedUser as string))
     }
+
     setLoading(false)
   }, [])
 
@@ -46,18 +49,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       roles: response.roles,
     }
 
-    localStorage.setItem("token", response.token)
-    localStorage.setItem("user", JSON.stringify(userData))
+    // 🔥 Guardamos en cookies
+    setCookie("auth", "true", { path: "/", secure: true, sameSite: "lax" })
+    setCookie("token", response.token, { path: "/", secure: true, sameSite: "lax" })
+    setCookie("user", JSON.stringify(userData), { path: "/", secure: true, sameSite: "lax" })
+
     setToken(response.token)
     setUser(userData)
+
     router.push("/inicio")
   }
 
   const logout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+    deleteCookie("auth")
+    deleteCookie("token")
+    deleteCookie("user")
     setToken(null)
     setUser(null)
+
     router.push("/user/inicar-sesion")
   }
 

@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
 
 // Layout principal
 import { PageLayout } from "@/components/PageLayout"
@@ -15,13 +17,27 @@ import { InicioSkeleton } from "@/components/theme/InicioSkeleton"
 import 'react-loading-skeleton/dist/skeleton.css' 
 
 export default function InicioPage() {
+  const { isAuthenticated, loading: authLoading } = useAuth()
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
 
-  // Simulación de carga
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500)
-    return () => clearTimeout(timer)
-  }, [])
+    // ✅ Primero espera a que AuthContext termine de cargar
+    if (!authLoading) {
+      if (!isAuthenticated) {
+        router.push("/user/inicar-sesion")
+      } else {
+        // Si está autenticado, inicia la simulación de carga visual
+        const timer = setTimeout(() => setLoading(false), 1500)
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [authLoading, isAuthenticated, router])
+
+  // Mientras no se resuelve auth, no mostramos nada (opcional puedes poner Skeleton aquí)
+  if (authLoading) {
+    return <div>Cargando sesión...</div>
+  }
 
   return (
     <PageLayout>
@@ -54,7 +70,6 @@ export default function InicioPage() {
           <aside className="dashboard-news">
             <h3 className="news-title">¡Últimas Noticias!</h3>
 
-            {/* === Cards de noticias (puedes mapear en el futuro si son dinámicas) === */}
             <NewsCard
               entidad="Total CREDI"
               estado="comunicado"
