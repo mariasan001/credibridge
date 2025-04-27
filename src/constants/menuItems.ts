@@ -19,7 +19,7 @@ export const menuItems = [
   {
     label: "Inicio",
     icon: Home,
-    route: "/",
+    route: "/inicio",
     roles: [0, 1, 2], // Roles permitidos
   },
   {
@@ -44,7 +44,7 @@ export const menuItems = [
       {
         label: "Ranking de Instituciones",
         route: "/comparativas/ranking-instituciones",
-        roles: [0, 1],
+        roles: [0,1],
       },
       {
         label: "Resumen de Periodos",

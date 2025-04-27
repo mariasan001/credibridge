@@ -1,0 +1,257 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+    background-color: #fff7e8;
+  }
+  
+  .login-form-section {
+    flex: 1;
+    padding: 4rem 8em 4rem 5rem; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .login-image-section {
+    flex: 1;
+    position: relative;
+    background-color: #ffe082;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .login-image-fill {
+    object-fit: cover;
+  }
+  
+  .login-logo {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .login-logo span {
+    color: #f9a825;
+  }
+  
+  .login-subtitle {
+    margin: 3rem 0 .3rem;
+  }
+  
+  .login-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+   line-height: 35px;
+  }
+  .login-title span {
+    color: #f9a825;
+  }
+  
+  .login-description {
+    color: #646464;
+    margin-top: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 520px;
+  }
+  
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  input:focus {
+    border-color: #ffaa00;
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .eye-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-35%);
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .password-group input {
+    padding-right: 2.5rem;
+  }
+  
+  .forgot-link {
+    text-align: right;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  
+  .login-btn {
+    width: 100%;
+    background-color: #f9a825;
+    color: white;
+    padding: 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  
+  .aviso {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .input-error {
+    border-color: red !important;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+  
+  
+  .aviso {
+    position: relative;
+    left: 200px;
+    font-size: 0.75rem;
+    text-align: left;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  /* ============================
+     📱 Responsive (menor a 900px)
+  =============================== */
+  @media (max-width: 900px) {
+    .login-container {
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      height: auto;
+    }
+  
+    .login-form-section {
+      padding: 2rem;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .login-image-section {
+      display: none;
+    }
+  
+    .login-form {
+      max-width: 100%;
+    }
+  
+    .forgot-link {
+      text-align: center;
+    }
+  
+    .aviso {
+      left: 0;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .aviso :hover {
+     color: #f9a825;
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .login-form-section {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  /* 🌙 MODO OSCURO */
+  .modo-oscuro {
+    background-color: #121212;
+    color: #f5f5f5;
+  }
+  
+  .modo-oscuro .login-form-section {
+    color: #f5f5f5;
+  }
+  
+  .modo-oscuro .login-logo span {
+    color: #ffca28;
+  }
+  
+  .modo-oscuro .login-title span {
+    color: #ffca28;
+  }
+  
+  .modo-oscuro input {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-color: #555;
+  }
+  
+  .modo-oscuro input::placeholder {
+    color: #aaaaaa;
+  }
+  
+  .modo-oscuro label {
+    color: #e0e0e0;
+  }
+  
+  .modo-oscuro .forgot-link a {
+    color: #f5f5f5;
+  }
+  
+  .modo-oscuro .login-btn {
+    background-color: #ffca28;
+    color: #1a1a1a;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modo-oscuro .login-btn:hover {
+    background-color: #ffc107;
+  }
+  .modo-oscuro .login-logo {
+    color: #f5f5f5;
+  
+  }
+  
+  .modo-oscuro .login-title,
+  .modo-oscuro .login-description {
+   color: #f5f5f5;
+  }
+  .modo-oscuro .aviso {
+    color: #cccccc;
+  }

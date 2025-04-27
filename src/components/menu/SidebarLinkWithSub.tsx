@@ -1,22 +1,17 @@
 "use client"
 
-// Importación de Next.js para navegación entre páginas
 import Link from "next/link"
-
-// Íconos para mostrar flechas de expansión/colapso
 import { ChevronRight, ChevronDown } from "lucide-react"
 
-// Definimos las propiedades que espera este componente
 interface Props {
-  item: any                  // Objeto del menú con posibles subopciones
-  isOpen: boolean            // Indica si este submenú está abierto
-  isCollapsed: boolean       // Indica si el sidebar está colapsado
-  toggleSubmenu: (route: string) => void // Función para abrir/cerrar el submenú
-  pathname: string           // Ruta actual del navegador
-  user: any                  // Usuario actual (usado para permisos por rol)
+  item: any
+  isOpen: boolean
+  isCollapsed: boolean
+  toggleSubmenu: (route: string) => void
+  pathname: string
+  user: any
 }
 
-// Componente que renderiza una opción de menú con subopciones
 export const SidebarLinkWithSub = ({
   item,
   isOpen,
@@ -25,14 +20,16 @@ export const SidebarLinkWithSub = ({
   pathname,
   user,
 }: Props) => {
-  // Filtramos subopciones según el rol del usuario
+  // 🚀 Traemos todos los ids de los roles del usuario
+  const userRoles = user?.roles.map((r: any) => r.id) || []
+
+  // 🚀 Filtramos los submenús permitidos según los roles
   const children = item.children.filter((child: any) =>
-    child.roles.includes(user.rol)
+    child.roles.some((role: number) => userRoles.includes(role))
   )
 
   return (
     <li className="sidebar__item">
-      {/* Enlace principal del menú que abre/cierra el submenú */}
       <div
         className="sidebar__link sidebar__link--with-sub"
         onClick={() => !isCollapsed && toggleSubmenu(item.route)}
@@ -47,7 +44,7 @@ export const SidebarLinkWithSub = ({
           ))}
       </div>
 
-      {/* Submenú expandido visible solo si no está colapsado */}
+      {/* Submenú expandido */}
       {!isCollapsed && isOpen && (
         <ul className="sidebar__submenu">
           {children.map((child: any, j: number) => (
@@ -65,7 +62,7 @@ export const SidebarLinkWithSub = ({
         </ul>
       )}
 
-      {/* Popover flotante si el menú está colapsado */}
+      {/* Tooltip flotante si el sidebar está colapsado */}
       {isCollapsed && (
         <div className="sidebar__popover">
           {children.map((child: any, j: number) => (

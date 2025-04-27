@@ -1,32 +1,33 @@
 "use client"
-import React from "react" 
-import { useState } from "react"
+
+import React, { useState } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export function LoginForm() {
   const { login, loading } = useAuth()
   const router = useRouter()
 
-  const [numeroServidor, setNumeroServidor] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const [numeroServidorError, setNumeroServidorError] = useState("")
+  const [usernameError, setUsernameError] = useState("")
   const [passwordError, setPasswordError] = useState("")
   const [error, setError] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setNumeroServidorError("")
+    setUsernameError("")
     setPasswordError("")
     setError("")
 
     let hasError = false
 
-    if (!numeroServidor) {
-      setNumeroServidorError("Este campo es obligatorio")
+    if (!username) {
+      setUsernameError("Este campo es obligatorio")
       hasError = true
     }
 
@@ -38,15 +39,9 @@ export function LoginForm() {
     if (hasError) return
 
     try {
-      await login(numeroServidor, password)
+      await login(username, password) // Ahora sí username es claro
     } catch (err: any) {
-      if (numeroServidor !== "SP12345678") {
-        setNumeroServidorError("Número de servidor incorrecto")
-      } else if (password !== "1234") {
-        setPasswordError("Contraseña incorrecta")
-      } else {
-        setError("Credenciales inválidas")
-      }
+      setError("Número de servidor o contraseña incorrectos")
     }
   }
 
@@ -57,12 +52,12 @@ export function LoginForm() {
         <input
           type="text"
           placeholder="Escribe tu número de servidor público"
-          value={numeroServidor}
-          onChange={(e) => setNumeroServidor(e.target.value)}
-          className={numeroServidorError ? "input-error" : ""}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className={usernameError ? "input-error" : ""}
           autoFocus
         />
-        {numeroServidorError && <p className="error">{numeroServidorError}</p>}
+        {usernameError && <p className="error">{usernameError}</p>}
       </div>
 
       <div className="form-group password-group">
@@ -90,7 +85,9 @@ export function LoginForm() {
       {error && <p className="error">{error}</p>}
 
       <div className="forgot-link">
-        <a href="#">¿Olvidaste tu contraseña?</a>
+        <Link href="/user/recuperacion">
+          ¿Olvidaste tu contraseña?
+        </Link>
       </div>
 
       <button type="submit" className="login-btn" disabled={loading}>

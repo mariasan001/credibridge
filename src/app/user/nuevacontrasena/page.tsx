@@ -4,9 +4,10 @@ import Image from "next/image"
 import "./styles.css"
 
 import { useEffect, useState } from "react"
-import { VerificarCodigoForm } from "./components/VerificarCodigoForm"
+import { NuevaContrasenaForm } from "./components/NuevaContrasenaForm"
 
-export default function TokenPage() {
+
+export default function NuevaContrasenaPage() {
   const [darkMode, setDarkMode] = useState(false)
   const [saludo, setSaludo] = useState("")
   const [emoji, setEmoji] = useState("")
@@ -30,15 +31,12 @@ export default function TokenPage() {
         <h1 className="login-logo">Credi<span>Bridge</span></h1>
         <p className="login-subtitle">{saludo} {emoji}</p>
         <h2 className="login-title">
-        Revisa tu correo e <span>ingresa tu código</span>
+        Protege tu cuenta con una <span>nueva contraseña.</span>
         </h2>
         <p className="login-description">
-        Tevisa tu bandeja de entrada y copia el código que te enviamos.
-        </p>
-       <VerificarCodigoForm/>
-
+        Ingresa una nueva contraseña y confírmala para continuar.</p>
+        <NuevaContrasenaForm/>
       </div>
-
       <div className="login-image-section">
         <Image
           src={darkMode ? "/img/img3-oscuro.png" : "/img/img3.png"}

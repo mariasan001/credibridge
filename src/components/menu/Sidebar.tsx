@@ -1,39 +1,35 @@
 "use client"
 
-// Hooks y utilidades
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth } from "@/context/AuthContext"
 import { menuItems } from "@/constants/menuItems"
 
-// Estilos y componentes del sidebar
 import "@/styles/sidebar.css"
 import { SidebarHeader } from "./SidebarHeader"
-import { SidebarMenu } from "./SidebarMenu"
+
 import { SidebarBottom } from "./SidebarBottom"
+import { SidebarMenu } from "./SidebarMenu"
 
 export const Sidebar = () => {
-  const { user } = useAuth()
+  const { user, loading } = useAuth() // 🔥 ahora también traemos loading
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
 
   const isBrowser = typeof window !== "undefined"
 
-  // Cargar el estado desde localStorage en el cliente
   useEffect(() => {
     if (isBrowser) {
       const savedState = localStorage.getItem("sidebar-collapsed")
       setIsCollapsed(savedState === "true")
 
-      // También colapsar automáticamente si pantalla es pequeña
       if (window.innerWidth < 768) {
         setIsCollapsed(true)
       }
     }
   }, [])
 
-  // Guardar el estado de colapso en localStorage + agregar clase al body
   useEffect(() => {
     if (isBrowser) {
       localStorage.setItem("sidebar-collapsed", String(isCollapsed))
@@ -45,10 +41,22 @@ export const Sidebar = () => {
   const toggleSubmenu = (route: string) =>
     setOpenMenu(prev => (prev === route ? null : route))
 
-  const mainItems = menuItems.filter(
+  if (loading) return null // 🔥 mientras carga el user no pintes nada
+
+  if (!user) return null // 🔥 si no hay usuario tampoco renderices el sidebar
+
+  // ✅ Ahora ya seguro tienes usuario para filtrar menús
+  const userRoles = user.roles.map(r => r.id)
+
+  const filteredMenuItems = menuItems.filter(item =>
+    item.roles.some(role => userRoles.includes(role))
+  )
+
+  const mainItems = filteredMenuItems.filter(
     item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route)
   )
-  const bottomItems = menuItems.filter(
+
+  const bottomItems = filteredMenuItems.filter(
     item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route)
   )
 

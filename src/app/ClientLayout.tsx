@@ -12,14 +12,15 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     setMounted(true)
   }, [])
 
-  // Mientras no haya montado, no renderices nada (evita desincronización)
   if (!mounted) return null
 
-  const isLoginPage = pathname === "/user/inicar-sesion"
+  // Ocultar Sidebar en login y recuperación
+  const hideSidebarRoutes = ["/user/inicar-sesion", "/user/recuperacion", "/user/token","/user/nuevacontrasena"]
+  const shouldHideSidebar = hideSidebarRoutes.includes(pathname)
 
   return (
     <div className="flex min-h-screen">
-      {!isLoginPage && <Sidebar />}
+      {!shouldHideSidebar && <Sidebar />}
       <main className="flex-1">{children}</main>
     </div>
   )

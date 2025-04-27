@@ -1,19 +1,22 @@
 "use client"
 
-import React from "react"
-import { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { Role } from "@/model/usuario.models"
+import { loginRequest } from "@/services/auth/authService"
+
 
 interface User {
-  numeroServidor: string
-  // Puedes agregar más datos como nombre, rol, etc.
+  username: string
+  roles: Role[]
 }
 
 interface AuthContextType {
   user: User | null
+  token: string | null
   isAuthenticated: boolean
   loading: boolean
-  login: (numeroServidor: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<void>
   logout: () => void
 }
 
@@ -21,37 +24,45 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    const authCookie = document.cookie.includes("auth=true")
-    if (authCookie) {
-      // Simulación: en un caso real, lo obtienes desde token
-      setUser({ numeroServidor: "SP12345678" })
+    const storedToken = localStorage.getItem("token")
+    const storedUser = localStorage.getItem("user")
+    if (storedToken && storedUser) {
+      setToken(storedToken)
+      setUser(JSON.parse(storedUser))
     }
     setLoading(false)
   }, [])
 
-  const login = async (numeroServidor: string, password: string) => {
-    // Simulación temporal
-    if (numeroServidor === "SP12345678" && password === "1234") {
-      document.cookie = "auth=true; path=/"
-      setUser({ numeroServidor })
-      router.push("/")
-    } else {
-      throw new Error("Credenciales incorrectas")
+  const login = async (username: string, password: string) => {
+    const response = await loginRequest({ username, password })
+
+    const userData: User = {
+      username,
+      roles: response.roles,
     }
+
+    localStorage.setItem("token", response.token)
+    localStorage.setItem("user", JSON.stringify(userData))
+    setToken(response.token)
+    setUser(userData)
+    router.push("/inicio")
   }
 
   const logout = () => {
-    document.cookie = "auth=; Max-Age=0; path=/"
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    setToken(null)
     setUser(null)
     router.push("/user/inicar-sesion")
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
