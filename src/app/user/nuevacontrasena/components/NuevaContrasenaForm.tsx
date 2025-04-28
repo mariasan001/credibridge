@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Eye, EyeOff } from "lucide-react"
-import { actualizarPassword } from "@/services/auth/tokenNuevaContra" // ✅ Usamos tu servicio real
+import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { actualizarPassword } from "@/services/auth/tokenNuevaContra"
 
 export function NuevaContrasenaForm() {
   const router = useRouter()
@@ -22,13 +22,13 @@ export function NuevaContrasenaForm() {
     setLoading(true)
 
     if (!nueva || !confirmacion) {
-      setError("Todos los campos son obligatorios")
+      setError("Todos los campos son obligatorios.")
       setLoading(false)
       return
     }
 
     if (nueva !== confirmacion) {
-      setError("Las contraseñas no coinciden")
+      setError("Las contraseñas no coinciden.")
       setLoading(false)
       return
     }
@@ -37,10 +37,9 @@ export function NuevaContrasenaForm() {
       const tokenReset = localStorage.getItem("token-reset")
       if (!tokenReset) {
         setError("No se encontró un código válido para actualizar la contraseña.")
-        setLoading(false)
         return
       }
-    
+
       await actualizarPassword({
         code: tokenReset,
         newPassword: nueva,
@@ -49,12 +48,18 @@ export function NuevaContrasenaForm() {
       setSuccessMessage("¡Contraseña actualizada correctamente!")
 
       setTimeout(() => {
-        localStorage.removeItem("token-reset") // ✅ Eliminamos el código
-        router.push("/user/inicar-sesion")    // ✅ Redirigimos a login
+        localStorage.removeItem("token-reset")
+        router.push("/user/inicar-sesion")
       }, 2500)
-    } catch (error) {
-      console.error(error)
-      setError("⚠️ Ocurrió un error al actualizar la contraseña. Intenta nuevamente.")
+    } catch (error: any) {
+      console.error("Error en actualizarPassword:", error)
+      const backendMessage = error?.response?.data?.message
+
+      if (backendMessage) {
+        setError(`⚠️ ${backendMessage}`)
+      } else {
+        setError("⚠️ Ocurrió un error inesperado. Intenta nuevamente.")
+      }
     } finally {
       setLoading(false)
     }
@@ -63,6 +68,11 @@ export function NuevaContrasenaForm() {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       
+      {/* 🔥 Alertas bonitas */}
+      {error && <div className="alert warning-alert">{error}</div>}
+      {successMessage && <div className="alert success-alert">{successMessage}</div>}
+
+      {/* 🔑 Primer input */}
       <div className="form-group password-group">
         <label>Nueva contraseña</label>
         <div className="input-wrapper">
@@ -83,8 +93,9 @@ export function NuevaContrasenaForm() {
         </div>
       </div>
 
+      {/* 🔒 Segundo input */}
       <div className="form-group password-group">
-        <label>Ingresa de Nuevo</label>
+        <label>Confirma la contraseña</label>
         <div className="input-wrapper">
           <input
             type={showPass2 ? "text" : "password"}
@@ -103,11 +114,16 @@ export function NuevaContrasenaForm() {
         </div>
       </div>
 
-        {/* 🔥 ALERTAS */}
-      {error && <div className="alert warning-alert">{error}</div>}
-      {successMessage && <div className="alert success-alert">{successMessage}</div>}
+      {/* 🔥 Botón final */}
       <button type="submit" className="login-btn mt-4" disabled={loading}>
-        {loading ? "Guardando..." : "Guardar Nueva Contraseña"}
+        {loading ? (
+          <span className="spinner-content">
+            <Loader2 className="spinner" size={18} />
+            Guardando...
+          </span>
+        ) : (
+          "Guardar Nueva Contraseña"
+        )}
       </button>
     </form>
   )

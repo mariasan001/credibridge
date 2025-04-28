@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { verificarCodigo } from "@/services/auth/tokenNuevaContra"
 import "./VerificarCodigoForm.css"
 
 export function VerificarCodigoForm() {
@@ -47,23 +46,12 @@ export function VerificarCodigoForm() {
     }
 
     try {
-      // 🔥 Validamos contra el servidor
-      await verificarCodigo({
-        code: codigoFinal,
-        newPassword: "Temporal123_*", 
-      })
-
-      // ✅ Si es válido, guardamos el código y redirigimos
+      // 🔥 AQUÍ YA NO VALIDAMOS NADA
       localStorage.setItem("token-reset", codigoFinal)
       router.push("/user/nuevacontrasena")
-    } catch (error: any) {
-      if (error.response && error.response.status === 403) {
-        // ⚡ Código inválido
-        setError("⚠️ Código inválido o expirado. Verifica tu correo.")
-      } else {
-        // ⚡ Otro error
-        setError("⚠️ Error inesperado. Intenta nuevamente.")
-      }
+    } catch (error) {
+      console.error("Error procesando código:", error)
+      setError("⚠️ Error inesperado. Intenta nuevamente.")
     } finally {
       setLoading(false)
     }
@@ -71,8 +59,6 @@ export function VerificarCodigoForm() {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      
-      {/* 🔥 ALERTAS BONITAS */}
       {error && <div className="alert warning-alert">{error}</div>}
 
       <div className="codigo-inputs" onPaste={handlePaste}>
@@ -90,7 +76,7 @@ export function VerificarCodigoForm() {
       </div>
 
       <button type="submit" className="login-btn" disabled={loading}>
-        {loading ? "Verificando..." : "Verificar"}
+        {loading ? "Procesando..." : "Continuar"}
       </button>
     </form>
   )
