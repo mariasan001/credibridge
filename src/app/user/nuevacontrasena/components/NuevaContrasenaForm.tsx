@@ -37,6 +37,7 @@ export function NuevaContrasenaForm() {
       const tokenReset = localStorage.getItem("token-reset")
       if (!tokenReset) {
         setError("No se encontró un código válido para actualizar la contraseña.")
+        setLoading(false)
         return
       }
 
@@ -49,15 +50,23 @@ export function NuevaContrasenaForm() {
 
       setTimeout(() => {
         localStorage.removeItem("token-reset")
-        router.push("/user/inicar-sesion")
+        router.push("/user/iniciar-sesion") // corregido "iniciar"
       }, 2500)
+
     } catch (error: any) {
       console.error("Error en actualizarPassword:", error)
+      const status = error?.response?.status
       const backendMessage = error?.response?.data?.message
 
-      if (backendMessage) {
+      if (status === 404 && backendMessage?.includes("Código")) {
+        // ⚡ Si el backend responde que es problema del código
+        setError("El código de recuperación es inválido, expirado o ya ha sido utilizado.")
+        localStorage.removeItem("token-reset") // 🔥 Eliminamos el token inválido
+      } else if (backendMessage) {
+        // ⚡ Si viene otro mensaje del backend
         setError(`⚠️ ${backendMessage}`)
       } else {
+        // ⚡ Fallo genérico de servidor
         setError("⚠️ Ocurrió un error inesperado. Intenta nuevamente.")
       }
     } finally {
@@ -68,11 +77,11 @@ export function NuevaContrasenaForm() {
   return (
     <form className="login-form" onSubmit={handleSubmit}>
       
-      {/* 🔥 Alertas bonitas */}
+      {/* 🔥 Mensajes */}
       {error && <div className="alert warning-alert">{error}</div>}
       {successMessage && <div className="alert success-alert">{successMessage}</div>}
 
-      {/* 🔑 Primer input */}
+      {/* 🔑 Nueva contraseña */}
       <div className="form-group password-group">
         <label>Nueva contraseña</label>
         <div className="input-wrapper">
@@ -88,12 +97,12 @@ export function NuevaContrasenaForm() {
             onClick={() => setShowPass1(!showPass1)}
             aria-label="Mostrar u ocultar"
           >
-            {showPass1 ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPass1 ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         </div>
       </div>
 
-      {/* 🔒 Segundo input */}
+      {/* 🔒 Confirmar contraseña */}
       <div className="form-group password-group">
         <label>Confirma la contraseña</label>
         <div className="input-wrapper">
@@ -109,12 +118,12 @@ export function NuevaContrasenaForm() {
             onClick={() => setShowPass2(!showPass2)}
             aria-label="Mostrar u ocultar"
           >
-            {showPass2 ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPass2 ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         </div>
       </div>
 
-      {/* 🔥 Botón final */}
+      {/* 🔥 Botón */}
       <button type="submit" className="login-btn mt-4" disabled={loading}>
         {loading ? (
           <span className="spinner-content">

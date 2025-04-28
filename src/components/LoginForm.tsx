@@ -76,7 +76,7 @@ export function LoginForm() {
             onClick={() => setShowPassword(!showPassword)}
             aria-label="Mostrar u ocultar contraseña"
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         </div>
         {passwordError && <p className="error">{passwordError}</p>}

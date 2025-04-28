@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { verificarCodigo } from "@/services/auth/tokenNuevaContra"
 import "./VerificarCodigoForm.css"
 
 export function VerificarCodigoForm() {
   const router = useRouter()
-  const [codigo, setCodigo] = useState(["", "", "", "", "", ""])
+  const [codigo, setCodigo] = useState(Array(6).fill(""))
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -46,12 +47,29 @@ export function VerificarCodigoForm() {
     }
 
     try {
-      // 🔥 AQUÍ YA NO VALIDAMOS NADA
+      await verificarCodigo({
+        code: codigoFinal,
+        newPassword: "Temporal123_*"
+      })
+
       localStorage.setItem("token-reset", codigoFinal)
       router.push("/user/nuevacontrasena")
-    } catch (error) {
-      console.error("Error procesando código:", error)
-      setError("⚠️ Error inesperado. Intenta nuevamente.")
+    } catch (error: any) {
+    
+      if (process.env.NODE_ENV === "development") {
+        console.error("Error verificando código:", error)
+      }
+
+      const status = error?.response?.status
+      const backendMessage = error?.response?.data?.message
+
+      if (status === 404 && backendMessage?.includes("Código")) {
+        setError("⚠️ Código inválido, expirado o ya utilizado.")
+      } else {
+        setError("⚠️ Código inválido, expirado o ya utilizado.")
+      }
+
+      localStorage.removeItem("token-reset")
     } finally {
       setLoading(false)
     }
@@ -59,8 +77,11 @@ export function VerificarCodigoForm() {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
+      
+      {/* Mensaje de error */}
       {error && <div className="alert warning-alert">{error}</div>}
 
+      {/* Inputs para código */}
       <div className="codigo-inputs" onPaste={handlePaste}>
         {codigo.map((val, index) => (
           <input
@@ -75,6 +96,7 @@ export function VerificarCodigoForm() {
         ))}
       </div>
 
+      {/* Botón continuar */}
       <button type="submit" className="login-btn" disabled={loading}>
         {loading ? "Procesando..." : "Continuar"}
       </button>
