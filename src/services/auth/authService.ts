@@ -1,4 +1,3 @@
-// authService.ts
 
 import { api } from "@/lib/apis"
 import { LoginPayload, LoginResponse } from "@/model/usuario.models"

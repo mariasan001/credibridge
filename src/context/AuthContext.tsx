@@ -1,29 +1,25 @@
+
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Role } from "@/model/usuario.models"
+import { Usuario, LoginPayload } from "@/model/usuario.models"
 import { loginRequest } from "@/services/auth/authService"
 import { setCookie, getCookie, deleteCookie } from "cookies-next"
 
-interface User {
-  username: string
-  roles: Role[]
-}
-
 interface AuthContextType {
-  user: User | null
+  user: Usuario | null
   token: string | null
   isAuthenticated: boolean
   loading: boolean
-  login: (username: string, password: string) => Promise<void>
+  login: (data: LoginPayload) => Promise<void>
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<Usuario | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
@@ -41,15 +37,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(false)
   }, [])
 
-  const login = async (username: string, password: string) => {
-    const response = await loginRequest({ username, password })
+  const login = async (data: LoginPayload) => {
+    const response = await loginRequest(data)
 
-    const userData: User = {
-      username,
-      roles: response.roles,
-    }
+    // ✅ El user es todo el objeto
+    const userData = response.user
 
-    // 🔥 Guardamos en cookies
     setCookie("auth", "true", { path: "/", secure: true, sameSite: "lax" })
     setCookie("token", response.token, { path: "/", secure: true, sameSite: "lax" })
     setCookie("user", JSON.stringify(userData), { path: "/", secure: true, sameSite: "lax" })
@@ -66,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     deleteCookie("user")
     setToken(null)
     setUser(null)
-
     router.push("/user/inicar-sesion")
   }
 

@@ -7,12 +7,11 @@ import { menuItems } from "@/constants/menuItems"
 
 import "@/styles/sidebar.css"
 import { SidebarHeader } from "./SidebarHeader"
-
 import { SidebarBottom } from "./SidebarBottom"
 import { SidebarMenu } from "./SidebarMenu"
 
 export const Sidebar = () => {
-  const { user, loading } = useAuth() // 🔥 ahora también traemos loading
+  const { user, loading } = useAuth()
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
@@ -41,11 +40,11 @@ export const Sidebar = () => {
   const toggleSubmenu = (route: string) =>
     setOpenMenu(prev => (prev === route ? null : route))
 
-  if (loading) return null // 🔥 mientras carga el user no pintes nada
+  // 🧠 Validaciones de seguridad
+  if (loading) return null
+  if (!user || !Array.isArray(user.roles)) return null
 
-  if (!user) return null // 🔥 si no hay usuario tampoco renderices el sidebar
-
-  // ✅ Ahora ya seguro tienes usuario para filtrar menús
+  // ✅ Ahora ya seguro tienes usuario y roles
   const userRoles = user.roles.map(r => r.id)
 
   const filteredMenuItems = menuItems.filter(item =>

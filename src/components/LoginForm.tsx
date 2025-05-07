@@ -39,7 +39,8 @@ export function LoginForm() {
     if (hasError) return
 
     try {
-      await login(username, password) // Ahora sí username es claro
+      await login({ username, password })
+
     } catch (err: any) {
       setError("Número de servidor o contraseña incorrectos")
     }
