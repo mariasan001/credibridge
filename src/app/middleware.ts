@@ -8,17 +8,17 @@ export function middleware(request: NextRequest) {
 
   const isLoginPage = pathname.startsWith("/user/inicar-sesion")
 
-  // 🔒 Si no está autenticado y no está en el login, lo mandamos al login
+  //Si no está autenticado y no está en el login, lo mandamos al login
   if (!isAuthenticated && !isLoginPage) {
     return NextResponse.redirect(new URL("/user/inicar-sesion", request.url))
   }
 
-  // 🚫 Si ya está autenticado y trata de entrar al login o al root, lo mandamos al dashboard
+  // Si ya está autenticado y trata de entrar al login o al root, lo mandamos al dashboard
   if (isAuthenticated && (isLoginPage || pathname === "/")) {
     return NextResponse.redirect(new URL("/inicio", request.url))
   }
 
-  // ✅ Si todo está bien, que pase normal
+  // Si todo está bien, que pase normal
   return NextResponse.next()
 }
 

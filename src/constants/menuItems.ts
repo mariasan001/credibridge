@@ -12,26 +12,37 @@ import {
   Briefcase,
   MessageCircle,
   BadgeCheck,
+  BookUser,
+  Megaphone,
+  Target,
+  ClipboardList,
 } from "lucide-react"
 
 // Arreglo de elementos del menú lateral con rutas, íconos y permisos por rol
+//1	"ADMIN"
+//2	"ADMIN_NOM"
+//3	"USER"
+//4	"FINANCIERA_ADM"
+//5	"FINANCIERA_EJEC"
+//6	"FINANCIERA_ASES"
+
 export const menuItems = [
   {
     label: "Inicio",
     icon: Home,
     route: "/inicio",
-    roles: [0, 1, 2], // Roles permitidos
+    roles: [1, 2, 4, ],  
   },
   {
     label: "Gestión de Personal",
     icon: Users,
     route: "/gestion-personal",
-    roles: [0, 1, 2],
+    roles: [1,2,4],
     children: [
       {
         label: "Buscar Servidor Público",
         route: "/gestion-personal/buscar-servidor",
-        roles: [0, 1, 2],
+        roles: [1,2,4],
       },
     ],
   },
@@ -39,17 +50,22 @@ export const menuItems = [
     label: "Comparativas",
     icon: BarChart2,
     route: "/comparativas",
-    roles: [0, 1],
+    roles: [1,2,4],
     children: [
       {
         label: "Ranking de Instituciones",
         route: "/comparativas/ranking-instituciones",
-        roles: [0,1],
+        roles: [1,2],
+      },
+      {
+        label: "Ranking de servicios",
+        route: "/comparativas/ranking-personal",
+        roles: [4],
       },
       {
         label: "Resumen de Periodos",
         route: "/comparativas/resumen-periodo",
-        roles: [0, 1],
+        roles: [1,2,4],
       },
     ],
   },
@@ -57,17 +73,17 @@ export const menuItems = [
     label: "Historial",
     icon: Clock,
     route: "/historial",
-    roles: [0, 1, 2],
+    roles: [1,2,4],
     children: [
       {
         label: "Historial de Solicitudes",
         route: "/historial/historia-solicitudes",
-        roles: [0, 1, 2],
+        roles: [1,2,4],
       },
       {
         label: "Historial de Quejas",
         route: "/historial/histroial-quejas",
-        roles: [0, 1, 2],
+        roles: [1,2,4],
       },
     ],
   },
@@ -75,38 +91,38 @@ export const menuItems = [
     label: "Reportes y Consultas",
     icon: FileText,
     route: "/reportes-consultas",
-    roles: [0, 1],
+    roles: [1,2,4],
     children: [
-      { label: "Conciliación", route: "/reportes-consultas/concialicion", roles: [0] },
-      { label: "Consulta TNIS", route: "/reportes-consultas/reporte-tnis", roles: [0] },
-      { label: "Contratos a expirar", route: "/reportes-consultas/contratos-expirar", roles: [0] },
-      { label: "Contratos Bloqueados", route: "/reportes-consultas/contratos-bloqueados", roles: [0] },
-      { label: "Contratos Modificados", route: "/reportes-consultas/contratos-modificados", roles: [0] },
-      { label: "Contratos Pagados", route: "/reportes-consultas/contratos-pagados", roles: [0] },
-      { label: "Contratos Terminados", route: "/reportes-consultas/contratos-terminados", roles: [0] },
-      { label: "Insertados por Nómina", route: "/reportes-consultas/insetados-nomina", roles: [0, 1] },
-      { label: "Instalados por Periodo", route: "/reportes-consultas/instalados-periodos", roles: [0, 1] },
-      { label: "Liquidaciones", route: "/reportes-consultas/liquidaciones", roles: [0] },
-      { label: "Modalidad por Nómina", route: "/reportes-consultas/modalidad-nominas", roles: [0] },
-      { label: "Reservas Activas", route: "/reportes-consultas/reservas-activas", roles: [0, 1] },
-      { label: "Reservas en el periodo", route: "/reportes-consultas/reservas-periodo", roles: [0, 1] },
+      { label: "Conciliación", route: "/reportes-consultas/concialicion", roles: [1,2] },
+      { label: "Consulta TNIS", route: "/reportes-consultas/reporte-tnis", roles: [1,2] },
+      { label: "Contratos a expirar", route: "/reportes-consultas/contratos-expirar", roles: [1,2,4] },
+      { label: "Contratos Bloqueados", route: "/reportes-consultas/contratos-bloqueados", roles: [1,2,4] },
+      { label: "Contratos Modificados", route: "/reportes-consultas/contratos-modificados", roles: [1,2,4] },
+      { label: "Contratos Pagados", route: "/reportes-consultas/contratos-pagados", roles: [1,2,4] },
+      { label: "Contratos Terminados", route: "/reportes-consultas/contratos-terminados", roles: [1,2,4] },
+      { label: "Insertados por Nómina", route: "/reportes-consultas/insetados-nomina", roles: [1,2] },
+      { label: "Instalados por Periodo", route: "/reportes-consultas/instalados-periodos", roles: [1,2,4] },
+      { label: "Liquidaciones", route: "/reportes-consultas/liquidaciones", roles: [1,2,4] },
+      { label: "Modalidad por Nómina", route: "/reportes-consultas/modalidad-nominas", roles: [1,2] },
+      { label: "Reservas Activas", route: "/reportes-consultas/reservas-activas", roles: [1,2] },
+      { label: "Reservas en el periodo", route: "/reportes-consultas/reservas-periodo", roles: [1,2,4] },
     ],
   },
   {
     label: "Procesos Autorizados",
     icon: BadgeCheck,
     route: "/procesos-autorizados",
-    roles: [0, 1],
+    roles: [1,2],
     children: [
       {
         label: "Intercambio de Archivos",
         route: "/procesos-autorizados/intercambio-archivos",
-        roles: [0, 1],
+        roles: [1, 2],
       },
       {
         label: "Procesamiento por lote",
         route: "/procesos-autorizados/proceso-lote",
-        roles: [0],
+        roles: [1,2],
       },
     ],
   },
@@ -114,38 +130,92 @@ export const menuItems = [
     label: "Simulación",
     icon: Cpu,
     route: "/simulacion",
-    roles: [0, 1],
+    roles: [1,2,4],
   },
   {
     label: "Centro de Comunicación",
     icon: MessageCircle,
     route: "/centro-de-comunicacion",
-    roles: [0, 1, 2],
+    roles: [1,2,3,4],
     children: [
-      { label: "Portal de Comunicación", route: "/centro-comunicacion/portal-comunicacion", roles: [0, 1, 2] },
-      { label: "Reportes", route: "/centro-comunicacion/reports", roles: [0, 1, 2] },
-      { label: "Chat", route: "/centro-comunicacion/chat", roles: [0, 1, 2] },
+      { label: "Portal de Comunicación", route: "/centro-comunicacion/portal-comunicacion", roles: [1,2,3,4,5] },
+      { label: "Reportes", route: "/centro-comunicacion/reports", roles: [1,2,3,4,5] },
+      { label: "Chat", route: "/centro-comunicacion/chat", roles: [ 1,2,3,4,5] },
     ],
   },
   {
     label: "Configuración",
     icon: Settings,
     route: "/configuracion",
-    roles: [0, 1, 2],
+    roles: [1,2,3,4,5,6],
     children: [
-     // { label: "Modo Oscuro", route: "/configuracion/modo-oscuro", roles: [0, 1, 2] },
+      { label: "Administración de Usuarios", route: "/configuracion/admin_user", roles: [1,2,4] },
+      { label: "Actualizar contraseña", route: "/configuracion/contrasena", roles: [1,2,4,3,5,6] },
+      { label: "Perfil", route: "/perfil_user/perfil", roles: [3] },
+      { label: "Perfil", route: "/perfil_user/perfil", roles: [1,2,4,5,6] },
     ],
   },
   {
     label: "Cartera de Clientes",
     icon: Briefcase,
     route: "/cartera-clientes",
-    roles: [2],
+    roles: [4,5],
   },
   {
     label: "Prospectos",
-    icon: BadgeCheck,
+    icon: Target,
     route: "/prospectos",
-    roles: [2],
+    roles: [4,5],
   },
+  {
+    label: "Control de solicitudes ",
+    icon: ClipboardList ,
+    route: "/prospectos",
+    roles: [4,6],
+  },
+  {
+    label: " Difusión Comercial ",
+    icon: Megaphone ,
+    route: "/difucion",
+    roles: [4,5],
+  },
+ 
+  // ESTAS OPCIONES SON ESCLUCIDIVAS PARA USUARIOS / SERVIDORES PUBLICOS 
+  {
+    label: "Inicio",
+    icon: Home, 
+    route: "/perfil_user/inicio",
+    roles: [3],
+  },
+  {
+    label: "Directorio",
+    icon: BookUser, 
+    route: "/perfil_user/directorio",
+    roles: [3],
+  },
+  {
+    label: "Documentación",
+    icon: FileText,
+    route: "/perfil_user/documentacion",
+    roles: [3],
+  },
+  {
+    label: "Notificaciones",
+    icon: MessageCircle,
+    route: "/perfil_user/notificaciones",
+    roles: [3],
+  },
+  {
+    label: "Movimientos",
+    icon: Clock,
+    route: "/perfil_user/movimintos",
+    roles: [3],
+  },
+  {
+    label: "Solicitudes / Quejas",
+    icon: BadgeCheck,
+    route: "/perfil_user/solicitudes_quejas",
+    roles: [3],
+  },
+  
 ]
