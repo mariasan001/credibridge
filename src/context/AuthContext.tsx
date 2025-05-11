@@ -1,15 +1,12 @@
-
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Usuario, LoginPayload } from "@/model/usuario.models"
 import { loginRequest } from "@/services/auth/authService"
-import { setCookie, getCookie, deleteCookie } from "cookies-next"
 
 interface AuthContextType {
   user: Usuario | null
-  token: string | null
   isAuthenticated: boolean
   loading: boolean
   login: (data: LoginPayload) => Promise<void>
@@ -20,50 +17,59 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Usuario | null>(null)
-  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
+  // 🔁 Al cargar la app, preguntamos al backend si hay sesión activa
   useEffect(() => {
-    const auth = getCookie("auth")
-    const storedToken = getCookie("token")
-    const storedUser = getCookie("user")
+    const checkSession = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+          credentials: "include", // 👈 Envia la cookie automáticamente
+        })
 
-    if (auth === "true" && storedToken && storedUser) {
-      setToken(storedToken as string)
-      setUser(JSON.parse(storedUser as string))
+        if (res.ok) {
+          const data = await res.json()
+          setUser(data.user)
+        } else {
+          setUser(null)
+        }
+      } catch (err) {
+        console.error("Error al verificar sesión", err)
+        setUser(null)
+      } finally {
+        setLoading(false)
+      }
     }
 
-    setLoading(false)
+    checkSession()
   }, [])
 
   const login = async (data: LoginPayload) => {
-    const response = await loginRequest(data)
-
-    // ✅ El user es todo el objeto
-    const userData = response.user
-
-    setCookie("auth", "true", { path: "/", secure: true, sameSite: "lax" })
-    setCookie("token", response.token, { path: "/", secure: true, sameSite: "lax" })
-    setCookie("user", JSON.stringify(userData), { path: "/", secure: true, sameSite: "lax" })
-
-    setToken(response.token)
-    setUser(userData)
-
-    router.push("/inicio")
+    try {
+      await loginRequest(data) // La cookie se guarda automáticamente
+      router.push("/inicio")   // ✅ Redirigimos sin guardar token
+    } catch (err) {
+      console.error("Login fallido", err)
+    }
   }
 
-  const logout = () => {
-    deleteCookie("auth")
-    deleteCookie("token")
-    deleteCookie("user")
-    setToken(null)
+  const logout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include", // 👈 También para que la cookie se envíe
+      })
+    } catch (err) {
+      console.error("Error cerrando sesión", err)
+    }
+
     setUser(null)
-    router.push("/user/inicar-sesion")
+    router.push("/user/iniciar-sesion")
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

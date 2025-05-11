@@ -39,10 +39,13 @@ export function LoginForm() {
     if (hasError) return
 
     try {
+      // ✅ Llamamos al AuthContext, que ahora usa cookies HttpOnly
       await login({ username, password })
-
     } catch (err: any) {
-      setError("Número de servidor o contraseña incorrectos")
+      // ✅ Si hay mensaje de error del backend, lo mostramos
+      const message =
+        err?.response?.data?.message || "Número de servidor o contraseña incorrectos"
+      setError(message)
     }
   }
 
@@ -91,7 +94,11 @@ export function LoginForm() {
         </Link>
       </div>
 
-      <button type="submit" className="login-btn" disabled={loading}>
+      <button
+        type="submit"
+        className="login-btn"
+        disabled={loading || !username || !password} // ✅ Bloquea si falta info o está cargando
+      >
         {loading ? "Ingresando..." : "Ingresar al sistema"}
       </button>
 

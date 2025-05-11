@@ -1,19 +1,20 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from "react";
-import { Plus, X } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import { crearPromocion } from "./services/promo_services";
-import { PageLayout } from "@/components/PageLayout";
-import "./CrearPromocionPage.css";
+import { useState, useEffect } from "react"
+import { Plus, X } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
+import { crearPromocion } from "./services/promo_services"
+import { PageLayout } from "@/components/PageLayout"
+import "./CrearPromocionPage.css"
 
-import { PromotionCreatePayload } from "./model/promocion_model";
-import { Promotion } from "./model/promotion_model_todas";
-import { obtenerPromociones } from "./services/promocion_service_todas";
+import { PromotionCreatePayload } from "./model/promocion_model"
+import { Promotion } from "./model/promotion_model_todas"
+import { obtenerPromociones } from "./services/promocion_service_todas"
 
 export default function CrearPromocionPage() {
-  const { token, user } = useAuth();
+  const { user } = useAuth()
 
+  // ⚠️ Si el usuario no tiene financiera asignada, no puede crear promociones
   if (!user || !user.lender) {
     return (
       <PageLayout>
@@ -21,10 +22,10 @@ export default function CrearPromocionPage() {
           ⚠️ No tienes una financiera asignada. Contacta al administrador.
         </div>
       </PageLayout>
-    );
+    )
   }
 
-  const lender = user.lender;
+  const lender = user.lender
 
   const [formData, setFormData] = useState<Omit<PromotionCreatePayload, 'benefits'>>({
     promotionTitle: "",
@@ -35,46 +36,43 @@ export default function CrearPromocionPage() {
     mobileIcon: "",
     lenderServiceId: lender.id,
     lenderId: 1
-  });
+  })
 
-  const [benefitsList, setBenefitsList] = useState<string[]>([""]);
-  const [promociones, setPromociones] = useState<Promotion[]>([]);
+  const [benefitsList, setBenefitsList] = useState<string[]>([""])
+  const [promociones, setPromociones] = useState<Promotion[]>([])
 
+  // ✅ Al cargar la página, obtenemos las promociones
   useEffect(() => {
-    obtenerPromociones().then(setPromociones);
-  }, []);
+    obtenerPromociones().then(setPromociones)
+  }, [])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleBenefitChange = (index: number, value: string) => {
-    const updated = [...benefitsList];
-    updated[index] = value;
-    setBenefitsList(updated);
-  };
+    const updated = [...benefitsList]
+    updated[index] = value
+    setBenefitsList(updated)
+  }
 
   const handleAddBenefit = () => {
-    setBenefitsList([...benefitsList, ""]);
-  };
+    setBenefitsList([...benefitsList, ""])
+  }
 
   const handleRemoveBenefit = (index: number) => {
-    const updated = [...benefitsList];
-    updated.splice(index, 1);
-    setBenefitsList(updated);
-  };
+    const updated = [...benefitsList]
+    updated.splice(index, 1)
+    setBenefitsList(updated)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!token) {
-      alert("Token no disponible. Inicia sesión nuevamente.");
-      return;
-    }
-
+    // ✅ Validación de campos
     if (
       !formData.promotionTitle.trim() ||
       !formData.promotionDesc.trim() ||
@@ -82,27 +80,28 @@ export default function CrearPromocionPage() {
       !formData.endDate ||
       benefitsList.every((b) => b.trim() === "")
     ) {
-      alert("Por favor completa todos los campos requeridos.");
-      return;
+      alert("Por favor completa todos los campos requeridos.")
+      return
     }
 
     const formattedBenefits = benefitsList
       .filter((b) => b.trim() !== "")
       .map((b) => `• ${b.trim()}`)
-      .join("\n");
+      .join("\n")
 
     const payload: PromotionCreatePayload = {
       ...formData,
       benefits: [{ benefitsDesc: formattedBenefits }]
-    };
+    }
 
     try {
-      const response = await crearPromocion(payload, token);
-      console.log("✅ Promoción creada:", response);
-      alert("¡Promoción creada correctamente!");
+      // ✅ Llamada sin token porque usamos cookie HttpOnly
+      const response = await crearPromocion(payload)
+      console.log("✅ Promoción creada:", response)
+      alert("¡Promoción creada correctamente!")
     } catch (error: any) {
-      console.error("❌ Error al crear promoción:", error);
-      const res = error?.response;
+      console.error("❌ Error al crear promoción:", error)
+      const res = error?.response
 
       alert(
         "Error al crear la promoción: " +
@@ -110,9 +109,9 @@ export default function CrearPromocionPage() {
             res?.data?.error ||
             error.message ||
             "Error desconocido")
-      );
+      )
     }
-  };
+  }
 
   return (
     <PageLayout>
@@ -227,5 +226,5 @@ export default function CrearPromocionPage() {
         </div>
       </div>
     </PageLayout>
-  );
+  )
 }

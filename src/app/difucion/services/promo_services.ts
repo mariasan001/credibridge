@@ -1,13 +1,11 @@
 // promo_services.ts
-import { api } from "@/lib/apis";
-import { PromotionCreatePayload } from "../model/promocion_model";
+import { api } from "@/lib/apis"
+import { PromotionCreatePayload } from "../model/promocion_model"
 
-export const crearPromocion = async (data: PromotionCreatePayload, token: string) => {
+export const crearPromocion = async (data: PromotionCreatePayload) => {
   const response = await api.post("/lender-promotions", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    withCredentials: true, // ✅ Enviar la cookie HttpOnly al backend
+  })
 
-  return response.data;
-};
+  return response.data
+}
