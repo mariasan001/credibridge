@@ -50,7 +50,7 @@ export function NuevaContrasenaForm() {
 
       setTimeout(() => {
         localStorage.removeItem("token-reset")
-        router.push("/user/iniciar-sesion") // corregido "iniciar"
+        router.push("/user/inicar-sesion") // corregido "iniciar"
       }, 2500)
 
     } catch (error: any) {

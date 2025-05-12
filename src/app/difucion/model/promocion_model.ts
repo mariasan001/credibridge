@@ -8,8 +8,8 @@ export interface PromotionCreatePayload {
   startDate: string;
   endDate: string;
 
-  webIcon: string ;
-  mobileIcon: string;
+  webIcon: string | null  ;
+  mobileIcon: string| null;
   
   lenderServiceId: number;  // ✅ Requerido y debe tener un ID válido
 

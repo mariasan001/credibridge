@@ -170,3 +170,36 @@ textarea.input-group {
 .input-group[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
+.crear-promocion-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Promociones más anchas */
+  gap: 2rem;
+  padding: 2rem;
+  align-items: start;
+}
+
+
+.formulario,
+.promociones {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.promociones {
+  max-height: 1009px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .crear-promocion-grid {
+    grid-template-columns: 1fr; /* Una sola columna */
+    padding: 1rem;
+  }
+
+  .formulario,
+  .promociones {
+    max-width: 100%;
+  }
+}

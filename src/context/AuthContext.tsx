@@ -2,11 +2,13 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { getCookie, setCookie, deleteCookie } from "cookies-next"
 import { Usuario, LoginPayload } from "@/model/usuario.models"
 import { loginRequest } from "@/services/auth/authService"
 
 interface AuthContextType {
   user: Usuario | null
+  token: string | null
   isAuthenticated: boolean
   loading: boolean
   login: (data: LoginPayload) => Promise<void>
@@ -17,59 +19,55 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Usuario | null>(null)
+  const [token, setToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  // 🔁 Al cargar la app, preguntamos al backend si hay sesión activa
+  // ✅ Al cargar, recuperar datos desde cookies (modo temporal)
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-          credentials: "include", // 👈 Envia la cookie automáticamente
-        })
+    const storedToken = getCookie("token") as string | undefined
+    const storedUser = getCookie("user") as string | undefined
 
-        if (res.ok) {
-          const data = await res.json()
-          setUser(data.user)
-        } else {
-          setUser(null)
-        }
-      } catch (err) {
-        console.error("Error al verificar sesión", err)
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
+    if (storedToken && storedUser) {
+      setToken(storedToken)
+      setUser(JSON.parse(storedUser))
     }
 
-    checkSession()
+    setLoading(false)
   }, [])
 
   const login = async (data: LoginPayload) => {
     try {
-      await loginRequest(data) // La cookie se guarda automáticamente
-      router.push("/inicio")   // ✅ Redirigimos sin guardar token
+      const response = await loginRequest(data)
+
+      const userData = response.user
+      const tokenData = response.token
+
+      // ✅ Guardar en cookies JS (temporal)
+      setCookie("token", tokenData, { path: "/" })
+      setCookie("user", JSON.stringify(userData), { path: "/" })
+      setCookie("auth", "true", { path: "/" })
+
+      setToken(tokenData)
+      setUser(userData)
+
+      router.push("/inicio")
     } catch (err) {
       console.error("Login fallido", err)
     }
   }
 
-  const logout = async () => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include", // 👈 También para que la cookie se envíe
-      })
-    } catch (err) {
-      console.error("Error cerrando sesión", err)
-    }
-
+  const logout = () => {
+    deleteCookie("token")
+    deleteCookie("user")
+    deleteCookie("auth")
+    setToken(null)
     setUser(null)
-    router.push("/user/iniciar-sesion")
+    router.push("/user/inicar-sesion")
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
