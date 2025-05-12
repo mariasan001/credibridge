@@ -1,28 +1,62 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Plus, X } from "lucide-react"
 import { PromotionCreatePayload } from "../model/promocion_model"
+import { Promotion } from "../model/promotion_model_todas"
 import { crearPromocion } from "../services/promo_services"
+import { actualizarPromocion } from "../services/promo_services_editar"
 
 interface Props {
   lenderId: number
   lenderName: string
+  promocionEditando?: Promotion | null
+  onActualizarExito?: () => void
 }
 
-export function FormularioPromocion({ lenderId, lenderName }: Props) {
-  const [formData, setFormData] = useState<Omit<PromotionCreatePayload, 'benefits'>>({
+export function FormularioPromocion({
+  lenderId,
+  lenderName,
+  promocionEditando,
+  onActualizarExito,
+}: Props) {
+  const [formData, setFormData] = useState<Omit<PromotionCreatePayload, "benefits">>({
     promotionTitle: "",
     promotionDesc: "",
     startDate: "",
     endDate: "",
     webIcon: "",
     mobileIcon: "",
-    lenderServiceId: lenderId,
-    lenderId: lenderId
+    lenderServiceId: 1,
+    lenderId,
   })
 
   const [benefitsList, setBenefitsList] = useState<string[]>([""])
+  const [modoEdicion, setModoEdicion] = useState(false)
+
+  useEffect(() => {
+    if (promocionEditando) {
+      setModoEdicion(true)
+      setFormData({
+        promotionTitle: promocionEditando.promotionTitle,
+        promotionDesc: promocionEditando.promotionDesc,
+        startDate: promocionEditando.startDate,
+        endDate: promocionEditando.endDate,
+        webIcon: promocionEditando.webIcon ?? "",
+        mobileIcon: promocionEditando.mobileIcon ?? "",
+        lenderServiceId: 1,
+        lenderId,
+      })
+
+      const beneficiosSeparados =
+        promocionEditando.benefits?.map((b) => b.benefitsDesc.trim()) || []
+
+      setBenefitsList(beneficiosSeparados.length > 0 ? beneficiosSeparados : [""])
+    } else {
+      setModoEdicion(false)
+      setBenefitsList([""])
+    }
+  }, [promocionEditando, lenderId])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,35 +95,54 @@ export function FormularioPromocion({ lenderId, lenderName }: Props) {
       return
     }
 
+    // ✅ Enviar beneficios como arreglo de objetos
     const formattedBenefits = benefitsList
       .filter((b) => b.trim() !== "")
-      .map((b) => `• ${b.trim()}`)
-      .join("\n")
+      .map((b) => ({ benefitsDesc: b.trim() }))
 
     const payload: PromotionCreatePayload = {
       ...formData,
-      benefits: [{ benefitsDesc: formattedBenefits }]
+      benefits: formattedBenefits,
     }
 
     try {
-      const response = await crearPromocion(payload)
-      console.log("✅ Promoción creada:", response)
-      alert("¡Promoción creada correctamente!")
+      if (modoEdicion && promocionEditando) {
+        await actualizarPromocion(promocionEditando.id, payload)
+        alert("¡Promoción actualizada correctamente!")
+      } else {
+        await crearPromocion(payload)
+        alert("¡Promoción creada correctamente!")
+      }
+
+      onActualizarExito?.()
+      resetFormulario()
     } catch (error: any) {
       const res = error?.response
       alert(
-        "Error al crear la promoción: " +
-          (res?.data?.message ||
-            res?.data?.error ||
-            error.message ||
-            "Error desconocido")
+        "Error al guardar: " +
+          (res?.data?.message || res?.data?.error || error.message || "Error desconocido")
       )
     }
   }
 
+  const resetFormulario = () => {
+    setFormData({
+      promotionTitle: "",
+      promotionDesc: "",
+      startDate: "",
+      endDate: "",
+      webIcon: "",
+      mobileIcon: "",
+      lenderServiceId: 1,
+      lenderId,
+    })
+    setBenefitsList([""])
+    setModoEdicion(false)
+  }
+
   return (
     <div className="formulario">
-      <h1>Crear Promoción</h1>
+      <h1>{modoEdicion ? "Editar Promoción" : "Crear Promoción"}</h1>
 
       <div className="input-group-wrapper">
         <label className="input-label">Financiera asignada</label>
@@ -176,8 +229,11 @@ export function FormularioPromocion({ lenderId, lenderName }: Props) {
           </button>
         </div>
 
-        <button type="submit" className="button-submit">
-          Crear promoción
+        <button
+          type="submit"
+          className={`button-submit ${modoEdicion ? "bg-yellow-600" : ""}`}
+        >
+          {modoEdicion ? "Actualizar promoción" : "Crear promoción"}
         </button>
       </form>
     </div>

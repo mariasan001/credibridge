@@ -11,7 +11,7 @@ const filtros: Estado[] = ["Todos", "Activo", "Próximo", "Inactivo"]
 
 interface Props {
   promociones: Promotion[]
-  onEdit?: (id: number) => void
+  onEdit?: (promocion: Promotion) => void
   onDelete?: (id: number) => void
 }
 
@@ -47,7 +47,7 @@ export function ListadoPromociones({ promociones, onEdit, onDelete }: Props) {
             <PromocionCard
               key={p.id}
               promocion={p}
-              onEdit={onEdit}
+              onEdit={() => onEdit?.(p)}      // ✅ pasamos el objeto completo
               onDelete={onDelete}
             />
           ))}

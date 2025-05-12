@@ -1,12 +1,12 @@
 "use client"
 
+import { CalendarDays, Landmark, Pencil, ShieldCheck, Trash2 } from "lucide-react"
 import { Promotion } from "../model/promotion_model_todas"
-import { CalendarDays, Pencil, Trash2, ShieldCheck, Landmark } from "lucide-react"
 import { calcularEstado } from "../utils/estadoPromocion"
 
 interface Props {
   promocion: Promotion
-  onEdit?: (id: number) => void
+  onEdit?: (promocion: Promotion) => void
   onDelete?: (id: number) => void
 }
 
@@ -21,6 +21,7 @@ export function PromocionCard({ promocion: p, onEdit, onDelete }: Props) {
 
   return (
     <li className="promocion-card">
+      {/* Header */}
       <div className="promocion-header">
         <div className="promocion-avatar">
           <ShieldCheck size={20} />
@@ -30,7 +31,7 @@ export function PromocionCard({ promocion: p, onEdit, onDelete }: Props) {
           <div className="promocion-header-top">
             <h3 className="promocion-titulo">{p.promotionTitle}</h3>
             <div className="promocion-actions">
-              <button onClick={() => onEdit?.(p.id)}><Pencil size={16} /></button>
+              <button onClick={() => onEdit?.(p)}><Pencil size={16} /></button>
               <button onClick={handleDelete}><Trash2 size={16} /></button>
             </div>
           </div>
@@ -40,19 +41,20 @@ export function PromocionCard({ promocion: p, onEdit, onDelete }: Props) {
         </div>
       </div>
 
+      {/* Descripción */}
       <p className="promocion-desc">{p.promotionDesc}</p>
 
+      {/* Beneficios */}
       {p.benefits.length > 0 && (
         <ul className="promocion-beneficios">
-          {p.benefits[0].benefitsDesc
-            .split("•")
-            .map((linea, i) => {
-              const texto = linea.trim()
-              return texto ? <li key={`${p.id}-${i}`}>{texto}</li> : null
-            })}
-        </ul>
+  {p.benefits.map((b, i) => (
+    <li key={`${p.id}-${i}`}>{b.benefitsDesc}</li>
+  ))}
+</ul>
+
       )}
 
+      {/* Footer */}
       <div className="promocion-footer">
         <span className={`promocion-estado ${estado.toLowerCase()}`}>{estado}</span>
         <span className="promocion-vigencia">
