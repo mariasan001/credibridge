@@ -206,7 +206,7 @@ export function FormularioPromocion({
             <div key={index} className="benefit-row">
               <input
                 type="text"
-                placeholder={`Benéfico ${index + 1}`}
+                placeholder={`Benéficio ${index + 1}`}
                 value={benefit}
                 onChange={(e) => handleBenefitChange(index, e.target.value)}
                 className="input-group benefit-input"

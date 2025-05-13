@@ -1,9 +1,11 @@
 // services/auth/authService.ts
 import { api } from "@/lib/apis"
-import { LoginPayload, LoginResponse } from "@/model/usuario.models"
+import { LoginPayload, Usuario } from "@/model/usuario.models"
 
-// Llamada al backend para login. El backend devuelve { token, user }
-export const loginRequest = async (data: LoginPayload): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>("/auth/login", data)
+// 👉 El backend devuelve { user: Usuario }, por eso ajustamos el tipo de retorno
+export const loginRequest = async (data: LoginPayload): Promise<{ user: Usuario }> => {
+  const response = await api.post<{ user: Usuario }>("/auth/login", data, {
+    withCredentials: true,
+  })
   return response.data
 }

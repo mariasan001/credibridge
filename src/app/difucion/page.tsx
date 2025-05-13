@@ -12,17 +12,17 @@ import { ListadoPromociones } from "./components/ListadoPromociones"
 import { FormularioPromocion } from "./components/FormularioPromocion"
 
 export default function CrearPromocionPage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const lender = user?.lender
 
   const [promociones, setPromociones] = useState<Promotion[]>([])
   const [promocionEditando, setPromocionEditando] = useState<Promotion | null>(null)
 
   useEffect(() => {
-    if (lender) {
+    if (!loading && lender) {
       obtenerPromociones().then(setPromociones)
     }
-  }, [lender])
+  }, [loading, lender])
 
   const handleDelete = async (id: number) => {
     const confirmar = confirm("¿Seguro que quieres eliminar esta promoción?")
@@ -48,6 +48,8 @@ export default function CrearPromocionPage() {
     setPromocionEditando(null)
   }
 
+  if (loading) return null // o un loader
+
   if (!lender) {
     return (
       <PageLayout>
@@ -64,9 +66,8 @@ export default function CrearPromocionPage() {
         <ListadoPromociones
           promociones={promociones}
           onDelete={handleDelete}
-          onEdit={handleEdit} // ✅ ahora pasa el objeto completo
+          onEdit={handleEdit}
         />
-
         <FormularioPromocion
           lenderId={lender.id}
           lenderName={lender.lenderName}

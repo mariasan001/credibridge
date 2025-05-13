@@ -49,7 +49,7 @@ export const SidebarBottom = ({
             </Link>
           )
         )}
-
+{/* a funcion que  del menu cambiar como esta modifica do  */}
       {/* 🌙 Botón de cambio de tema */}
       <ThemeToggleButton isCollapsed={isCollapsed} />
 
