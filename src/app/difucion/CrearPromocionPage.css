@@ -1,205 +1,38 @@
-/* CONTENEDOR PRINCIPAL */
-.form-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 32px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-}
-
-/* TÍTULO PRINCIPAL */
-h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  color: #111827;
-}
-
-/* MENSAJE DE ERROR */
-.error-message {
-  padding: 24px;
-  color: #b91c1c;
-  text-align: center;
-  font-weight: bold;
-  background-color: #ffeaea;
-  border: 1px solid #f5c2c7;
-  border-radius: 6px;
-  margin: 20px;
-}
-
-/* GRUPO DE INPUT */
-.input-group-wrapper {
-  margin-bottom: 20px;
-}
-
-/* LABEL */
-.input-label {
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 6px;
-  display: block;
-  color: #1f2937;
-}
-
-/* INPUT Y TEXTAREA */
-.input-group {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: white;
-  transition: border-color 0.2s ease-in-out;
-  color: #111827;
-}
-
-.input-group:focus {
-  outline: none;
-  border-color: #64748b;
-  box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2);
-}
-
-textarea.input-group {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* FILA DE BENEFICIO */
-.benefit-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.benefit-input {
-  flex: 1;
-}
-
-/* BOTÓN AGREGAR BENEFICIO */
-.button-add {
-  background: none;
-  border: none;
-  color: #1d4ed8;
-  font-weight: 500;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  margin-top: 8px;
-  margin-bottom: 24px;
-  transition: color 0.2s;
-}
-
-.button-add:hover {
-  color: #1e40af;
-}
-
-/* BOTÓN ELIMINAR BENEFICIO */
-.benefit-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  background-color: #f9fafb;
-  padding: 8px 12px;
-  border-radius: 10px;
-  transition: box-shadow 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.benefit-wrapper:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.benefit-remove {
-  background-color: #ef4444;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease-in-out, transform 0.15s;
-}
-
-.benefit-remove:hover {
-  background-color: #dc2626;
-  transform: scale(1.05);
-}
-
-/* BOTÓN SUBMIT */
-.button-submit {
-  width: 100%;
-  background-color: #1e3a8a;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.button-submit:hover {
-  background-color: #1e40af;
-}
-
-/* ESTILO PARA INPUT DE FECHA */
-.input-group[type="datetime-local"] {
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: white;
-  position: relative;
-}
-
-.input-group[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  background: url('data:image/svg+xml,%3Csvg fill="none" stroke="%231F2937" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M8 7V3M16 7V3M3 11h18M5 5h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/%3E%3C/svg%3E') no-repeat center;
-  background-size: 20px;
-  padding: 6px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-
-.input-group[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
+/* GRID PRINCIPAL */
 .crear-promocion-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Promociones más anchas */
-  gap: 2rem;
-  padding: 2rem;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
   align-items: start;
+  padding: 1rem;
+  max-width: 1980px;
+  margin: 0 auto;
 }
 
-
-.formulario,
-.promociones {
-  background-color: #fff;
+/* MENSAJE DE ERROR SI NO HAY LENDER */
+.error-message {
   padding: 1.5rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-weight: 600;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-top: 2rem;
 }
 
-.promociones {
-  max-height: 1009px;
-  overflow-y: auto;
-}
-
-@media (max-width: 768px) {
-  .crear-promocion-grid {
-    grid-template-columns: 1fr; /* Una sola columna */
-    padding: 1rem;
+/* FORMULARIO FIJO AL SCROLL SI HAY ESPACIO */
+@media (min-width: 1024px) {
+  .formulario {
+    position: sticky;
+    top: 2rem;
   }
+}
 
-  .formulario,
-  .promociones {
-    max-width: 100%;
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .crear-promocion-grid {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
   }
 }

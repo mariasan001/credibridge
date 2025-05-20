@@ -1,322 +1,192 @@
+/* CONTENEDOR PRINCIPAL */
 .promociones {
-    padding: 1rem;
-  }
-  
-  .promociones-titulo {
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
-    margin-bottom: 1rem;
-    color: #1f2937;
-  }
-  
-  .promociones-vacio {
-    font-size: 0.95rem;
-    color: #6b7280;
-  }
-  
-  .promociones-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0;
-    list-style: none;
-  }
-  
-  /* Tarjeta principal */
-  .promocion-card {
-    background: #fff;
-    border-radius: 16px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    transition: box-shadow 0.2s ease;
-  }
-  
-  .promocion-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
-  
-  /* Encabezado */
-  .promocion-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-  
-  .promocion-avatar {
-    width: 36px;
-    height: 36px;
-    background-color: #f1f5f9;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .promocion-header-contenido {
-    flex: 1;
-  }
-  
-  .promocion-header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .promocion-titulo {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0;
-  }
-  
-  .promocion-actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    color: #6b7280;
-    transition: color 0.2s ease;
-  }
-  
-  .promocion-actions button:hover {
-    color: #1e40af;
-  }
-  
-  .promocion-financiera {
-    font-size: 0.85rem;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 2px;
-  }
-  
-  /* Contenido */
-  .promocion-desc {
-    font-size: 0.95rem;
-    color: #334155;
-    margin: 0.25rem 0;
-  }
-  
-  .promocion-beneficios {
-    font-size: 0.9rem;
-    padding-left: 1rem;
-    color: #1e293b;
-  }
-  
-  /* Footer */
-  .promocion-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-    color: #475569;
-  }
-  
-  .promocion-vigencia {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  
-  /* Estado (badge) */
-  .promocion-estado {
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-  }
-  
-  .promocion-estado.activo {
-    background: #d1fae5;
-    color: #065f46;
-  }
-  
-  .promocion-estado.inactivo {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-  
-  .promocion-estado.próximo {
-    background: #fef9c3;
-    color: #92400e;
-  }
-  .promociones {
-    padding: 1rem;
-  }
-  
-  .promociones-titulo {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  /* Tabs para filtrar */
-  .promociones-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .promocion-tab {
-    background-color: #f1f5f9;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #1f2937;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .promocion-tab.activo {
-    background-color: #1e40af;
-    color: white;
-  }
-  
-  .promocion-tab:hover {
-    background-color: #e2e8f0;
-  }
-  
-  /* Lista de promociones */
-  .promociones-lista {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  /* Tarjeta de promoción */
-  .promocion-card {
-    background-color: white;
-    border-radius: 12px;
-    padding: 1.25rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    border: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  
-  /* Header de la tarjeta */
-  .promocion-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-  
-  .promocion-avatar {
-    background-color: #eef2ff;
-    padding: 6px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .promocion-header-contenido {
-    flex: 1;
-  }
-  
-  .promocion-header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .promocion-titulo {
-    font-weight: 700;
-    font-size: 1rem;
-    color: #1e293b;
-  }
-  
-  .promocion-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .promocion-actions button {
-    background: none;
-    border: none;
-    color: #64748b;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .promocion-actions button:hover {
-    transform: scale(1.1);
-    color: #1e40af;
-  }
-  
-  .promocion-financiera {
-    font-size: 0.85rem;
-    color: #475569;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 2px;
-  }
-  
-  /* Descripción */
-  .promocion-desc {
-    font-size: 0.95rem;
-    color: #334155;
-  }
-  
-  /* Beneficios */
-  .promocion-beneficios {
-    padding-left: 1rem;
-    color: #3d3d3d;
-    font-weight: 400;
-  }
-  
-  .promocion-beneficios li::before {
-    content: "✅ ";
-    margin-right: 6px;
-  }
-  
-  /* Footer con estado y fechas */
-  .promocion-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-    color: #64748b;
-  }
-  
-  .promocion-estado {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-  
-  .promocion-estado.activo {
-    background-color: #dcfce7;
-    color: #166534;
-  }
-  
-  .promocion-estado.inactivo {
-    background-color: #fef2f2;
-    color: #991b1b;
-  }
-  
-  .promocion-estado.próximo {
-    background-color: #fef9c3;
-    color: #92400e;
-  }
-  
-  .promocion-vigencia {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  
+  padding: 2rem;
+}
+
+/* TÍTULO */
+.promociones-titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+/* MENSAJE VACÍO */
+.promociones-vacio {
+  font-size: 0.8rem;
+  color: #6b7280;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* TABS DE FILTRO */
+.promociones-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.promocion-tab {
+  background-color: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.promocion-tab.activo {
+  background-color: #1e40af;
+  color: white;
+}
+
+.promocion-tab:hover {
+  background-color: #dbeafe;
+  color: #1e3a8a;
+}
+
+/* LISTA DE PROMOCIONES */
+.promociones-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* TARJETA PRINCIPAL */
+.promocion-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.promocion-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* HEADER */
+.promocion-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.promocion-avatar {
+  background-color: #eef2ff;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promocion-header-contenido {
+  flex: 1;
+}
+
+.promocion-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.promocion-titulo {
+  font-weight: 700;
+  font-size: .8rem;
+  color: #1e293b;
+}
+
+.promocion-financiera {
+  font-size: 0.7rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+/* ACCIONES */
+.promocion-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.promocion-actions button {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.promocion-actions button:hover {
+  transform: scale(1.15);
+  color: #1e40af;
+}
+
+/* DESCRIPCIÓN Y BENEFICIOS */
+.promocion-desc {
+  font-size: 0.8rem;
+  color: #334155;
+}
+
+.promocion-beneficios {
+  padding-left: 1rem;
+  color: #3d3d3d;
+  font-size: 0.8rem;
+}
+
+.promocion-beneficios li::before {
+  content: "✅ ";
+  margin-right: 6px;
+}
+
+/* FOOTER: VIGENCIA Y ESTADO */
+.promocion-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.promocion-vigencia {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.promocion-estado {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+}
+
+.promocion-estado.activo {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.promocion-estado.inactivo {
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.promocion-estado.próximo {
+  background-color: #fef9c3;
+  color: #92400e;
+}

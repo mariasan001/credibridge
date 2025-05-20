@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/user/inicar-sesion", request.url))
   }
 
-  // Si SÍ hay token y está intentando entrar a login o root, redirige a dashboard
+
   if (token && (isLoginPage || pathname === "/")) {
     return NextResponse.redirect(new URL("/inicio", request.url))
   }

@@ -1,0 +1,161 @@
+/* CONTENEDOR PRINCIPAL DEL FORMULARIO */
+.formulario {
+    background-color: #fefefe;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* TÍTULO PRINCIPAL */
+  .formulario h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1e1e1e;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  /* GRUPOS DE INPUT */
+  .input-group-wrapper {
+    margin-bottom: 1rem;
+  }
+  
+  /* LABELS */
+  .input-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    display: block;
+    color: #374151;
+  }
+  
+  /* CAMPOS DE INPUT Y TEXTAREA */
+  .input-group {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    color: #111827;
+  }
+  
+  .input-group:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  
+  /* TEXTAREA ESPECÍFICO */
+  textarea.input-group {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* FILA DE BENEFICIOS */
+  .benefit-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .benefit-input {
+    flex: 1;
+  }
+  
+  /* BOTÓN PARA AGREGAR BENEFICIOS */
+  .button-add {
+    background-color: #e88624;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .button-add:hover {
+    background-color: #eab308;
+  }
+  
+  /* BOTÓN PARA ELIMINAR BENEFICIOS */
+  .benefit-remove {
+    background-color: #f87171;
+    border-radius: 50%;
+    padding: 6px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out, transform 0.15s;
+  }
+  
+  .benefit-remove:hover {
+    background-color: #ef4444;
+    transform: scale(1.1);
+  }
+  
+  /* BOTÓN SUBMIT */
+  .button-submit {
+    width: 100%;
+    background-color: #0e3892;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .button-submit:hover {
+    background-color: #0b2879;
+  }
+  
+  /* INPUT DE FECHA PERSONALIZADO (opcional, puedes mantenerlo si lo tenías) */
+  .input-group[type="datetime-local"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    position: relative;
+  }
+  
+  .input-group[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    background: url('data:image/svg+xml,%3Csvg fill="none" stroke="%231F2937" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M8 7V3M16 7V3M3 11h18M5 5h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/%3E%3C/svg%3E') no-repeat center;
+    background-size: 16px;
+    padding: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  
+  .input-group[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+  
+  /* RESPONSIVIDAD */
+  @media (max-width: 768px) {
+    .formulario {
+      padding: 1.5rem;
+    }
+  
+    .button-submit {
+      font-size: .8rem;
+    }
+  }
+  

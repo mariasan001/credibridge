@@ -6,6 +6,7 @@ import { PromotionCreatePayload } from "../model/promocion_model"
 import { Promotion } from "../model/promotion_model_todas"
 import { crearPromocion } from "../services/promo_services"
 import { actualizarPromocion } from "../services/promo_services_editar"
+import "./FormularioPromocion.css"
 
 interface Props {
   lenderId: number
