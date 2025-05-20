@@ -1,10 +1,18 @@
-import { PageLayout } from "@/components/PageLayout"
+import { PageLayout } from "@/components/PageLayout";
+import { LimiteCreditoCard } from "./components/limit_componet";
+import { TipoSimulacionSelect } from "./components/sim_type";
+import { SimuladorCreditoForm } from "./components/descount_limit_contrac";
+import { PromocionesActivasList } from "./components/list_promocines";
 
-export default function InicioUserPage() {
+export default function LimitePage() {
   return (
     <PageLayout>
-      <h1>Pagina de Motivo de termino </h1>
-      <p>Contenido de la sección</p>
-    </PageLayout>
-  )
+      <LimiteCreditoCard />
+      <h1>Simulación de Crédito</h1>
+      <TipoSimulacionSelect />
+      <SimuladorCreditoForm />
+      <PromocionesActivasList />
+       </PageLayout>
+        
+  );
 }

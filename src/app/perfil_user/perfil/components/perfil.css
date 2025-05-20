@@ -1,0 +1,152 @@
+.perfil-page-container {
+ 
+  margin: 8px auto;
+  padding: 0 2px;
+}
+
+/* Top bar: botón + título a la derecha */
+.perfil-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.perfil-titular h2 {
+  font-size: 20px;
+  font-weight: 800;
+  text-align: left;
+  margin: 0;
+  color: #222;
+}
+
+.perfil-titular p {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Botón actualizar/guardar */
+.perfil-btn {
+  background-color: #FEA600;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+hr{
+  background-color: red;
+}
+.perfil-btn:hover {
+  background-color: #FEA600;
+}
+
+/* Grilla de dos columnas responsiva */
+.perfil-section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 1024px) {
+  .perfil-section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tarjeta de sección */
+.perfil-section-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  padding: 28px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.perfil-section-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+/* Encabezado de la tarjeta */
+.perfil-section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.perfil-icon {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FEA600;
+}
+
+.perfil-section-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.perfil-sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Contenido dentro de cada sección */
+.perfil-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.perfil-item {
+  background-color: #fefefe;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid #E3E3E3;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.perfil-item span {
+  font-size: 12px;
+  color: #666;
+}
+
+.perfil-item strong {
+  font-size: 13px;
+  color: #111;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+/* Textos recortados con tooltip */
+.ellipsis-text {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* Input en edición */
+.perfil-input {
+  padding: 8px;
+  border: 2px solid #27ae60;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}

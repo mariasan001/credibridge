@@ -24,7 +24,10 @@ export interface Usuario {
   addressCity: string | null;
   country: string | null;
   state: string | null;
-  userStatus: string | null;
+
+  // 🔧 Corrección aquí:
+  userStatus: CatalogoGenerico | null;
+
   gender: string | null;
   maritalStatus: string | null;
 
@@ -33,6 +36,7 @@ export interface Usuario {
   positionStatus: (CatalogoGenerico & { id: number }) | null;
 
   lender: Lender | null;
+  bank: CatalogoGenerico | null; // ✅ Incluido si usas banco también
   roles: Rol[];
 }
 
