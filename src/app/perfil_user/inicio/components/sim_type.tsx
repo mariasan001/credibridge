@@ -1,3 +1,6 @@
+// perfecto trabjaremos con este componte ya trae la infomracion que necesito justo es el formulairio patra la solicitud de cresito pero 
+// quiero hacer algo y no se si se pueda
+
 "use client";
 
 import { useEffect, useState } from "react";

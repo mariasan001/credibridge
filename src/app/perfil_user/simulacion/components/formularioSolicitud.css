@@ -1,0 +1,235 @@
+/* ===========================
+   CONTENEDOR GENERAL
+=========================== */
+.simulador-contenedor {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  max-width: 1700px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+/* ===========================
+   CADA COLUMNA (Formulario / Lista / Ticket)
+=========================== */
+.simulador-form,
+.simulador-listado-scroll,
+.simulador-ticket {
+  flex: 1;
+  min-width: 360px;
+  max-width: 550px;
+  min-height: 500px;
+  padding: 32px;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ===========================
+   FORMULARIO
+=========================== */
+.simulador-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.simulador-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 600;
+}
+
+.simulador-label select,
+.simulador-label input,
+.simulador-label input[type="range"] {
+  margin-top: 10px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid #e6e4e4;
+  font-size: 14px;
+  outline: none;
+  appearance: none;
+  transition: border 0.2s ease;
+}
+.simulador-form,
+.simulador-listado-scroll,
+.simulador-ticket {
+  min-height: 500px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Estilos para range */
+.simulador-label input[type="range"] {
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.simulador-label input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1d9110;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  margin-top: -2px;
+}
+
+.simulador-label input[type="range"]::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #2b530e;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+.simulador-button {
+  background-color: #fea600;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.simulador-button:hover {
+  background-color: #e19400;
+}
+
+.simulador-monto-display {
+  font-size: 12px;
+  font-weight: 600;
+  color: #222;
+  margin-top: 6px;
+  text-align: right;
+}
+
+.simulador-label select option {
+  text-transform: capitalize;
+}
+
+/* ===========================
+   RESULTADOS (LISTADO DE ASEGURADORAS)
+=========================== */
+.simulador-listado-scroll {
+  overflow-y: auto;
+  max-height: 500px;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.simulador-listado-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.simulador-listado-scroll::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.simulador-listado-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ===========================
+   TICKET FINAL (Resumen)
+=========================== */
+.simulador-ticket {
+  position: relative;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  border: 1px dashed #e0e0e0;
+
+}
+
+.ticket-header {
+  text-align: center;
+  font-size: 19px;
+  font-weight: 800;
+  color: #27ae60;
+  margin-bottom: 2px;
+}
+
+.ticket-sub {
+  font-size: 13px;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.ticket-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px dashed #ddd;
+  padding-top: 24px;
+  margin-top: 20px;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #444;
+}
+
+.ticket-row span {
+  color: #888;
+  font-weight: 400;
+}
+
+.ticket-row strong {
+  color: #000000;
+  font-weight: 600;
+}
+
+.ticket-footer {
+  margin-top: 44px;
+  text-align: center;
+}
+
+.btn-ticket {
+  background-color: #097737;
+  color: #fff;
+  padding: 10px 102px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-ticket:hover {
+  background-color: #1f8c4e;
+}

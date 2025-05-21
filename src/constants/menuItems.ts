@@ -130,7 +130,7 @@ export const menuItems = [
     label: "Simulación",
     icon: Cpu,
     route: "/simulacion",
-    roles: [1,2,4],
+    roles: [1,2,4,],
   },
   {
     label: "Centro de Comunicación",
@@ -218,4 +218,10 @@ export const menuItems = [
     roles: [3],
   },
   
+  {
+    label: "Simulación",
+    icon: Cpu,
+    route: "/perfil_user/simulacion",
+    roles: [3],
+  },
 ]

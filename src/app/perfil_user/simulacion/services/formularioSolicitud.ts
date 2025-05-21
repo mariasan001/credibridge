@@ -1,5 +1,8 @@
+// esta es el uso del servico pra la creacion el formulario 
+// t la respuesta de ello 
+
 import { api } from "@/lib/apis";
-import { SimulationRequest, SimulationResult } from "../model/discount_limit_controller";
+import { SimulationRequest, SimulationResult } from "../models/formularioSolicitud";
 
 export const simulateDiscount = async (
   data: SimulationRequest

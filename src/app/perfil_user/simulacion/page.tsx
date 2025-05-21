@@ -1,10 +1,16 @@
 import { PageLayout } from "@/components/PageLayout"
+import { SimuladorCreditoForm } from "./components/formularioSolicitud"
 
-export default function SimulacionUserPage() {
+export default function SimulacionPage() {
   return (
     <PageLayout>
-      <h1>Pagina de Motivo de termino </h1>
-      <p>Contenido de la sección</p>
+      <h2>Pagina de simulacion </h2>
+      <p>aqui podras hacer la siluacion de tu credito y si te comvien podras solicitarlo son la finaicera de tu prferencia </p>
+      <br></br>
+   
+      <br></br>
+      <br></br>
+      <SimuladorCreditoForm />
     </PageLayout>
   )
 }
