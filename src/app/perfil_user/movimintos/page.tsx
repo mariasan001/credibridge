@@ -7,6 +7,7 @@ import { getContractsByUser } from "./service/movimientosService";
 import { PageLayout } from "@/components/PageLayout";
 import { ServicioActivoCard } from "./components/MovimientosLista";
 import { getPrioridadTipo } from "./utils/getPrioridadTipo";
+import { ServicioActivoSkeleton } from "./components/ServicioActivoSkeleton";
 
 export default function MovimientosPage() {
   const { user } = useAuth();
@@ -39,11 +40,14 @@ return (
         <br></br>
     
       </div>
-
       <div className="grid-servicios">
         {loading ? (
-          <p>Cargando contratos...</p>
-        ) : contratosActivos.length === 0 ? (
+          <>
+            {[...Array(4)].map((_, i) => (
+              <ServicioActivoSkeleton key={i} />
+            ))}
+          </>
+        ) : contratosOrdenados.length === 0 ? (
           <p>No tienes servicios activos.</p>
         ) : (
           contratosOrdenados.map((contrato) => (

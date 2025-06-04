@@ -215,3 +215,10 @@
     justify-content: center;
   }
 }
+/* ========== SKELETON ========== */
+.grid-servicios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: flex-start;
+}
