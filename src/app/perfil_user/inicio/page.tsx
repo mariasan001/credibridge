@@ -15,7 +15,7 @@ export default function LimitePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // cuando user esté disponible, asumimos que ya cargó
+
     if (user) {
       setIsLoading(false);
     }

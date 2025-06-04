@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { SimType } from "../models/tipoSimulacionModel";
@@ -16,6 +15,7 @@ export const SimuladorCreditoForm = () => {
   const [paymentAmount, setPaymentAmount] = useState<number>(1000);
   const [results, setResults] = useState<SimulationResult[]>([]);
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     getSimTypes()

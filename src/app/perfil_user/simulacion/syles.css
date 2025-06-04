@@ -14,7 +14,7 @@
   .simulacion-header h2 {
     font-size: 28px;
     font-weight: 700;
-    color: #2c3e50;
+    color: var(  --color-text-subtitle);
   }
   
   .simulacion-header p {

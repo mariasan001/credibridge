@@ -1,10 +1,57 @@
-import { PageLayout } from "@/components/PageLayout"
+"use client";
 
-export default function MoviminetosUserPage() {
-  return (
-    <PageLayout>
-      <h1>Pagina de Motivo de termino </h1>
-      <p>Contenido de la sección</p>
-    </PageLayout>
-  )
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { ContractModel } from "./model/ContractModel";
+import { getContractsByUser } from "./service/movimientosService";
+import { PageLayout } from "@/components/PageLayout";
+import { ServicioActivoCard } from "./components/MovimientosLista";
+import { getPrioridadTipo } from "./utils/getPrioridadTipo";
+
+export default function MovimientosPage() {
+  const { user } = useAuth();
+  const [contratos, setContratos] = useState<ContractModel[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    getContractsByUser(user.userId)
+      .then(setContratos)
+      .finally(() => setLoading(false));
+  }, [user]);
+
+  // Filtrar solo los contratos activos
+  const contratosActivos = contratos.filter(
+    (c) => c.contractStatus?.contractStatusDesc?.toLowerCase() === "activo"
+  );
+ //ordenamiento por tipo de servcio primero prestmos, seguros y otros .
+  const contratosOrdenados = [...contratosActivos].sort((a, b) => {
+    const tipoA = a.lenderService?.serviceType?.serviceTypeDesc || "";
+    const tipoB = b.lenderService?.serviceType?.serviceTypeDesc || "";
+    return getPrioridadTipo(tipoA) - getPrioridadTipo(tipoB);
+  });
+
+return (
+  <PageLayout>
+    <div className="movimientos-container">
+      <div className="titulo-mov">
+        <h2>Mis servicios activos</h2>
+        <br></br>
+    
+      </div>
+
+      <div className="grid-servicios">
+        {loading ? (
+          <p>Cargando contratos...</p>
+        ) : contratosActivos.length === 0 ? (
+          <p>No tienes servicios activos.</p>
+        ) : (
+          contratosOrdenados.map((contrato) => (
+            <ServicioActivoCard key={contrato.contractId} contrato={contrato} />
+          ))
+        )}
+      </div>
+    </div>
+  </PageLayout>
+);
 }

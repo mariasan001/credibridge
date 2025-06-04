@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { SimType } from "../models/tipoSimulacionModel";
 import { SimulationRequest, SimulationResult } from "../models/formularioSolicitud";
+import { SolicitudContrato } from "../models/solicitudContratoModel";
 import { getSimTypes } from "../services/solicitarPrestamo";
 import { simulateDiscount } from "../services/formularioSolicitud";
-import { solicitarContrato } from "../services/contrato_service";
 import { ResultadosSimulacion } from "./ResultadosSimulacion";
 import { getUserDiscountLimit } from "../../inicio/services/limite_service";
 import "./formularioSolicitud.css";
+import { solicitarContrato } from "../services/contrato_service";
 
 export const SimuladorCreditoForm = () => {
   const { user } = useAuth();
@@ -57,19 +58,6 @@ export const SimuladorCreditoForm = () => {
     }
   };
 
-  const getPaymentLabel = () => {
-    const tipoSeleccionado = simTypes.find((t) => t.id === selectedSimType);
-    if (!tipoSeleccionado) return "Monto";
-    return tipoSeleccionado.name.toLowerCase().includes("valor liberado")
-      ? "Monto deseado"
-      : "Abono quincenal";
-  };
-
-  const getRangeBackground = (value: number, max: number) => {
-    const percent = (value / max) * 100;
-    return `linear-gradient(to right, rgb(79, 167, 47) 0%, rgb(35, 149, 64) ${percent}%, #ddd ${percent}%, #ddd 100%)`;
-  };
-
   const handleSimTypeChange = (tipo: number) => {
     setSelectedSimType(tipo);
     const tipoSeleccionado = simTypes.find((t) => t.id === tipo);
@@ -98,33 +86,71 @@ export const SimuladorCreditoForm = () => {
   };
 
   const handleSolicitarPrestamo = async () => {
-    if (!user || !seleccionado || !selectedSimType || !telefono.match(/^[0-9]{10}$/)) {
-      alert("Faltan datos o el número de teléfono no es válido.");
-      return;
-    }
+  if (!user) {
+    alert("⚠️ Usuario no autenticado.");
+    return;
+  }
 
-    const esValorLiberado = selectedSimType === 1;
+  if (!seleccionado) {
+    alert("⚠️ Debes seleccionar una opción de simulación.");
+    return;
+  }
 
-    const payload = {
-      lenderId: seleccionado.lenderServiceId,
-      userId: user.userId,
-      contractType: selectedSimType,
-      installments: periods,
-      amount: esValorLiberado ? paymentAmount : seleccionado.capital,
-      monthlyDeductionAmount: esValorLiberado ? seleccionado.capital : paymentAmount,
-      effectiveRate: seleccionado.effectivePeriodRate,
-      effectiveAnnualRate: seleccionado.effectiveAnnualRate,
-      phone: telefono,
-    };
+  if (!selectedSimType) {
+    alert("⚠️ Tipo de simulación inválido.");
+    return;
+  }
 
-    console.log("Payload a enviar:", payload);
+  if (!telefono.match(/^[0-9]{10}$/)) {
+    alert("⚠️ Ingresa un número de teléfono válido de 10 dígitos.");
+    return;
+  }
 
-    try {
-      const response = await solicitarContrato(payload);
-      alert("✅ Contrato enviado correctamente.");
-    } catch (error) {
-      alert("❌ Ocurrió un error al enviar el contrato.");
-    }
+  const esValorLiberado = selectedSimType === 1;
+
+  const payload: SolicitudContrato = {
+    lenderId: seleccionado.lenderServiceId,
+    userId: user.userId,
+    contractType: selectedSimType,
+    installments: periods,
+    amount: esValorLiberado ? paymentAmount : seleccionado.capital,
+    biweeklyDiscount: esValorLiberado ? seleccionado.capital : paymentAmount,
+    effectiveRate: seleccionado.effectivePeriodRate,
+    effectiveAnnualRate: seleccionado.effectiveAnnualRate,
+    phone: telefono,
+  };
+
+  console.log("📦 Payload construido para enviar:", JSON.stringify(payload, null, 2));
+
+  try {
+    const response = await solicitarContrato(payload);
+    console.log("✅ Respuesta del backend:", response);
+    alert("✅ Contrato enviado correctamente.");
+  } catch (error: any) {
+    console.error("❌ Error al enviar contrato:", error);
+
+    const mensaje =
+      error?.response?.data?.message ||
+      error?.response?.data?.detail ||
+      error?.message ||
+      "❌ Ocurrió un error al enviar el contrato. Revisa consola para más detalle.";
+
+    alert(mensaje);
+  }
+};
+
+
+  const getPaymentLabel = () => {
+    const tipoSeleccionado = simTypes.find((t) => t.id === selectedSimType);
+    if (!tipoSeleccionado) return "Monto";
+    return tipoSeleccionado.name.toLowerCase().includes("valor liberado")
+      ? "Monto deseado"
+      : "Abono quincenal";
+  };
+
+  const getRangeBackground = (value: number, max: number) => {
+    const percent = (value / max) * 100;
+    return `linear-gradient(to right, rgb(79, 167, 47) 0%, rgb(35, 149, 64) ${percent}%, #ddd ${percent}%, #ddd 100%)`;
   };
 
   return (
@@ -172,7 +198,7 @@ export const SimuladorCreditoForm = () => {
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (limiteDescuento !== null && value > limiteDescuento) {
-                  alert("⚠️ El monto excede tu límite de descuento.");
+                  alert("El monto excede tu límite de descuento.");
                 }
                 setPaymentAmount(value);
               }}
@@ -253,7 +279,7 @@ export const SimuladorCreditoForm = () => {
           </div>
 
           <div className="ticket-footer">
-              <button
+            <button
               className={`btn-ticket ${sinCreditoDisponible ? "btn-disabled" : "btn-activo"}`}
               type="button"
               onClick={handleSolicitarPrestamo}
@@ -268,7 +294,7 @@ export const SimuladorCreditoForm = () => {
               <p className="mensaje-aviso">
                 No tienes <strong>límite de descuento disponible</strong> para solicitar este préstamo.
               </p>
-                )}
+            )}
           </div>
         </div>
       )}

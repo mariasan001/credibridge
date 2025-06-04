@@ -4,12 +4,12 @@
     font-size: 20px;
     font-weight: 800;
     margin-bottom: 8px;
-    color: #333;
+    color: var(  --color-text-subtitle);
   }
   
   .resultado-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
+    background-color: var(  --color-bg-container);
+    border: 1px solid var(  --color-border);
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 15px;
@@ -17,14 +17,14 @@
   }
   
   .resultado-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow:var(  --shadow-lg)
   }
   
   .resultado-header {
     font-size: 13px;
     font-weight: 700;
     margin-bottom: 12px;
-    color: #222;
+    color: var(  --color-text-subtitle);
     display: flex;
     align-items: center;
     gap: 2px;
@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #eafaf1;
+    background-color: var(   --color-declaracion-finiquito-text);
     border-radius: 50%;
     padding: 2px;
   }
@@ -54,19 +54,19 @@
   
   .etiqueta {
     font-size: 11px;
-    color: #888;
+    color: var(  --color-text-secondary);
     margin-bottom: 4px;
   }
   
   .valor {
     font-size: 13px;
     font-weight: 800;
-    color: #111;
+    color: var(--color-text-subtitle);
   }
 
 .mejor-opcion {
-    border: 1px solid #27ae60;
-    background: linear-gradient(to right, #e7f9ee, #f0fff7);
+    border: 1px solid var(--color-declaracion-finiquito-text);
+    background:var(  --color-modalidad-seguro-bg);
     transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(39, 174, 95, 0.129);
     position: relative;
@@ -84,7 +84,7 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
   }
   .resultado-card.seleccionado {
-    border: 2px solid #076815;
+    border: 2px solid var(--color-declaracion-finiquito-text);
     box-shadow: 0 0 0 3px rgba(155, 200, 148, 0.2);
     transform: scale(1.025);
     cursor: pointer;

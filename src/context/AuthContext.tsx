@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  // ✅ Al montar, consulta si hay sesión activa con cookie
+  //  Al montar, consulta si hay sesión activa con cookie
 useEffect(() => {
   const checkSession = async () => {
     try {
@@ -42,14 +42,14 @@ useEffect(() => {
           setUser(null);
         }
       } else {
-        // 🔴 Token vencido o inválido
+        // Token vencido o inválido
         setUser(null);
-        router.push("/user/inicar-sesion"); // 👈 redirige
+        router.push("/user/inicar-sesion"); // redirige
       }
     } catch (err) {
       console.error("Sesión no activa", err);
       setUser(null);
-      router.push("/user/inicar-sesion"); // 👈 redirige también si hubo error
+      router.push("/user/inicar-sesion"); // redirige también si hubo error
     } finally {
       setLoading(false);
     }
