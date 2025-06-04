@@ -1,18 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { PageLayout } from "@/components/PageLayout";
 import { LimiteCreditoCard } from "./components/limit_componet";
-import { TipoSimulacionSelect } from "./components/sim_type";
-import { SimuladorCreditoForm } from "./components/descount_limit_contrac";
 import { PromocionesActivasList } from "./components/list_promocines";
+import { SaludoServidor } from "../perfil/components/saludosalservidor";
+import { LimitePageSkeleton } from "./LimitePageSkeleton";
+
+import "./LimitePage.css";
 
 export default function LimitePage() {
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // cuando user esté disponible, asumimos que ya cargó
+    if (user) {
+      setIsLoading(false);
+    }
+  }, [user]);
+
   return (
     <PageLayout>
-      <LimiteCreditoCard />
-      <h1>Simulación de Crédito</h1>
-      <TipoSimulacionSelect />
-      <SimuladorCreditoForm />
-      <PromocionesActivasList />
-       </PageLayout>
-        
+      {isLoading ? (
+        <LimitePageSkeleton />
+      ) : (
+        <section className="limite-section">
+          <SaludoServidor />
+          <LimiteCreditoCard />
+          <PromocionesActivasList />
+        </section>
+      )}
+    </PageLayout>
   );
 }

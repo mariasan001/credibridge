@@ -1,0 +1,152 @@
+/* DirectorioPage.css - Estilo tipo dashboard elegante con íconos */
+
+
+.directorio-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px 2px;
+    color: #2c3e50;
+  }
+  
+  .directorio-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+   
+    text-align: left;
+    color: #1a1a1a;
+  }
+    
+  .directorio-container p {
+    font-size: 14px;
+    text-align: left;
+    color: #575757;
+    margin-bottom: 28px;
+  }
+  
+  .grupo-servicio {
+    margin-bottom: 48px;
+  }
+  
+  .grupo-servicio h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0c961c;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 6px;
+  }
+  
+  .servicios-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .tarjeta-financiera-min {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  
+  .tarjeta-financiera-min:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+  
+  .icono-servicio {
+    font-size: 26px;
+    color: #d8c40f;
+    background-color: #b896101f;
+    border-radius: 50%;
+    padding: 16px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .info-servicio {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .info-servicio h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+  }
+  
+  .info-servicio .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 4px;
+  }
+  
+  .info-servicio .info-row p {
+    font-size: 14px;
+    margin: 0;
+    color: #555;
+  }
+  
+  .info-servicio .info-row p strong {
+    color: #000;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 768px) {
+    .tarjeta-financiera-min {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .icono-servicio {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+      padding: 12px;
+    }
+  
+    .info-servicio h4 {
+      font-size: 15px;
+    }
+  
+    .info-servicio .info-row {
+      flex-direction: column;
+      gap: 6px;
+    }
+  
+    .info-servicio .info-row p {
+      font-size: 13px;
+    }
+  }
+
+  
+  .info-row p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .info-row p strong {
+    font-weight: 600;
+    color: #000;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 16px;
+  }
+  

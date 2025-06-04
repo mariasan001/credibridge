@@ -1,0 +1,20 @@
+.saludo-servidor {
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.saludo-titulo {
+  font-size: var(--text-size-xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-text-main);
+}
+
+.saludo-descripcion {
+  font-size: var(--text-size-md);
+  color: var(  --color-text-strong);
+
+}
+
+.emoji {
+  margin-left: var(--spacing-xs);
+}

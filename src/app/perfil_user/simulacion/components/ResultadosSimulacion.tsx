@@ -8,12 +8,14 @@ interface ResultadosSimulacionProps {
   results: SimulationResult[];
   seleccionado: SimulationResult | null;
   onSeleccionar: (item: SimulationResult) => void;
+  selectedSimType: number | ""; // Nuevo prop
 }
 
 export const ResultadosSimulacion = ({
   results,
   seleccionado,
   onSeleccionar,
+  selectedSimType,
 }: ResultadosSimulacionProps) => {
   if (results.length === 0) return null;
 
@@ -25,6 +27,15 @@ export const ResultadosSimulacion = ({
       : minId,
     results[0].lenderServiceId
   );
+
+  // Determinar texto dinámico según el tipo
+  const getEtiquetaCapital = () => {
+    if (selectedSimType === "") return "Capital total";
+    // Aquí puedes cambiar el ID si tienes identificadores exactos
+    return selectedSimType === 1
+      ? "Abono quincena"
+      : "Capital total";
+  };
 
   return (
     <div className="simulador-resultados1">
@@ -53,7 +64,7 @@ export const ResultadosSimulacion = ({
 
             <div className="resultado-grid">
               <div className="resultado-columna">
-                <span className="etiqueta">Capital total</span>
+                <span className="etiqueta">{getEtiquetaCapital()}</span>
                 <strong className="valor">${res.capital.toFixed(2)}</strong>
               </div>
               <div className="resultado-columna">

@@ -1,16 +1,23 @@
-import { PageLayout } from "@/components/PageLayout"
-import { SimuladorCreditoForm } from "./components/formularioSolicitud"
+import { PageLayout } from "@/components/PageLayout";
+import { SimuladorCreditoForm } from "./components/formularioSolicitud";
+import "./syles.css"; // <-- crea este archivo para los estilos
 
 export default function SimulacionPage() {
   return (
     <PageLayout>
-      <h2>Pagina de simulacion </h2>
-      <p>aqui podras hacer la siluacion de tu credito y si te comvien podras solicitarlo son la finaicera de tu prferencia </p>
-      <br></br>
-   
-      <br></br>
-      <br></br>
-      <SimuladorCreditoForm />
+      <div className="simulacion-container">
+        <div className="simulacion-header">
+          <h2>Simulador de crédito</h2>
+          <p>
+            Aquí podrás simular tu crédito y, si te conviene, podrás solicitarlo con la
+            financiera de tu preferencia.
+          </p>
+        </div>
+
+        <div className="simulacion-form-wrapper">
+          <SimuladorCreditoForm />
+        </div>
+      </div>
     </PageLayout>
-  )
+  );
 }

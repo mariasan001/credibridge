@@ -1,0 +1,36 @@
+/* 📁 TipoSimulacionSelect.css */
+.tipo-simulacion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.tipo-simulacion-label {
+  font-weight: 600;
+  color: var(--color-text-main, #ff0000);
+}
+
+.tipo-simulacion-loading {
+  font-size: 14px;
+  color: #777;
+}
+
+.tipo-simulacion-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+.tipo-simulacion-select:focus {
+  outline: none;
+  border-color: var(--color-accent, #9f2141);
+  box-shadow: 0 0 0 2px rgba(159, 33, 65, 0.2);
+}
+
+.tipo-simulacion-resultado {
+  font-size: 13px;
+  color: #555;
+}

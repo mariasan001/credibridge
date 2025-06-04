@@ -1,0 +1,58 @@
+.limite-ui-card {
+  background: var(--color-bg-container2);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--color-bg-container2);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.limite-ui-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(  --color-text-main);
+}
+
+.limite-ui-monto {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--color-general-naranja) !important;
+}
+
+.limite-ui-descripcion {
+  font-size: 14px;
+  color: var( --color-text-strong);
+}
+
+.limite-ui-opciones {
+  display: flex;
+  justify-content: space-around;
+  background: var(  --color-bg-main);
+  padding: 12px 0;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.limite-ui-opcion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.limite-ui-opcion:hover {
+  color: var(--color-general-naranja);
+}
+
+.limite-ui-loading,
+.limite-ui-error {
+  font-size: 18px;
+  color: #999;
+}

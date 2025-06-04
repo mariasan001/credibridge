@@ -1,11 +1,10 @@
-// perfecto trabjaremos con este componte ya trae la infomracion que necesito justo es el formulairio patra la solicitud de cresito pero 
-// quiero hacer algo y no se si se pueda
-
+// 📁 TipoSimulacionSelect.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { SimType } from "../model/simType";
 import { getSimTypes } from "../services/sim_type_service";
+import "./TipoSimulacionSelect.css";
 
 export const TipoSimulacionSelect = () => {
   const [simTypes, setSimTypes] = useState<SimType[]>([]);
@@ -20,24 +19,19 @@ export const TipoSimulacionSelect = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <label htmlFor="tipo-simulacion" style={{ fontWeight: 600 }}>
+    <div className="tipo-simulacion-container">
+      <label htmlFor="tipo-simulacion" className="tipo-simulacion-label">
         Tipo de Simulación
       </label>
 
       {loading ? (
-        <p style={{ fontSize: 14 }}>Cargando opciones...</p>
+        <p className="tipo-simulacion-loading">Cargando opciones...</p>
       ) : (
         <select
           id="tipo-simulacion"
           value={selectedId}
           onChange={(e) => setSelectedId(Number(e.target.value))}
-          style={{
-            padding: "8px 12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "14px",
-          }}
+          className="tipo-simulacion-select"
         >
           <option value="">Selecciona un tipo</option>
           {simTypes.map((type) => (
@@ -49,7 +43,7 @@ export const TipoSimulacionSelect = () => {
       )}
 
       {selectedId !== "" && (
-        <p style={{ fontSize: 13, color: "#555" }}>
+        <p className="tipo-simulacion-resultado">
           Seleccionaste: {simTypes.find((t) => t.id === selectedId)?.name}
         </p>
       )}

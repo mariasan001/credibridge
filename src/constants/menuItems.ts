@@ -188,6 +188,24 @@ export const menuItems = [
     roles: [3],
   },
   {
+    label: "Simulación",
+    icon: Cpu,
+    route: "/perfil_user/simulacion",
+    roles: [3],
+  },
+  {
+    label: "Movimientos",
+    icon: Clock,
+    route: "/perfil_user/movimintos",
+    roles: [3],
+  },
+  {
+    label: "Solicitudes / Quejas",
+    icon: BadgeCheck,
+    route: "/perfil_user/solicitudes_quejas",
+    roles: [3],
+  },
+  {
     label: "Directorio",
     icon: BookUser, 
     route: "/perfil_user/directorio",
@@ -205,23 +223,7 @@ export const menuItems = [
     route: "/perfil_user/notificaciones",
     roles: [3],
   },
-  {
-    label: "Movimientos",
-    icon: Clock,
-    route: "/perfil_user/movimintos",
-    roles: [3],
-  },
-  {
-    label: "Solicitudes / Quejas",
-    icon: BadgeCheck,
-    route: "/perfil_user/solicitudes_quejas",
-    roles: [3],
-  },
+
   
-  {
-    label: "Simulación",
-    icon: Cpu,
-    route: "/perfil_user/simulacion",
-    roles: [3],
-  },
+
 ]

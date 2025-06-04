@@ -53,6 +53,7 @@ html {
   --color-text-danger: #A22121;
 
   --color-border: #E2E2E2;
+  --color-bg-container2:#ffffff;
 
   /* Etiquetas comunicado */
   --color-text-label-comunicado: #047857;
@@ -79,6 +80,8 @@ html {
   --color-declaracion-estado-text: #1565C0;
   --color-declaracion-solicitud-bg: #F3E5F5;
   --color-declaracion-solicitud-text: #6A1B9A;
+   --color-fondo-claro:#FFF9E3;
+  --color-bg-warning2:  #FEA600;
 
   /* Queja */
   --color-queja-bg: #FFEBEE;
@@ -89,6 +92,7 @@ html {
   --color-general-naranja: #FEA600;
   --color-general-amarillo: #FFD600;
   --color-general-verde: #047857;
+
 
   /* Tipografía peso */
   --font-weight-light: 300;
@@ -106,12 +110,12 @@ html {
   --spacing-3xl: 48px;
 
   /* Tamaños de fuente */
-  --text-size-xs: 12px;
-  --text-size-sm: 14px;
-  --text-size-md: 16px;
-  --text-size-lg: 18px;
-  --text-size-xl: 24px;
-  --text-size-xxl: 32px;
+  --text-size-xs: 11px;
+  --text-size-sm: 13px;
+  --text-size-md: 15px;
+  --text-size-lg: 17px;
+  --text-size-xl: 23px;
+  --text-size-xxl: 30px;
 
   --line-height-base: 1.5;
   --letter-spacing-base: 0.25px;
@@ -144,7 +148,10 @@ body.dark-mode {
   --color-text-muted: #bbbbbb;
   --color-text-strong: #ffffff;
   --color-text-secondary: #cccccc;
- 
+
+  
+   --color-bg-container2:#211e1e;
+   
   --color-text-contrast: #000000;
   --color-text-label-comunicado: #a0f0c0;
 
@@ -177,9 +184,10 @@ body.dark-mode {
   --color-declaracion-estado-text: #a2cfff;
   --color-declaracion-solicitud-bg: #452859;
   --color-declaracion-solicitud-text: #e8b2ff;
-
+   --color-fondo-claro:#151414;
   --color-queja-bg: #4c1f1f;
   --color-queja-text: #ffa1a1;
+
 
   background-color: var(--color-bg-main);
   color: var(--color-text-main);

@@ -9,6 +9,7 @@ import "@/styles/sidebar.css"
 import { SidebarHeader } from "./SidebarHeader"
 import { SidebarBottom } from "./SidebarBottom"
 import { SidebarMenu } from "./SidebarMenu"
+import { abortOnSynchronousPlatformIOAccess } from "next/dist/server/app-render/dynamic-rendering"
 
 export const Sidebar = () => {
   const { user, loading } = useAuth()
@@ -18,16 +19,15 @@ export const Sidebar = () => {
 
   const isBrowser = typeof window !== "undefined"
 
-  useEffect(() => {
-    if (isBrowser) {
-      const savedState = localStorage.getItem("sidebar-collapsed")
-      setIsCollapsed(savedState === "true")
+useEffect(() => {
+  if (isBrowser) {
+    // Forzar colapsado siempre al inicio
+    setIsCollapsed(true)
+    localStorage.setItem("sidebar-collapsed", "true")
+    document.body.classList.add("sidebar-collapsed")
+  }
+}, [])
 
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true)
-      }
-    }
-  }, [])
 
   useEffect(() => {
     if (isBrowser) {

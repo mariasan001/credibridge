@@ -6,7 +6,9 @@ import { SimType } from "../models/tipoSimulacionModel";
 import { SimulationRequest, SimulationResult } from "../models/formularioSolicitud";
 import { getSimTypes } from "../services/solicitarPrestamo";
 import { simulateDiscount } from "../services/formularioSolicitud";
+import { solicitarContrato } from "../services/contrato_service";
 import { ResultadosSimulacion } from "./ResultadosSimulacion";
+import { getUserDiscountLimit } from "../../inicio/services/limite_service";
 import "./formularioSolicitud.css";
 
 export const SimuladorCreditoForm = () => {
@@ -16,9 +18,14 @@ export const SimuladorCreditoForm = () => {
   const [selectedSimType, setSelectedSimType] = useState<number | "">("");
   const [periods, setPeriods] = useState<number>(12);
   const [paymentAmount, setPaymentAmount] = useState<number>(1000);
+  const [telefono, setTelefono] = useState("");
+  const [limiteDescuento, setLimiteDescuento] = useState<number | null>(null);
   const [results, setResults] = useState<SimulationResult[]>([]);
   const [seleccionado, setSeleccionado] = useState<SimulationResult | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const sinCreditoDisponible =
+    selectedSimType === 1 && limiteDescuento !== null && limiteDescuento < 0;
 
   useEffect(() => {
     getSimTypes()
@@ -41,7 +48,7 @@ export const SimuladorCreditoForm = () => {
     try {
       const data = await simulateDiscount(payload);
       setResults(data);
-      setSeleccionado(null); // Limpiar selección previa
+      setSeleccionado(null);
     } catch (err) {
       console.error("Error al simular:", err);
       setResults([]);
@@ -50,14 +57,78 @@ export const SimuladorCreditoForm = () => {
     }
   };
 
+  const getPaymentLabel = () => {
+    const tipoSeleccionado = simTypes.find((t) => t.id === selectedSimType);
+    if (!tipoSeleccionado) return "Monto";
+    return tipoSeleccionado.name.toLowerCase().includes("valor liberado")
+      ? "Monto deseado"
+      : "Abono quincenal";
+  };
+
   const getRangeBackground = (value: number, max: number) => {
     const percent = (value / max) * 100;
     return `linear-gradient(to right, rgb(79, 167, 47) 0%, rgb(35, 149, 64) ${percent}%, #ddd ${percent}%, #ddd 100%)`;
   };
 
+  const handleSimTypeChange = (tipo: number) => {
+    setSelectedSimType(tipo);
+    const tipoSeleccionado = simTypes.find((t) => t.id === tipo);
+
+    if (tipoSeleccionado && tipoSeleccionado.name.toLowerCase().includes("descuento")) {
+      if (user) {
+        getUserDiscountLimit(user.userId)
+          .then((limite) => {
+            if (limite < 0) {
+              alert("No puedes simular porque no tienes límite de descuento disponible.");
+              setSelectedSimType("");
+              return;
+            }
+            setLimiteDescuento(limite);
+            setPaymentAmount(limite);
+          })
+          .catch(() => setLimiteDescuento(null));
+      }
+    } else {
+      if (user) {
+        getUserDiscountLimit(user.userId)
+          .then((limite) => setLimiteDescuento(limite))
+          .catch(() => setLimiteDescuento(null));
+      }
+    }
+  };
+
+  const handleSolicitarPrestamo = async () => {
+    if (!user || !seleccionado || !selectedSimType || !telefono.match(/^[0-9]{10}$/)) {
+      alert("Faltan datos o el número de teléfono no es válido.");
+      return;
+    }
+
+    const esValorLiberado = selectedSimType === 1;
+
+    const payload = {
+      lenderId: seleccionado.lenderServiceId,
+      userId: user.userId,
+      contractType: selectedSimType,
+      installments: periods,
+      amount: esValorLiberado ? paymentAmount : seleccionado.capital,
+      monthlyDeductionAmount: esValorLiberado ? seleccionado.capital : paymentAmount,
+      effectiveRate: seleccionado.effectivePeriodRate,
+      effectiveAnnualRate: seleccionado.effectiveAnnualRate,
+      phone: telefono,
+    };
+
+    console.log("Payload a enviar:", payload);
+
+    try {
+      const response = await solicitarContrato(payload);
+      alert("✅ Contrato enviado correctamente.");
+    } catch (error) {
+      alert("❌ Ocurrió un error al enviar el contrato.");
+    }
+  };
+
   return (
     <div className="simulador-contenedor">
-      {/* Primer contenedor: formulario */}
       <div className="simulador-form1">
         <form className="simulador-form" onSubmit={handleSubmit}>
           <h2 className="simulador-title">Simulador de Crédito</h2>
@@ -66,7 +137,7 @@ export const SimuladorCreditoForm = () => {
             Tipo de Simulación
             <select
               value={selectedSimType}
-              onChange={(e) => setSelectedSimType(Number(e.target.value))}
+              onChange={(e) => handleSimTypeChange(Number(e.target.value))}
               required
             >
               <option value="">Selecciona una opción</option>
@@ -92,13 +163,19 @@ export const SimuladorCreditoForm = () => {
           </label>
 
           <label className="simulador-label">
-            Monto del Abono Quincenal
+            {getPaymentLabel()}
             <input
               type="number"
               value={paymentAmount}
               min={1}
               step={0.01}
-              onChange={(e) => setPaymentAmount(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (limiteDescuento !== null && value > limiteDescuento) {
+                  alert("⚠️ El monto excede tu límite de descuento.");
+                }
+                setPaymentAmount(value);
+              }}
               required
             />
             <div className="simulador-monto-display">
@@ -115,27 +192,25 @@ export const SimuladorCreditoForm = () => {
         </form>
       </div>
 
-      {/* Segundo contenedor: listado aseguradoras */}
       {results.length > 0 && (
         <div className="simulador-listado-scroll">
           <ResultadosSimulacion
             results={results}
             seleccionado={seleccionado}
             onSeleccionar={setSeleccionado}
+            selectedSimType={selectedSimType}
           />
         </div>
       )}
 
-      {/* Tercer contenedor: ticket resumen */}
       {seleccionado && (
         <div className="simulador-ticket">
           <div className="ticket-header">
-             Simulación exitosa <br></br>
+            Simulación exitosa <br />
             <span className="ticket-sub">{seleccionado.lenderName}</span>
           </div>
 
           <div className="ticket-body">
-       
             <div className="ticket-row">
               <span>Tasa anual:</span>
               <strong>{seleccionado.effectiveAnnualRate}%</strong>
@@ -145,7 +220,7 @@ export const SimuladorCreditoForm = () => {
               <strong>{seleccionado.effectivePeriodRate}%</strong>
             </div>
             <div className="ticket-row">
-              <span>Abono quincenal:</span>
+              <span>{getPaymentLabel()}:</span>
               <strong>${paymentAmount.toFixed(2)}</strong>
             </div>
             <div className="ticket-row">
@@ -153,13 +228,47 @@ export const SimuladorCreditoForm = () => {
               <strong>{periods} quincenas</strong>
             </div>
             <div className="ticket-row">
-              <span>Capital total:</span>
+              <span>
+                {selectedSimType === 1
+                  ? "Descuento estimado por quincena"
+                  : "Capital total"}
+              </span>
               <strong>${seleccionado.capital.toFixed(2)}</strong>
+            </div>
+            <div className="ticket-row telefono-input-row">
+              <label htmlFor="telefono" className="telefono-label">
+                Teléfono celular:
+              </label>
+              <input
+                id="telefono"
+                type="tel"
+                name="telefono"
+                placeholder="Ej. 5551234567"
+                pattern="[0-9]{10}"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+                className="telefono-input"
+              />
             </div>
           </div>
 
           <div className="ticket-footer">
-            <button className="btn-ticket">Solicitar prestamo</button>
+              <button
+              className={`btn-ticket ${sinCreditoDisponible ? "btn-disabled" : "btn-activo"}`}
+              type="button"
+              onClick={handleSolicitarPrestamo}
+              disabled={sinCreditoDisponible}
+            >
+              {sinCreditoDisponible
+                ? "No puedes solicitar el préstamo"
+                : "Solicitar préstamo"}
+            </button>
+
+            {sinCreditoDisponible && (
+              <p className="mensaje-aviso">
+                No tienes <strong>límite de descuento disponible</strong> para solicitar este préstamo.
+              </p>
+                )}
           </div>
         </div>
       )}
