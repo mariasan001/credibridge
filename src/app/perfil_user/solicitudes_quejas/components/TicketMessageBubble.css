@@ -1,0 +1,46 @@
+.ticket-bubble {
+  max-width: 65%;
+  margin: 6px 0;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  word-break: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+.ticket-meta {
+  font-size: 11px;
+  margin-bottom: 4px;
+  color: #999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+
+}
+
+.ticket-bubble.user {
+  align-self: flex-end;
+  background-color: #e2fce1;
+  border-top-right-radius: 0;
+}
+
+.ticket-bubble.admin {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  border-top-left-radius: 0;
+}
+
+.ticket-content {
+  color: #333;
+  font-weight: 400;
+}
+
+.ticket-sender {
+  font-weight: 600;
+  color: #555;
+  padding-right: 10px;
+}
