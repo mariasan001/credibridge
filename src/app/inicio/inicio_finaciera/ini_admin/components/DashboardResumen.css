@@ -1,0 +1,42 @@
+.dashboard-resumen-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.card-resumen {
+  padding: 16px 20px;
+  border-radius: 10px;
+  color: white;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 220px;
+}
+
+.card-resumen .label {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.card-resumen .valor {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Colores personalizados */
+.verde {
+  background-color: #007f5f;
+}
+
+.rojo {
+  background-color: #b02a2a;
+}
+
+.naranja {
+  background-color: #f39c12;
+}

@@ -1,0 +1,35 @@
+.dashboard-page {
+  padding: 24px;
+
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.dashboard-body {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 32px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.left {
+  width: 100%;
+}
+
+.right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

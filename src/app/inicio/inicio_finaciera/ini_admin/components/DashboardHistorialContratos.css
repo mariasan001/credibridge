@@ -1,0 +1,43 @@
+.dashboard-historial {
+  margin-top: 24px;
+  background-color: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.historial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.historial-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.tab {
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #555;
+  transition: background-color 0.2s;
+}
+
+.tab.active {
+  background-color: #f8b400;
+  color: #fff;
+  font-weight: 600;
+}
