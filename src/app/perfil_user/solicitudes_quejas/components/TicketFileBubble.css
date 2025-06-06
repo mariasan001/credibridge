@@ -1,32 +1,89 @@
 .file-bubble {
-  background-color: #fef9c3;
-  border-radius: 12px;
-  padding: 10px 14px;
-  margin: 4px 0;
-  font-size: 13px;
-  align-self: flex-start;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  max-width: max-content;
+  border-top: 3px solid #94a3b8;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  margin: 6px 0;
+  gap: 10px;
 }
 
-.file-meta {
-  font-size: 11px;
-  color: #555;
-  margin-bottom: 4px;
+.file-info {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  max-width: 350px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.filename {
+  font-weight: 500;
+  font-size: 13px;
+  color:var(--color-text-main);
+  max-width: 200px;
+  overflow-wrap: break-word;
+}
+
+.file-date {
+  font-size: 11px;
+  color: var(  --color-text-muted);
+  margin-top: 2px;
 }
 
 .file-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 4px;
+  margin-left: 8px;
 }
 
-.file-link {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 600;
+.file-actions a {
+  color: var( --color-text-main);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
 }
-.file-link:hover {
-  text-decoration: underline;
+
+.file-actions a:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* 🎨 Colores con identidad Credibridge */
+.file-bubble.pdf {
+  background-color: var(--color-bg-main2);
+  border-top-color: #dc2626;
+}
+.file-bubble.image {
+  background-color: var(--color-bg-main2);
+  border-top-color: #f4e514;
+}
+.file-bubble.excel {
+  background-color: var(--color-bg-main2);
+  border-top-color: #16a34a;
+}
+.file-bubble.word {
+  background-color: var(--color-bg-main2);
+  border-top-color: #3b82f6;
+}
+.file-bubble.zip {
+  background-color: var(--color-bg-main2);
+  border-top-color: #f59e0b;
+}
+.file-bubble.other {
+  background-color: var(--color-bg-main2);
+  border-top-color: #64748b;
 }

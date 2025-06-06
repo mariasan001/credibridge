@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { TicketMessageBubble } from "./TicketMessageBubble";
-import { ChatInput } from "./ChatInput";
 import "./ChatTicket.css";
 import { useTicketDetail } from "../hook/useTicketDetail";
 import { TicketFileBubble } from "./TicketFileBubble";
 import { UploadFileWidget } from "./UploadFileWidget";
+import { ChatInputBar } from "./ChatInput";
 
 interface Props {
   ticketId: number;
@@ -65,12 +65,14 @@ return (
     </div>
 
     <div className="chat-input-footer-container">
-      <ChatInput
+      <ChatInputBar
+        ticketId={ticket.ticketId}
         mensaje={mensaje}
         setMensaje={setMensaje}
         onSend={handleSend}
+        onUploadSuccess={refresh}
       />
-      <UploadFileWidget ticketId={ticket.ticketId} onUploadSuccess={refresh} />
+
     </div>
   </div>
 );

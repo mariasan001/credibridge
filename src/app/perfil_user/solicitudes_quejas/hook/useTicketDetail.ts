@@ -30,14 +30,14 @@ export function useTicketDetail(ticketId?: number) {
       }));
 
       // Archivos como burbujas
-      const fileBubbles: TicketBubbleModel[] = files.map((file: TicketFileModel) => ({
-        type: "file",
-        senderName: "Archivo adjunto",
-        filename: file.filename,
-        fileId: file.id,
-        filetype: file.filetype,
-        uploadDate: file.uploadDate,
-      }));
+const fileBubbles: TicketBubbleModel[] = files.map((file: any) => ({
+  type: "file",
+  senderName: "Archivo adjunto",
+  filename: file.fileName, // ← lo pasamos como 'filename'
+  filetype: file.fileType, // ← lo pasamos como 'filetype'
+  fileId: file.id,
+  uploadDate: file.uploadDate,
+}));
 
       // Combinar y ordenar por fecha
       const merged: TicketBubbleModel[] = [...msgBubbles, ...fileBubbles].sort((a, b) =>

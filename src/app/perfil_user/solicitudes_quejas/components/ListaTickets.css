@@ -1,64 +1,74 @@
 .lista-tickets {
   width: 100%;
-  max-width: 460px;
+  max-width: 500px;
   height: 100%;
   overflow-y: auto;
-  background-color: var(  --color-bg-main);
-  padding: 12px 8px;
+  background-color: var(  --coilor-fondo-cat);
+  padding: 10px 9px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   box-sizing: border-box;
 }
 
 .ticket-card {
   display: flex;
-  align-items: center;
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-bg-container);
-  box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s ease;
-  gap: var(--spacing-md);
+  align-items: flex-start;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: var(  --color-bg-sidebar);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.025);
+  transition: background-color 0.25s ease, transform 0.15s ease;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ticket-card:hover {
+  background-color:var(  --color-bg-main);
+  transform: translateY(-1px);
 }
 
 .ticket-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-full);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: 13px;
+  font-weight: 600;
   color: white;
   flex-shrink: 0;
+  box-shadow: var(  --shadow-md);
+  margin-top: 2px;
 }
 
 .ticket-avatar.queja {
-  background-color: var(--color-queja-text);
+  background-color: #bd1b3e;
 }
 
 .ticket-avatar.solicitud {
-  background-color: var(--color-general-verde);
+  background-color: #5a5a5a;
 }
 
 .ticket-contenido {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .ticket-titulo {
-  font-size: var(--text-size-md);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-subtitle);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(  --color-text-main);
+  text-transform: capitalize;
+  letter-spacing: 0.2px;
 }
 
 .ticket-linea {
-  font-size: var(--text-size-sm);
-  color: var(--color-text-secondary);
+  font-size: 13px;
+  color: var(  --color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,27 +78,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 6px;
 }
 
 .ticket-hora {
-  font-size: var(--text-size-xs);
-  color: var(--color-text-muted);
+  font-size: 9px;
+  color: var(--color-border);
 }
 
 .ticket-status-badge {
   padding: 2px 8px;
-  font-size: var(--text-size-xs);
-  font-weight: var(--font-weight-bold);
-  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 9999px;
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
 .ticket-status-badge.abierto {
-  background-color: var(--color-bg-success);
-  color: var(--color-text-success);
+  background-color:var(  --color-declaracion-finiquito-bg);
+  color:var(  --color-declaracion-finiquito-text);
 }
 
 .ticket-status-badge.cerrado {
-  background-color: var(--color-bg-danger);
-  color: var(--color-text-danger);
+  background-color:var(  --color-declaracion-carta-bg);
+  color:var(    --color-declaracion-carta-text);
+
 }

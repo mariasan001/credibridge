@@ -32,7 +32,8 @@ html {
   --font-family-base: 'Poppins', sans-serif;
 
   /* Colores claros */
-  --color-bg-main: #FAF6EF;
+  --color-bg-main: #f7f7f7;
+    --color-bg-mai2: #fbfafa;
   --color-bg-container: #ffffff;
   --color-bg-sidebar: #ffffff;
   --color-bg-download-button: #173E5F;
@@ -41,7 +42,6 @@ html {
   --color-bg-success: #ECFDF3;
   --color-bg-danger: #F8E2E2;
   --color-bg-inactive: #C2C2C2;
-
   --color-text-main: #000000;
   --color-text-secondary: #64748B;
   --color-text-subtitle: #101828;
@@ -54,6 +54,8 @@ html {
 
   --color-border: #E2E2E2;
   --color-bg-container2:#ffffff;
+  --coilor-fondo-cat:#fefcf9;
+  --colorborde:#efefef;
 
   /* Etiquetas comunicado */
   --color-text-label-comunicado: #047857;
@@ -140,6 +142,7 @@ html {
 /* === MODO OSCURO (usando variables CSS) === */
 body.dark-mode {
   --color-bg-main: #1c1c1c;
+  --color-bg-mai2: #000000;
   --color-bg-container: #2a2a2a;
   --color-bg-sidebar: #242424;
   --color-border: #444;
@@ -187,8 +190,9 @@ body.dark-mode {
    --color-fondo-claro:#151414;
   --color-queja-bg: #4c1f1f;
   --color-queja-text: #ffa1a1;
-
-
+  --coilor-fondo-cat:#3c3c3c;
+  --colorborde:#353535;
+  
   background-color: var(--color-bg-main);
   color: var(--color-text-main);
 }
