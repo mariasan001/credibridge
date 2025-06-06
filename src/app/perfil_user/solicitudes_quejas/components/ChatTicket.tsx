@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { TicketMessageBubble } from "./TicketMessageBubble";
 import { ChatInput } from "./ChatInput";
 import "./ChatTicket.css";
 import { useTicketDetail } from "../hook/useTicketDetail";
+import { TicketFileBubble } from "./TicketFileBubble";
+import { UploadFileWidget } from "./UploadFileWidget";
 
 interface Props {
   ticketId: number;
@@ -11,7 +14,8 @@ interface Props {
 }
 
 export const ChatTicket = ({ ticketId, userId }: Props) => {
-  const { ticket, loading, error, respond } = useTicketDetail(ticketId);
+const { ticket, bubbles, loading, error, respond, refresh } = useTicketDetail(ticketId);
+  const [mensaje, setMensaje] = useState("");
 
   if (loading) return <p>Cargando conversación...</p>;
 
@@ -25,31 +29,49 @@ export const ChatTicket = ({ ticketId, userId }: Props) => {
     return <p style={{ color: "gray" }}>Ticket no encontrado.</p>;
   }
 
-  const handleSend = (mensaje: string) => {
+  const handleSend = () => {
+    if (!mensaje.trim()) return;
     respond(mensaje, userId, false);
+    setMensaje(""); // limpia el campo después de enviar
   };
+return (
+  <div className="chat-ticket-container">
+    <div className="chat-header">
+      <h3>{ticket.lenderName}</h3>
+    </div>
 
-  return (
-<div className="chat-ticket-container">
-  <div className="chat-header">
-    <h3>{ticket.lenderName}</h3>
-  </div>
+    <div className="chat-messages">
+      {bubbles.map((msg, index) =>
+        msg.type === "message" ? (
+          <TicketMessageBubble
+            key={index}
+            sender={msg.senderName}
+            content={msg.content}
+            isUser={msg.roles.includes("USER")}
+            date={msg.sendDate}
+          />
+        ) : (
+          <TicketFileBubble
+            key={index}
+            file={{
+              id: msg.fileId,
+              filename: msg.filename,
+              filetype: msg.filetype,
+              uploadDate: msg.uploadDate,
+            }}
+          />
+        )
+      )}
+    </div>
 
-  <div className="chat-messages">
-    {ticket.messages.map((msg, index) => (
-      <TicketMessageBubble
-        key={index}
-        sender={msg.senderName}
-        content={msg.content}
-        isUser={msg.roles.includes("USER")}
-        date={msg.sendDate}
+    <div className="chat-input-footer-container">
+      <ChatInput
+        mensaje={mensaje}
+        setMensaje={setMensaje}
+        onSend={handleSend}
       />
-    ))}
+      <UploadFileWidget ticketId={ticket.ticketId} onUploadSuccess={refresh} />
+    </div>
   </div>
-
-  <ChatInput onSend={handleSend} />
-</div>
-
-  );
+);
 };
-

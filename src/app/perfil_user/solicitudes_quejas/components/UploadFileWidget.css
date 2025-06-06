@@ -1,0 +1,22 @@
+.upload-widget {
+  padding: 10px 16px;
+  background-color: #f9fafb;
+  border-top: 1px dashed #ccc;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.upload-widget button {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload-widget button:hover {
+  background-color: #059669;
+}

@@ -1,28 +1,25 @@
-// components/chat/ChatInput.tsx
-import { useState } from "react";
 import "./ChatInput.css";
 
 interface Props {
-  onSend: (message: string) => void;
+  mensaje: string;
+  setMensaje: (msg: string) => void;
+  onSend: () => void;
   disabled?: boolean;
 }
 
-export const ChatInput = ({ onSend, disabled }: Props) => {
-  const [msg, setMsg] = useState("");
-
+export const ChatInput = ({ mensaje, setMensaje, onSend, disabled }: Props) => {
   const handleSend = () => {
-    if (!msg.trim()) return;
-    onSend(msg.trim());
-    setMsg("");
+    if (!mensaje.trim()) return;
+    onSend();
   };
 
   return (
     <div className="chat-input-footer">
       <input
         type="text"
-        value={msg}
+        value={mensaje}
         placeholder="Escribe un mensaje..."
-        onChange={(e) => setMsg(e.target.value)}
+        onChange={(e) => setMensaje(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         disabled={disabled}
       />

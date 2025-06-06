@@ -1,20 +1,43 @@
 .solicitudes-page {
   display: flex;
-  height: calc(100vh - 100px);
-  background-color: #ffffff;
+  height: calc(100vh - 80px); /* puedes ajustar si tu header mide 100px */
+  background-color: #f9fafb;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
 }
 
+/* Sidebar de lista de tickets */
+.solicitudes-sidebar {
+  width: 450px;
+  background-color: #ffffff;
+  border-right: 1px solid #fcfcfc;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.titulo-solicitudes {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Área de chat */
 .solicitudes-chat {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-
+  background-color: #ffffff;
+  overflow: hidden;
+  border-left: 1px solid #e5e7eb;
 }
 
 .chat-placeholder {
   margin: auto;
-  color: #ffffff;
+  color: #64748b;
   font-size: 16px;
   text-align: center;
+  padding: 16px;
 }
