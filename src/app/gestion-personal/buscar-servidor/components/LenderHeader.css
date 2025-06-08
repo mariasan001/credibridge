@@ -1,0 +1,21 @@
+.lender-header-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  align-items: stretch; 
+}
+
+.column {
+  flex: 0 0 240px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.column.wide {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}

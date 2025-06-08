@@ -1,0 +1,64 @@
+.labor-info-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  flex: 1;
+}
+
+.labor-info-card h4 {
+  margin-bottom: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  font-size: 14px;
+  color: #111;
+}
+
+.grid div {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid span {
+  font-size: 13px;
+  color: #666;
+}
+
+.grid strong {
+  font-weight: 600;
+  color: #111;
+}
+
+.status-label {
+  color: #27ae60;
+}
+
+.puesto {
+  color: #007bff;
+}
+
+.cuenta-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.verificar-btn {
+  background-color: #007f5f;
+  color: white;
+  font-size: 11px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  height: fit-content;
+}

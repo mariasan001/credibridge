@@ -1,0 +1,101 @@
+.contract-table {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow-x: auto;
+}
+
+.contract-table h4 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+
+.contract-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.contract-table thead {
+  background-color: #f8f8f8;
+}
+
+.contract-table th {
+  text-align: left;
+  padding: 12px;
+  color: #333;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #eee;
+}
+
+.contract-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+  color: #222;
+}
+
+.contract-type {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-wrapper {
+  width: 36px;
+  height: 36px;
+  background-color: #f2f5f7;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contract-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.contract-info .title {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.contract-info .desc {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Estatus visuales */
+.estatus {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+}
+
+.estatus.activo {
+  background-color: #e6f9ec;
+  color: #27ae60;
+}
+
+.estatus.reserva {
+  background-color: #fff4da;
+  color: #e67e22;
+}
+
+.estatus.terminado {
+  background-color: #eeeeee;
+  color: #555;
+}

@@ -1,102 +1,67 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from "react"
-
-// Layout general de la página
+import { useState } from "react"
+import { useLenderSearch } from "./hook/useLenderSearch"
 import { PageLayout } from "@/components/PageLayout"
 
-// Componentes de la sección de búsqueda
-import { SearchHeader } from "@/components/buscar-servidor/SearchHeader"
-import { DownloadButton } from "@/components/botones/DownloadButton"
+import { LenderHeader } from "./components/LenderHeader"
+import { DiscountLimitBox } from "./components/DiscountLimitBox"
+import { ContractTable } from "./components/ContractTable"
 
-// Tarjetas de información
-import { UserInfoCard } from "@/components/buscar-servidor/UserInfoCard"
-import { PersonalInfoCard } from "@/components/buscar-servidor/PersonalInfoCard"
-import { LaborInfoCard } from "@/components/buscar-servidor/LaborInfoCard"
+import "./lender-search.css"
+import { LenderSearchSkeleton } from "./LenderSearchSkeleton"
 
-// Sección de contratos y descuentos
-import { DiscountBox } from "@/components/buscar-servidor/DiscountBox"
-import { ContractTabsSection } from "@/components/buscar-servidor/ContractTable"
+export default function LenderSearchPage() {
+  const [input, setInput] = useState("")
+  const { data, loading, error, buscar } = useLenderSearch()
 
-// Skeleton personalizado mientras carga
-import { BuscarServidorSkeleton } from "@/components/theme/BuscarServidorSkeleton"
-
-export default function BuscarServidorPage() {
-  const [loading, setLoading] = useState(true)
-
-  // Simula tiempo de carga
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500)
-    return () => clearTimeout(timer)
-  }, [])
+  const handleSearch = () => {
+    if (input.trim()) {
+      buscar(input.trim())
+    }
+  }
 
   return (
     <PageLayout>
-      {loading ? (
-        // Skeleton de carga
-        <BuscarServidorSkeleton />
-      ) : (
-        <section className="search-container">
-          {/* === Encabezado de la página === */}
-          <div className="search-header-top">
-            <div className="search-header-texts">
-              <h2 className="search-header-title">Buscar Servidor Público</h2>
-              <p className="search-header-subtitle">
-                Ingresa los datos correspondientes para poder obtener la información correspondiente
-              </p>
+      <div className="lender-search-page">
+        <h1>Buscar servidor público</h1>
+        <p className="subtitle">
+          Consulta los descuentos, contratos y datos laborales del servidor público ingresado.
+        </p>
+
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Número de servidor público"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button onClick={handleSearch}>Buscar</button>
+        </div>
+
+        <div className="result-container">
+         {loading && <LenderSearchSkeleton />}
+
+          {error && <p>{error}</p>}
+
+          {!data && !loading && !error && (
+            <div className="empty-state">
+              <p>🔍 No hay resultados. Realiza una búsqueda para comenzar.</p>
             </div>
-            <DownloadButton label="Descargar Archivo" />
-          </div>
+          )}
 
-          {/* === Buscador con tabs (Número, Nombre, RFC) + input === */}
-          <SearchHeader />
+          {data && (
+            <div className="result-data">
+              <LenderHeader data={data} />
 
-          {/* === Tarjetas principales (Usuario + Info personal + Info laboral) === */}
-          <div className="search-cards-grid">
-            <UserInfoCard 
-              nombre="Juan Perez Ortega" 
-              correo="juan@correo.com" 
-              descuentosActivos={1} 
-              contratosTerminados={1} 
-            />
-
-            <div className="info-card--personal">
-              <PersonalInfoCard
-                nombre="Juan Perez Ortega"
-                correo="juan@correo.com"
-                genero="Masculino"
-                fechaNacimiento="24 de Febrero, 1987"
-                telefono="7293234764"
-                estadoCivil="Soltero (a)"
-                curp="TAJH990228HMCILM03"
-                rfc="TAJH990228N79"
-                madre="Sin Registro"
-                padre="Sin Registro"
-              />
+              <div className="discounts-section">
+                <DiscountLimitBox limit={data.discountLimit} />
+                <ContractTable data={data} />
+              </div>
             </div>
-
-            <div className="info-card--laboral">
-              <LaborInfoCard
-                unidadAdministrativa="AH00126451 - DESCRIPCION NO DISPONIBLE"
-                puesto="ANALISTA ESPECIALIZADA, O 'C' ACTIVA PERMANENTE 99999999"
-                estatus="Activo"
-                noEmpleado="210048332"
-                nomina="Gobierno Estado de México"
-                institucion="22 – DEPÓSITO BANORTE"
-                situacion="Activo"
-                fechaIngreso="16/10/2024"
-                cuenta="00001295601129" 
-              />
-            </div>
-          </div>
-
-          {/* === Sección de Descuento + Tabs de Contratos === */}
-          <div className="contract-section-row">
-            <DiscountBox descuento="$1,543" />
-            <ContractTabsSection />
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </div>
     </PageLayout>
   )
 }

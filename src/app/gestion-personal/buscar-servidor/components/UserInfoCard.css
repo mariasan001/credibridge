@@ -1,0 +1,67 @@
+.user-info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  width: 240px;
+  border: 1px solid #eee;
+}
+
+.avatar {
+  background-color: #5b6b89; /* tono azul grisáceo */
+  border-radius: 50%;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.user-details h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #111;
+}
+
+.user-details .email {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.resumen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.resumen div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resumen span {
+  font-weight: 700;
+  font-size: 18px;
+  color: #111;
+}
+
+.resumen small {
+  font-size: 11px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background-color: #ccc;
+}

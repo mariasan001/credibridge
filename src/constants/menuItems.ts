@@ -130,7 +130,7 @@ export const menuItems = [
     label: "Simulación",
     icon: Cpu,
     route: "/simulacion",
-    roles: [1,2,4,],
+    roles: [1,2,],
   },
   {
     label: "Centro de Comunicación",

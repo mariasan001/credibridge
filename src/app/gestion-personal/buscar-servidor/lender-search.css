@@ -1,0 +1,95 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #f9fafb;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px #e5e7eb;
+  transition: box-shadow 0.2s ease;
+  max-width: 100%;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 0 0 2px rgba(45, 156, 219, 0.3);
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-weight: 500;
+  color: #111827;
+}
+
+.search-bar input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  background-color: #2d9cdb;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-bar button:hover {
+  background-color: #1c86d1;
+}
+
+
+.result-container {
+  margin-top: 20px;
+}
+.discounts-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.discounts-section > .discount-box {
+  flex: 0 0 280px;
+  min-width: 240px;
+}
+
+.discounts-section > .contract-table {
+  flex: 1;
+  min-width: 300px;
+}
+
+
+.lender-search-page h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.empty-state {
+  background-color: #f9fafb;
+  border: 1px dashed #d1d5db;
+  padding: 40px;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: 500;
+}

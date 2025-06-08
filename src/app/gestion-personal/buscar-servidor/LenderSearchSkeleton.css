@@ -1,0 +1,38 @@
+.lender-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lender-skeleton-header {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.lender-skeleton-header .card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 220px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.lender-skeleton-bottom {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.limit-box {
+  width: 240px;
+}
+
+.contract-table-box {
+  flex: 1;
+}
