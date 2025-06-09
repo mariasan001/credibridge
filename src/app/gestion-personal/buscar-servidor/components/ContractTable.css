@@ -4,10 +4,11 @@
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   overflow-x: auto;
+  max-height: 340px;
 }
 
 .contract-table h4 {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-size: 16px;
   font-weight: 700;
   color: #111;
@@ -19,26 +20,20 @@
   font-size: 14px;
 }
 
-.contract-table thead {
-  background-color: #f8f8f8;
-}
-
 .contract-table th {
   text-align: left;
-  padding: 12px;
-  color: #333;
+  padding: 12px 16px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #e5e7eb;
+  color: #444;
   font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid #eee;
 }
 
 .contract-table td {
-  padding: 14px 12px;
+  padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
-  color: #222;
+  color: #333;
 }
 
 .contract-type {
@@ -48,24 +43,22 @@
 }
 
 .icon-wrapper {
-  width: 36px;
-  height: 36px;
-  background-color: #f2f5f7;
+  background-color: #eef2f6;
+  padding: 8px;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .contract-info {
   display: flex;
   flex-direction: column;
-  line-height: 1.2;
 }
 
 .contract-info .title {
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .contract-info .desc {
@@ -74,28 +67,27 @@
   margin-top: 2px;
 }
 
-/* Estatus visuales */
+/* Estatus Pills */
 .estatus {
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   display: inline-block;
-  text-align: center;
 }
 
 .estatus.activo {
-  background-color: #e6f9ec;
-  color: #27ae60;
+  background-color: #d1fae5;
+  color: #059669;
 }
 
 .estatus.reserva {
-  background-color: #fff4da;
-  color: #e67e22;
+  background-color: #fef3c7;
+  color: #b45309;
 }
 
 .estatus.terminado {
-  background-color: #eeeeee;
-  color: #555;
+  background-color: #f3f4f6;
+  color: #4b5563;
 }

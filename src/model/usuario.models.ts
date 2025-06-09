@@ -3,12 +3,10 @@ export interface LoginPayload {
   password: string;
 }
 
-// Ya no se necesita el token porque viene como cookie
 export interface Usuario {
   userId: string;
   name: string;
   email: string;
-
   rfc: string | null;
   curp: string | null;
   idPlaza: string | null;
@@ -24,19 +22,14 @@ export interface Usuario {
   addressCity: string | null;
   country: string | null;
   state: string | null;
-
-  // 🔧 Corrección aquí:
   userStatus: CatalogoGenerico | null;
-
   gender: string | null;
   maritalStatus: string | null;
-
   workUnit: CatalogoGenerico | null;
   jobCode: CatalogoGenerico | null;
   positionStatus: (CatalogoGenerico & { id: number }) | null;
-
   lender: Lender | null;
-  bank: CatalogoGenerico | null; // ✅ Incluido si usas banco también
+  bank: CatalogoGenerico | null; 
   roles: Rol[];
 }
 
