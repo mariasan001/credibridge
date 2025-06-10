@@ -1,15 +1,11 @@
 "use client"
-
 import { useDashboard } from "../hook/useDashboard"
 import { formatCurrency } from "../utils/formatCurrency"
 import "./DashboardResumenTotales.css"
-
 export function DashboardResumenTotales() {
   const { data, loading, error } = useDashboard()
-
   if (loading) return <p>Cargando...</p>
   if (error || !data) return null
-
   const cards = [
     {
       label: "Total Liberado",
@@ -27,7 +23,6 @@ export function DashboardResumenTotales() {
       color: "orange",
     },
   ]
-
   return (
     <div className="dashboard-resumen-totales">
       {cards.map((card) => (

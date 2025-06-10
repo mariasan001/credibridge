@@ -23,7 +23,7 @@
 
 .cartera-header__btn {
   background-color: #1a1a1a;
-  color: white;
+  color: var(  --color-bg-container);
   padding: 8px 16px;
   border-radius: 6px;
   display: flex;

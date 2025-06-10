@@ -1,0 +1,98 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 720px;
+  padding: 24px 32px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.modal-section {
+  margin-bottom: 1.25rem;
+}
+
+.modal-section strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #444;
+}
+
+.message-box {
+  background-color: #f4f4f4;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.message-box.interno {
+  background-color: #e1f5fe;
+  border-left: 4px solid #0288d1;
+}
+
+.message-box.externo {
+  background-color: #fce4ec;
+  border-left: 4px solid #d81b60;
+}
+
+.message-meta {
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 6px;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,8 +1,8 @@
 .dashboard-resumen-lateral {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 26px;
+  margin-top: 44px;
 }
 
 .card-resumen {

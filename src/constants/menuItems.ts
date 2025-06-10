@@ -28,11 +28,37 @@ import {
 
 export const menuItems = [
   {
-    label: "Inicio",
+    label: "Inicio Admin",
     icon: Home,
-    route: "/inicio",
-    roles: [1, 2, 4],
+    route: "/admin/inicio",
+    roles: [1],
   },
+  {
+    label: "Inicio Admin Nómina",
+    icon: Home,
+    route: "/admin_nom/inicio",
+    roles: [2],
+  },
+  {
+    label: "Inicio Usuario",
+    icon: Home,
+    route: "/perfil_user/inicio",
+    roles: [3],
+  },
+  {
+    label: "Inicio ",
+    icon: Home,
+    route: "/inicio/inicio_finaciera/ini_admin",
+    roles: [4,5],
+  },
+
+  {
+    label: "Inicio Asesor",
+    icon: Home,
+    route: "/prospectos",
+    roles: [6],
+  },
+
   {
     label: "Gestión de Personal",
     icon: Users,
@@ -69,24 +95,7 @@ export const menuItems = [
       },
     ],
   },
-  {
-    label: "Historial",
-    icon: Clock,
-    route: "/historial",
-    roles: [1, 2, 4],
-    children: [
-      {
-        label: "Historial de Solicitudes",
-        route: "/historial/historia-solicitudes",
-        roles: [1, 2, 4],
-      },
-      {
-        label: "Historial de Quejas",
-        route: "/historial/histroial-quejas",
-        roles: [1, 2, 4],
-      },
-    ],
-  },
+,
   {
     label: "Reportes y Consultas",
     icon: FileText,
@@ -160,6 +169,12 @@ export const menuItems = [
       },
     ],
   },
+    {
+    label: "Prospectos",
+    icon: BadgeCheck,
+    route: "/prospectos",
+    roles: [5],
+  },
   {
     label: "Procesos Autorizados",
     icon: BadgeCheck,
@@ -178,6 +193,13 @@ export const menuItems = [
       },
     ],
   },
+  {
+    label: "Cartera de Clientes",
+    icon: Briefcase,
+    route: "/cartera-clientes",
+    roles: [4, 5],
+  },
+
   {
     label: "Simulación",
     icon: Cpu,
@@ -207,6 +229,24 @@ export const menuItems = [
       },
     ],
   },
+    {
+    label: "Historial",
+    icon: Clock,
+    route: "/historial",
+    roles: [1, 2, 4,5],
+    children: [
+      {
+        label: "Historial de Solicitudes",
+        route: "/historial/historia-solicitudes",
+        roles: [1, 2, 4,5],
+      },
+      {
+        label: "Historial de Quejas",
+        route: "/historial/histroial-quejas",
+        roles: [1, 2, 4,5],
+      },
+    ],
+  },
   {
     label: "Configuración",
     icon: Settings,
@@ -227,18 +267,7 @@ export const menuItems = [
       { label: "Perfil", route: "/perfil_user/perfil", roles: [1, 2, 4, 5, 6] },
     ],
   },
-  {
-    label: "Cartera de Clientes",
-    icon: Briefcase,
-    route: "/cartera-clientes",
-    roles: [4, 5],
-  },
-  {
-    label: "Control de solicitudes ",
-    icon: ClipboardList,
-    route: "/prospectos",
-    roles: [4, 6],
-  },
+
   {
     label: " Difusión Comercial ",
     icon: Megaphone,
@@ -247,12 +276,7 @@ export const menuItems = [
   },
 
   // ESTAS OPCIONES SON ESCLUCIDIVAS PARA USUARIOS / SERVIDORES PUBLICOS
-  {
-    label: "Inicio",
-    icon: Home,
-    route: "/perfil_user/inicio",
-    roles: [3],
-  },
+
   {
     label: "Simulación",
     icon: Cpu,

@@ -3,16 +3,16 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
-  background-color: #f9fafb;
+  background-color: var( --color-bg-mai2);
   padding: 8px 12px;
   border-radius: 10px;
-  box-shadow: 0 0 0 1px #e5e7eb;
+  box-shadow: 0 0 0 1px var(--color-border);
   transition: box-shadow 0.2s ease;
   max-width: 100%;
 }
 
 .search-bar:focus-within {
-  box-shadow: 0 0 0 2px rgba(45, 156, 219, 0.3);
+  box-shadow: 0 0 0 2px rgba(3, 28, 43, 0.3);
 }
 
 .search-bar input {
@@ -23,7 +23,7 @@
   outline: none;
   background: transparent;
   font-weight: 500;
-  color: #111827;
+  color: var(  --color-text-subtitle);
 }
 
 .search-bar input::placeholder {
@@ -33,10 +33,10 @@
 
 .search-bar button {
   padding: 8px 16px;
-  background-color: #101010;
+  background-color: var( --color-text-warning);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(  --color-bg-container);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -84,7 +84,7 @@
 }
 
 .empty-state {
-  background-color: #f9fafb;
+  background-color: var(--color-bg-container);
   border: 1px dashed #d1d5db;
   padding: 40px;
   text-align: center;

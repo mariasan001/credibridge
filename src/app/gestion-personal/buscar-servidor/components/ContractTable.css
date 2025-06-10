@@ -1,5 +1,5 @@
 .contract-table {
-  background: white;
+  background: var( --color-bg-sidebar);
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
@@ -11,7 +11,7 @@
   margin-bottom: 16px;
   font-size: 16px;
   font-weight: 700;
-  color: #111;
+  color: var(  --color-status-inactivo-text);
 }
 
 .contract-table table {
@@ -23,17 +23,17 @@
 .contract-table th {
   text-align: left;
   padding: 12px 16px;
-  background: #f9f9f9;
-  border-bottom: 1px solid #e5e7eb;
-  color: #444;
+  background: var(  --coilor-fondo-cat);
+  border-bottom: 1px solid var( --color-border);
+  color: var(  --color-text-subtitle);
   font-weight: 600;
 }
 
 .contract-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var( --color-border);
   vertical-align: middle;
-  color: #333;
+  color: var(--color-status-inactivo-tex);
 }
 
 .contract-type {
@@ -43,7 +43,7 @@
 }
 
 .icon-wrapper {
-  background-color: #eef2f6;
+  background-color: var( --coilor-fondo-cat);
   padding: 8px;
   border-radius: 50%;
   display: flex;
@@ -63,7 +63,7 @@
 
 .contract-info .desc {
   font-size: 12px;
-  color: #666;
+  color: var(  --color-text-strong);
   margin-top: 2px;
 }
 
@@ -78,16 +78,16 @@
 }
 
 .estatus.activo {
-  background-color: #d1fae5;
-  color: #059669;
+  background-color: var(  --color-declaracion-finiquito-bg);
+  color: var(  --color-declaracion-finiquito-text);
 }
 
 .estatus.reserva {
-  background-color: #fef3c7;
-  color: #b45309;
+  background-color: var(  --color-declaracion-carta-bg);
+  color: var( --color-declaracion-carta-text);
 }
 
 .estatus.terminado {
-  background-color: #f3f4f6;
-  color: #4b5563;
+  background-color: var(  --color-status-inactivo-b);
+  color: var( --color-status-inactivo-tex);
 }

@@ -5,19 +5,19 @@
     max-width: 1300px;
     margin: 0 auto;
     padding: 10px 2px;
-    color: #2c3e50;
+    color: var(  --color-text-main);
   }
   
   .directorio-container h2 {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 700;
    
     text-align: left;
-    color: #1a1a1a;
+    color: var(  --color-text-main);
   }
     
   .directorio-container p {
-    font-size: 14px;
+    font-size: 12px;
     text-align: left;
     color: #575757;
     margin-bottom: 28px;
@@ -28,7 +28,7 @@
   }
   
   .grupo-servicio h3 {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 800;
     color: #0c961c;
     margin-bottom: 24px;
@@ -47,7 +47,7 @@
     align-items: flex-start;
     gap: 16px;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: var(--color-bg-container2);
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -59,7 +59,7 @@
   }
   
   .icono-servicio {
-    font-size: 26px;
+    font-size: 20px;
     color: #d8c40f;
     background-color: #b896101f;
     border-radius: 50%;
@@ -79,10 +79,10 @@
   }
   
   .info-servicio h4 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin: 0;
-    color: #1a1a1a;
+    color: var(--color-text-main);
   }
   
   .info-servicio .info-row {
@@ -93,13 +93,13 @@
   }
   
   .info-servicio .info-row p {
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
-    color: #555;
+    color: var(  --color-text-main);
   }
   
   .info-servicio .info-row p strong {
-    color: #000;
+    color: var(  --color-text-main);
     font-weight: 600;
   }
   
@@ -139,7 +139,7 @@
   
   .info-row p strong {
     font-weight: 600;
-    color: #000;
+    color: var(  --color-text-main);
   }
   .info-row {
     display: flex;
