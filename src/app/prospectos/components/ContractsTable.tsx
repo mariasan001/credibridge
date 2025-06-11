@@ -32,22 +32,28 @@ export const ContractsTable = ({
           <th className="center">Tipo de servicio</th>
           <th className="center">Estatus</th>
           <th className="center">Fecha de solicitud</th>
-          <th className="center">Opciones</th>
+          {isEjecutivo && <th className="center">Opciones</th>}
         </tr>
       </thead>
       <tbody>
         {contracts.map((contract) => (
           <tr key={contract.id}>
             <td>{contract.userId}</td>
-            <td>{capitalizeWords(contract.nombre)}</td>
-            <td>{contract.rfc}</td>
+            <td className="cell-ellipsis" data-fulltext={capitalizeWords(contract.nombre)}>
+              {capitalizeWords(contract.nombre)}
+            </td>
+
+            <td className="cell-ellipsis" data-fulltext={contract.rfc}>
+              {contract.rfc}
+            </td>
+
             <td className="center">
               {contract.contractStatusDesc.toLowerCase() === "reserva"
                 ? "RESERVA"
                 : `$${contract.amount.toLocaleString("es-MX", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })} MXN`}
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} MXN`}
             </td>
             <td className="center">
               ${contract.biweeklyDiscount.toLocaleString("es-MX", {
@@ -70,8 +76,8 @@ export const ContractsTable = ({
                   {capitalizeFirst(contract.contractStatusDesc)}
                 </button>
               ) : ["reserva", "pendiente"].some((e) =>
-                  contract.contractStatusDesc.toLowerCase().includes(e)
-                ) ? (
+                contract.contractStatusDesc.toLowerCase().includes(e)
+              ) ? (
                 <button
                   className={`tag ${getTagColorByStatus(contract.contractStatusDesc)} cursor-pointer`}
                   onClick={() => onChangeStatus(contract)}
@@ -87,15 +93,17 @@ export const ContractsTable = ({
             <td className="center">
               {new Date(contract.createdAt).toLocaleDateString("es-MX")}
             </td>
-            <td className="center">
-              <button
-                className="icon-button"
-                title="Iniciar proceso de contratación"
-                onClick={() => console.log("Iniciar proceso para", contract)}
-              >
-                <PlayCircle size={20} />
-              </button>
-            </td>
+            {isEjecutivo && (
+              <td className="center">
+                <button
+                  className="icon-button"
+                  title="Iniciar proceso de contratación"
+                  onClick={() => console.log("Iniciar proceso para", contract)}
+                >
+                  <PlayCircle size={20} />
+                </button>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>

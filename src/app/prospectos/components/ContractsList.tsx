@@ -4,9 +4,9 @@ import { Pagination } from "@/app/cartera-clientes/components/Pagination";
 import { FiltersBar } from "./FiltersBar";
 import { ContractsTable } from "./ContractsTable";
 import { AssignModal } from "./AssignModal";
-
-import { useContracts } from "../hook/useContracts";
 import { ChangeStatusModal } from "./ChangeStatusModal";
+import { useContracts } from "../hook/useContracts";
+import { useAuth } from "@/context/AuthContext";
 
 export const ContractsList = () => {
   const {
@@ -26,20 +26,25 @@ export const ContractsList = () => {
     setModalVisible,
     cambiarEstatus,
     asignarContrato,
-    // Nuevos para ejecutivo
     isEjecutivo,
     estatusDisponibles,
     changeModalVisible,
     setChangeModalVisible,
     contractToUpdate,
     confirmarCambioEstatus,
-    setContractToUpdate, 
+    setContractToUpdate,
   } = useContracts();
 
-  // ✅ función correcta para ejecutivos
+  const { user } = useAuth();
+
+  // ✅ Filtrar solo contratos asignados al ejecutivo actual
+  const contratosFiltradosFinal = isEjecutivo
+    ? contratosFiltrados.filter((c) => c.modificatedUser === user?.userId)
+    : contratosFiltrados;
+
   const handleEjecutivoStatusClick = (contract: any) => {
-    setContractToUpdate(contract); // ✅ aquí se guarda el contrato actual
-    setChangeModalVisible(true);  // ✅ se abre el modal
+    setContractToUpdate(contract);
+    setChangeModalVisible(true);
   };
 
   return (
@@ -47,7 +52,7 @@ export const ContractsList = () => {
       <FiltersBar filtros={filtros} setFiltros={setFiltros} setPage={setPage} />
 
       <ContractsTable
-        contracts={contratosFiltrados}
+        contracts={contratosFiltradosFinal}
         onChangeStatus={cambiarEstatus}
         isEjecutivo={isEjecutivo}
         onClickEjecutivoStatus={handleEjecutivoStatusClick}
@@ -55,7 +60,7 @@ export const ContractsList = () => {
 
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
 
-      {/* Modal para asignar (asesores) */}
+      {/* Modal para asignación (asesores) */}
       <AssignModal
         visible={modalVisible}
         usuariosAsignables={usuariosAsignables}

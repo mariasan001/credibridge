@@ -42,6 +42,19 @@
   border-spacing: 0 8px;
   font-family: inherit;
 }
+.cell-ellipsis {
+  max-width: 180px;       /* puedes ajustar */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.cell-ellipsis:hover {
+  overflow: visible;
+  white-space: normal;
+
+}
 
 /* CABECERA */
 .contracts-table th {
