@@ -1,10 +1,13 @@
-import { PageLayout } from "@/components/PageLayout"
+import { PageLayout } from "@/components/PageLayout";
+import { ContractsList } from "./components/ContractsList";
+import { CarteraHeader } from "./components/CarteraHeader";
 
 export default function ProspectosPage() {
   return (
     <PageLayout>
-      <h1>Pagina de prospectos </h1>
-      <p>Contenido de la sección</p>
+      <CarteraHeader />
+      <ContractsList />
     </PageLayout>
-  )
+  );
 }
+

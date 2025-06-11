@@ -1,0 +1,36 @@
+.cartera-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.cartera-header__info h2 {
+  font-size: 23px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.cartera-header__info p {
+  font-size: 14px;
+  color: #999;
+  font-weight: 300;
+}
+
+.cartera-header__btn {
+  background-color: #1a1a1a;
+  color: var(  --color-bg-container);
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+}
