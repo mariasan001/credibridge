@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Contract } from "../models/Contract";
+import { ContractStatus } from "../models/ContractStatus";
 import { useAuth } from "@/context/AuthContext";
 import { getVisibleStatusesByRole } from "../utils/statusHelpers";
 import {
@@ -9,11 +11,13 @@ import {
 import {
   assignContract,
   fetchAssignableUsers,
-} from "../services/assignService.ts";
+} from "../services/assignService.";
+import { fetchAllStatuses } from "../services/contract-status";
 
 export function useContracts() {
   const { user } = useAuth();
   const roleId = user?.roles?.[0]?.id ?? 0;
+  const isEjecutivo = roleId === 5;
 
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [page, setPage] = useState(1);
@@ -25,6 +29,10 @@ export function useContracts() {
   const [usuariosAsignables, setUsuariosAsignables] = useState<string[]>([]);
   const [contractToAssign, setContractToAssign] = useState<number | null>(null);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState("");
+
+  const [estatusDisponibles, setEstatusDisponibles] = useState<ContractStatus[]>([]);
+  const [changeModalVisible, setChangeModalVisible] = useState(false);
+  const [contractToUpdate, setContractToUpdate] = useState<Contract | null>(null);
 
   const [filtros, setFiltros] = useState({
     userId: "",
@@ -40,11 +48,12 @@ export function useContracts() {
     setLoading(true);
     setError(false);
     try {
-      const res = await fetchContracts(visibleStatusIds[0], page);
+      const res = await fetchContracts(visibleStatusIds, page);
       setContracts(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
       console.error("Error cargando contratos:", err);
+      toast.error("Error al cargar contratos.");
       setError(true);
     } finally {
       setLoading(false);
@@ -55,8 +64,27 @@ export function useContracts() {
     loadContracts();
   }, [page, roleId]);
 
+  useEffect(() => {
+    if (isEjecutivo) {
+      fetchAllStatuses()
+        .then(res => {
+          const filtrados = res.data.filter(e => e.id !== 1); // excluir RESERVA
+          setEstatusDisponibles(filtrados);
+        })
+        .catch(() => {
+          toast.error("No se pudieron cargar los estatus disponibles.");
+        });
+    }
+  }, [isEjecutivo]);
+
   const cambiarEstatus = async (contract: Contract) => {
     try {
+      if (isEjecutivo) {
+        setContractToUpdate(contract);
+        setChangeModalVisible(true);
+        return;
+      }
+
       if (contract.contractStatusDesc.toLowerCase() === "reserva") {
         await updateContractStatus(contract.id, 4);
         setContracts((prev) =>
@@ -66,8 +94,10 @@ export function useContracts() {
               : c
           )
         );
+        toast.success("Contrato actualizado a 'Pendiente de documentación'");
       } else if (
-        contract.contractStatusDesc.toLowerCase() === "pendiente de documentacion"
+        contract.contractStatusDesc.toLowerCase() ===
+        "pendiente de documentacion"
       ) {
         const res = await fetchAssignableUsers();
         setUsuariosAsignables(res.data);
@@ -76,6 +106,26 @@ export function useContracts() {
       }
     } catch (err) {
       console.error("Error cambiando estatus:", err);
+      toast.error("Error al cambiar el estatus del contrato.");
+    }
+  };
+
+  const confirmarCambioEstatus = async (newStatusId: number) => {
+    if (!contractToUpdate) return;
+
+    try {
+      await updateContractStatus(contractToUpdate.id, newStatusId);
+
+      toast.success("Estatus actualizado correctamente");
+      setChangeModalVisible(false);
+      setContractToUpdate(null);
+
+      setTimeout(() => {
+        loadContracts();
+      }, 1000);
+    } catch (err) {
+      toast.error("Error al actualizar estatus");
+      console.error(err);
     }
   };
 
@@ -84,6 +134,7 @@ export function useContracts() {
     try {
       await assignContract(contractToAssign, usuarioSeleccionado);
       await updateContractStatus(contractToAssign, 5);
+
       setContracts((prev) =>
         prev.map((c) =>
           c.id === contractToAssign
@@ -91,11 +142,19 @@ export function useContracts() {
             : c
         )
       );
+
       setModalVisible(false);
       setUsuarioSeleccionado("");
       setContractToAssign(null);
+
+      toast.success("Contrato asignado correctamente.");
+
+      setTimeout(() => {
+        loadContracts();
+      }, 1500);
     } catch (err) {
       console.error("Error asignando contrato:", err);
+      toast.error("Ocurrió un error al asignar el contrato.");
     }
   };
 
@@ -163,5 +222,14 @@ export function useContracts() {
     setUsuarioSeleccionado,
     cambiarEstatus,
     asignarContrato,
+    // NUEVOS
+    isEjecutivo,
+    estatusDisponibles,
+    changeModalVisible,
+    setChangeModalVisible,
+    contractToUpdate,
+    confirmarCambioEstatus,
+    setContractToUpdate, // 👈 Asegúrate de incluirl
+
   };
 }

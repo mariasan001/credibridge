@@ -1,3 +1,34 @@
+/* TÍTULO */
+.contracts-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+}
+
+/* SUBTÍTULO si usas uno */
+.contracts-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.contracts-table th.center,
+.contracts-table td.center {
+  text-align: center;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  transition: transform 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.1);
+}
 
 .contracts-title {
   font-size: 22px;
@@ -27,27 +58,31 @@
   top: 0;
   z-index: 2;
 }
-
 /* FILAS */
 .contracts-table tbody tr {
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border-radius: 10px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .contracts-table tbody tr:hover {
-  background-color: #fdfdfd;
+  background-color: #f7fafd;
   transform: scale(1.002);
 }
+
+
+
 
 /* CELDAS */
 .contracts-table td {
   padding: 12px 16px;
   font-size: 13px;
-  color: #747474;
-  vertical-align: middle;
+  color: #444;
+  font-weight: 400;
 }
+
+
 
 .contracts-table tbody tr td:first-child {
   border-top-left-radius: 10px;
@@ -86,6 +121,7 @@
   color: #bf4242;
 }
 
+/* ETIQUETAS (tags) generales */
 .tag {
   display: inline-block;
   padding: 4px 10px;
@@ -94,26 +130,28 @@
   border-radius: 20px;
   text-align: center;
   white-space: nowrap;
+  text-transform: capitalize;
 }
 
+/* Colores por tipo y estatus (ajustados para más contraste y estética) */
 .tag-green {
   background-color: #e1f8e7;
   color: #2d8052;
 }
 
 .tag-yellow {
-  background-color: #fff9e6;
+  background-color: #fff6cc;
   color: #b08b00;
 }
 
 .tag-orange {
-  background-color: #fff1e6;
-  color: #b8580c;
+  background-color: #ffe9cc;
+  color: #cc5a00;
 }
 
 .tag-blue {
   background-color: #e6f0ff;
-  color: #175ddc;
+  color: #1d4ed8;
 }
 
 .tag-red {
@@ -122,11 +160,11 @@
 }
 
 .tag-purple {
-  background-color: #ede6ff;
-  color: #6b4caf;
+  background-color: #ece9fd;
+  color: #5b36a5;
 }
 
 .tag-gray {
-  background-color: #f0f0f0;
-  color: #888;
+  background-color: #f3f3f3;
+  color: #666;
 }
