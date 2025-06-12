@@ -40,16 +40,16 @@ export default function ResumenSolicitudes() {
   }, [])
 
   return (
-    <div className="resumen-solicitudes">
+    <div className="resumen-cards">
       <div className="card neutral">
         <span>Total de solicitudes</span>
         <strong>{stats.total}</strong>
       </div>
-      <div className="card green">
+      <div className="card neutral">
         <span>Activas</span>
         <strong>{stats.activas}</strong>
       </div>
-      <div className="card orange">
+      <div className="card neutral">
         <span>Por vencer</span>
         <strong>{stats.porVencer}</strong>
       </div>
@@ -57,7 +57,7 @@ export default function ResumenSolicitudes() {
         <span>Vencidas</span>
         <strong>{stats.vencidas}</strong>
       </div>
-      <div className="card gray">
+      <div className="card green">
         <span>Sin asignar</span>
         <strong>{stats.sinAsignar}</strong>
       </div>

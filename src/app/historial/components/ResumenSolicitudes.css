@@ -1,49 +1,63 @@
-.resumen-solicitudes {
+.resumen-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 26px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-family: 'Poppins', sans-serif;
+  
 }
 
-.resumen-solicitudes .card {
+.card {
   flex: 1;
-  min-width: 200px;
-  padding: 1rem;
+  min-width: 180px;
+  padding: 16px 20px;
   border-radius: 12px;
-  background-color: #f5f5f5;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 6px rgba(134, 134, 134, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: all 0.1s ease;
 }
 
-.resumen-solicitudes .card span {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.3rem;
+.card span {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #a1a1a1;
+  margin-bottom: 4px;
+  font-weight: 500;
 }
 
-.resumen-solicitudes .card strong {
-  font-size: 1.5rem;
+.card strong {
+  font-size: 21px;
+  font-weight: 700;
   color: #111;
 }
 
+/* Tipos de tarjeta */
+.card.neutral {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+}
+
 .card.green {
-  background-color: #2e7d32;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.card.green span,
+.card.green strong {
   color: white;
 }
 
 .card.red {
-  background-color: #c62828;
+  background-color: #b03030;
   color: white;
 }
 
-.card.orange {
-  background-color: #ef6c00;
-  color: white;
-}
-
-.card.gray {
-  background-color: #616161;
+.card.red span,
+.card.red strong {
   color: white;
 }
