@@ -1,3 +1,5 @@
+import { TicketFileModel } from "@/app/perfil_user/solicitudes_quejas/model/TicketFileModel";
+
 export interface TicketMessage {
   senderName: string;
   content: string;
@@ -5,6 +7,8 @@ export interface TicketMessage {
   sendDate: string;
   roles: string[];
 }
+
+
 
 export interface TicketDetail {
   ticketId: number;
@@ -19,4 +23,5 @@ export interface TicketDetail {
   creationDate: string;
   lastResponse: string;
   messages: TicketMessage[];
+  files?: TicketFileModel[];
 }

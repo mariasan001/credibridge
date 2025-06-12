@@ -1,58 +1,62 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchTicketDetail } from "../service/ticket_detail_service";
-import { TicketDetail } from "../model/ticket_detail_model";
-import { ChatInputBar } from "@/app/perfil_user/solicitudes_quejas/components/ChatInput";
+import { useEffect, useRef, useState } from "react";
+
+
 import { useAuth } from "@/context/AuthContext";
+import { ChatInputBar } from "@/app/perfil_user/solicitudes_quejas/components/ChatInput";
+import { respondTicket } from "@/app/perfil_user/solicitudes_quejas/service/toketResponService";
+
+import HeaderTicketInfo from "./HeaderTicketInfo";
+import MensajeBubble from "./MensajeBubble";
+import { TicketFileBubble } from "@/app/perfil_user/solicitudes_quejas/components/TicketFileBubble";
 
 import "./DetalleModal.css";
-import { respondTicket } from "@/app/perfil_user/solicitudes_quejas/service/toketResponService";
+import { TicketDetailModel } from "@/app/perfil_user/solicitudes_quejas/model/TicketDetailModel";
+import { TicketFileModel } from "@/app/perfil_user/solicitudes_quejas/model/TicketFileModel";
+import { getTicketDetail } from "@/app/perfil_user/solicitudes_quejas/service/ticketDetailService";
+import { getTicketFiles } from "@/app/perfil_user/solicitudes_quejas/service/ticketFilesService";
 
 interface Props {
   ticketId: number;
   onClose: () => void;
 }
 
+// Extendemos temporalmente el modelo con archivos
+type TicketConArchivos = TicketDetailModel & { files: TicketFileModel[] };
+
 export default function DetalleModal({ ticketId, onClose }: Props) {
   const { user } = useAuth();
-  const [ticket, setTicket] = useState<TicketDetail | null>(null);
+  const [ticket, setTicket] = useState<TicketConArchivos | null>(null);
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Cargar ticket cuando cambie el ID
   useEffect(() => {
     cargarTicket();
   }, [ticketId]);
 
+  // Auto-scroll al fondo cada vez que cambia el contenido
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [ticket]);
+
   const cargarTicket = async () => {
     try {
       setLoading(true);
-      const detalle = await fetchTicketDetail(ticketId);
-      setTicket(detalle);
+      const [detalle, archivos] = await Promise.all([
+        getTicketDetail(ticketId),
+        getTicketFiles(ticketId),
+      ]);
+      setTicket({ ...detalle, files: archivos });
     } catch (err) {
       console.error("❌ Error al cargar ticket:", err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const capitalizarNombre = (nombre: string) =>
-    nombre
-      .toLowerCase()
-      .split(" ")
-      .map(p => p.charAt(0).toUpperCase() + p.slice(1))
-      .join(" ");
-
-  const formatearFechaHora = (fechaStr: string) => {
-    const fecha = new Date(fechaStr);
-    return new Intl.DateTimeFormat("es-MX", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(fecha);
   };
 
   const enviarMensaje = async () => {
@@ -61,12 +65,12 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
     try {
       await respondTicket({
         ticketId,
-        senderId: user.userId, // ✅ del contexto
+        senderId: user.userId,
         message: mensaje.trim(),
         isInternal: false,
       });
       setMensaje("");
-      await cargarTicket(); // ✅ recarga mensajes tras enviar
+      await cargarTicket();
     } catch (err) {
       console.error("❌ Error al enviar mensaje:", err);
     }
@@ -81,6 +85,22 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
       </div>
     );
   }
+  const itemsConversacion = [
+    ...(ticket.messages?.map(msg => ({ tipo: "mensaje" as const, data: msg })) || []),
+    ...(ticket.files?.map(file => ({ tipo: "archivo" as const, data: file })) || []),
+  ].sort((a, b) => {
+    const fechaA =
+      a.tipo === "mensaje"
+        ? new Date(a.data.sendDate).getTime()
+        : new Date(a.data.uploadDate).getTime();
+
+    const fechaB =
+      b.tipo === "mensaje"
+        ? new Date(b.data.sendDate).getTime()
+        : new Date(b.data.uploadDate).getTime();
+
+    return fechaA - fechaB;
+  });
 
   return (
     <div className="modal-overlay">
@@ -90,29 +110,21 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
         </div>
 
         <div className="modal-body">
-          {/* Encabezado */}
-          <div className="modal-top-title">
-            <p>
-              Solicitud de {ticket.clarificationType || ticket.ticketType} —{" "}
-              <span className={`estado-${ticket.status.toLowerCase()}`}>{ticket.status}</span>
-            </p>
-            <h3>{ticket.lenderName}</h3>
-          </div>
-
-          {/* Conversación */}
-          <div className="modal-section comentarios-container">
+          <HeaderTicketInfo
+            tipo={ticket.clarificationType || ticket.ticketType}
+            status={ticket.status}
+            financiera={ticket.lenderName}
+          />
+          <div className="modal-section comentarios-container" ref={scrollRef}>
             <h4>Comentarios</h4>
-            {ticket.messages?.length ? (
-              ticket.messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`comentario-burbuja ${msg.roles.includes("USER") ? "usuario" : "financiera"}`}
-                >
-                  <div className="comentario-header">
-                    <strong>{capitalizarNombre(msg.senderName)}</strong>
-                    <span className="comentario-fecha">{formatearFechaHora(msg.sendDate)}</span>
-                  </div>
-                  <p className="comentario-texto">{msg.content}</p>
+            {itemsConversacion.length ? (
+              itemsConversacion.map((item, i) => (
+                <div key={i} className="comentario-item">
+                  {item.tipo === "mensaje" ? (
+                    <MensajeBubble msg={item.data} />
+                  ) : (
+                    <TicketFileBubble file={item.data} />
+                  )}
                 </div>
               ))
             ) : (
@@ -120,7 +132,8 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
             )}
           </div>
 
-          {/* Input */}
+
+
           <ChatInputBar
             ticketId={ticket.ticketId}
             mensaje={mensaje}

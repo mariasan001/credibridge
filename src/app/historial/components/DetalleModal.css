@@ -43,7 +43,6 @@
 /* ---------------- DETALLE GENERAL ---------------- */
 
 .modal-body {
-  font-size: 12rem;
   line-height: 1;
   color: #333;
 }
@@ -90,9 +89,13 @@
 }
 
 /* ---------------- COMENTARIOS (ESTILO BURBUJA CHAT) ---------------- */
-
 .comentarios-container {
   margin-top: 2rem;
+  max-height: 360px; /* ajusta a lo que te convenga */
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .comentarios-container h4 {
@@ -169,4 +172,8 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+.comentario-item {
+  display: block;
+  margin-bottom: 14px;
 }
