@@ -1,5 +1,4 @@
 import React from "react";
-import "./AssignModal.css";
 
 interface Props {
   visible: boolean;

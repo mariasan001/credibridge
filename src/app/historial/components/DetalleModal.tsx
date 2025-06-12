@@ -75,7 +75,7 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
   if (loading || !ticket) {
     return (
       <div className="modal-overlay">
-        <div className="modal-container">
+        <div className="modal-container1">
           <p>Cargando conversación...</p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-container">
+      <div className="modal-container1">
         <div className="modal-header">
           <button className="modal-close-btn" onClick={onClose}>✕</button>
         </div>

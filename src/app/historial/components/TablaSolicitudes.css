@@ -1,4 +1,3 @@
-
 .titulo-tabla {
   font-size: 20px;
   font-weight: 600;
@@ -13,7 +12,7 @@
   font-size: 14px;
 }
 .cell-ellipsis {
-  max-width: 180px;       /* puedes ajustar */
+  max-width: 180px; /* puedes ajustar */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23,7 +22,6 @@
 .cell-ellipsis:hover {
   overflow: visible;
   white-space: normal;
-
 }
 .tabla-solicitudes thead th {
   text-align: left;
@@ -40,15 +38,15 @@
   z-index: 2;
 }
 
-.tabla-solicitudes tbody tr  {
+.tabla-solicitudes tbody tr {
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   transition: all 0.2s ease;
 }
 
 .tabla-solicitudes tbody tr :hover {
- background-color: #fdfdfd;
+  background-color: #fdfdfd;
   transform: scale(1.002);
 }
 .tabla-solicitudes tbody td {
@@ -58,7 +56,7 @@
   vertical-align: middle;
 }
 
-.tabla-solicitudes  tbody tr td:first-child {
+.tabla-solicitudes tbody tr td:first-child {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
@@ -111,6 +109,11 @@
   color: #6b7280;
   cursor: pointer;
   transition: color 0.2s;
+}
+.link-asignar {
+  cursor: pointer;
+  transition: color 0.2s;
+  color: #065f46;
 }
 
 .icon-eye:hover {

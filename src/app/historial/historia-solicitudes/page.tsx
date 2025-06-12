@@ -26,6 +26,7 @@ export default function TablaSolicitudesPage() {
       <CarteraHeader />
       <ResumenSolicitudes />
       <TablaSolicitudes />
+      
     </PageLayout>
   );
 }
