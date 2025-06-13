@@ -94,7 +94,7 @@ export const ContractsList = () => {
         contract={selectedContract}
         onClose={() => setSelectedContract(null)}
         onModificar={(c) => console.log("Modificar préstamo", c)}
-        onSubirDocs={(c) => console.log("Subir documentación", c)}
+  
       />
     </div>
   );

@@ -3,7 +3,7 @@ export const getVisibleStatusesByRole = (roleId: number): number[] => {
     case 6: // FINANCIERA_ASES
       return [1,4];
     case 5: // FINANCIERA_EJEC
-      return [3,2,5,6];
+      return [3,5,6];
     case 4: // FINANCIERA_ADM
       return [1, 2, 3, 4, 5, 6];
     default:
