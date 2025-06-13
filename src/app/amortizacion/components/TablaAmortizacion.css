@@ -1,0 +1,82 @@
+.tabla-amortizacion-wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(  --color-border);
+}
+.tabla-scroll {
+  max-height: 360px; /* o el tamaño que desees */
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+
+.tabla-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.resumen-linea {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.resumen-linea > div {
+  padding: 10px 12px;
+  border-right: 1px solid #e0e0e0;
+  background-color: #fafafa;
+}
+
+.resumen-linea > div:last-child {
+  border-right: none;
+}
+
+.resumen-linea {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.cuotas-info {
+  font-size: 13px;
+  color: #111;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+.tabla-amortizacion {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-amortizacion th,
+.tabla-amortizacion td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-amortizacion th {
+  background-color: #f9f9f9;
+  color: #444;
+}
+
+.ultima-cuota {
+  background-color: #007a5a;
+  color: white;
+}

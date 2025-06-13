@@ -1,0 +1,55 @@
+.tabla-descuentos-wrapper {
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(  --color-border);
+}
+.tabla-scroll {
+  max-height: 360px; /* o el tamaño que desees */
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+
+
+.tabla-descuentos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.icon-btn-descargar {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.tabla-descuentos-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.tabla-descuentos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-descuentos th,
+.tabla-descuentos td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tabla-descuentos th {
+  background-color: #f9f9f9;
+  color: #444;
+}

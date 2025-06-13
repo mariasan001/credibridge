@@ -1,0 +1,38 @@
+.detalle-contrato {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 13px;
+  line-height: 2.2;
+  color: #777777;
+  border: 1px solid var(  --color-border);
+}
+
+.detalle-contrato section {
+  margin-bottom: 4px;
+}
+
+.detalle-contrato h4 {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 4px;
+}
+
+.info-row span {
+  font-weight: 500;
+  color: #000000;
+}
+
+.info-row strong {
+  color: #222;
+}

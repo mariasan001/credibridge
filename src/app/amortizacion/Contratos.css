@@ -1,0 +1,31 @@
+.amortizacion-page {
+  display: flex;
+  flex-direction: column;
+  gap:1px;
+  padding: 2px;
+}
+
+.amortizacion-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Contenedor para ambas tablas */
+.amortizacion-tablas {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Por si luego necesitas responsivo o layout más complejo */
+@media (min-width: 1024px) {
+  .amortizacion-body {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .amortizacion-tablas {
+    flex: 1;
+  }
+}

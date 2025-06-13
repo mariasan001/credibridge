@@ -119,3 +119,25 @@
 .tabla-contratos .icon-view:hover::after {
   opacity: 1;
 }
+.tag {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.tag.green {
+  background-color: #e0f7ea;
+  color: #2e7d32;
+}
+
+.tag.blue {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.tag.gray {
+  background-color: #f0f0f0;
+  color: #666;
+}

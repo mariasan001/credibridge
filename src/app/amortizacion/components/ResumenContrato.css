@@ -1,0 +1,44 @@
+
+.resumen-grid-contrato {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.resumen-card-contrato {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 14px 18px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e3e3e3;
+}
+
+.label-contrato {
+  font-size: 11px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+}
+
+.bold-contrato {
+  font-weight: 600;
+}
+
+.valor-contrato {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.estatus-card.verde {
+  background-color: #007a5a;
+  color: white;
+}
+
+.estatus-card.rojo {
+  background-color: #c0392b;
+  color: white;
+}
