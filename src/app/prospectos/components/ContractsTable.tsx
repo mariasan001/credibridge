@@ -42,6 +42,7 @@ export const ContractsTable = ({
           contracts.map((contract) => (
             <tr key={contract.id}>
               <td>{contract.userId}</td>
+
               <td className="cell-ellipsis" data-fulltext={capitalizeWords(contract.nombre)}>
                 {capitalizeWords(contract.nombre)}
               </td>
@@ -51,9 +52,7 @@ export const ContractsTable = ({
               </td>
 
               <td className="center">
-                {contract.contractStatusDesc?.toLowerCase() === "reserva"
-                  ? "RESERVA"
-                  : contract.amount != null
+                {contract.amount != null
                   ? `$${contract.amount.toLocaleString("es-MX", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,

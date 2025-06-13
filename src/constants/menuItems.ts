@@ -63,12 +63,12 @@ export const menuItems = [
     label: "Gestión de Personal",
     icon: Users,
     route: "/gestion-personal",
-    roles: [1, 2, 4],
+    roles: [1, 2, 4,5],
     children: [
       {
         label: "Buscar Servidor Público",
         route: "/gestion-personal/buscar-servidor",
-        roles: [1, 2, 4],
+        roles: [1, 2, 4, 5],
       },
     ],
   },
@@ -76,22 +76,18 @@ export const menuItems = [
     label: "Comparativas",
     icon: BarChart2,
     route: "/comparativas",
-    roles: [1, 2, 4],
+    roles: [1, 2],
     children: [
       {
         label: "Ranking de Instituciones",
         route: "/comparativas/ranking-instituciones",
         roles: [1, 2],
       },
-      {
-        label: "Ranking de servicios",
-        route: "/comparativas/ranking-personal",
-        roles: [4],
-      },
+
       {
         label: "Resumen de Periodos",
         route: "/comparativas/resumen-periodo",
-        roles: [1, 2, 4],
+        roles: [1, 2],
       },
     ],
   },
@@ -120,22 +116,22 @@ export const menuItems = [
       {
         label: "Contratos Bloqueados",
         route: "/reportes-consultas/contratos-bloqueados",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Contratos Modificados",
         route: "/reportes-consultas/contratos-modificados",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Contratos Pagados",
         route: "/reportes-consultas/contratos-pagados",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Contratos Terminados",
         route: "/reportes-consultas/contratos-terminados",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Insertados por Nómina",
@@ -145,12 +141,12 @@ export const menuItems = [
       {
         label: "Instalados por Periodo",
         route: "/reportes-consultas/instalados-periodos",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Liquidaciones",
         route: "/reportes-consultas/liquidaciones",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
       {
         label: "Modalidad por Nómina",
@@ -165,7 +161,7 @@ export const menuItems = [
       {
         label: "Reservas en el periodo",
         route: "/reportes-consultas/reservas-periodo",
-        roles: [1, 2, 4],
+        roles: [1, 2, ],
       },
     ],
   },
@@ -173,7 +169,7 @@ export const menuItems = [
     label: "Prospectos",
     icon: BadgeCheck,
     route: "/prospectos",
-    roles: [5],
+    roles: [4,5],
   },
   {
     label: "Procesos Autorizados",
