@@ -1,0 +1,32 @@
+
+
+.dashboard-skeleton .skeleton-box,
+.dashboard-skeleton .skeleton-chart {
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.skeleton-side-boxes {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
