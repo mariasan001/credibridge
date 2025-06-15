@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
-import "./AssignModal.css"
+import "./AssignModal.css";
+
 interface Props {
   visible: boolean;
   usuariosAsignables: string[];
@@ -22,10 +24,16 @@ export const AssignModal = ({
   return (
     <div className="modal-overlay">
       <div className="modal-container">
-        <h3>Asignar contrato</h3>
+        <h3 className="modal-title">Asignar contrato</h3>
+
+        <label htmlFor="usuario-select" className="modal-label">
+          Usuario responsable
+        </label>
         <select
+          id="usuario-select"
           value={usuarioSeleccionado}
           onChange={(e) => setUsuarioSeleccionado(e.target.value)}
+          className="modal-select"
         >
           <option value="">Selecciona un usuario</option>
           {usuariosAsignables.map((u) => (
@@ -34,8 +42,13 @@ export const AssignModal = ({
             </option>
           ))}
         </select>
+
         <div className="modal-actions">
-          <button className="btn btn-primary" onClick={onAssign} disabled={!usuarioSeleccionado}>
+          <button
+            className="btn btn-primary"
+            onClick={onAssign}
+            disabled={!usuarioSeleccionado}
+          >
             Asignar
           </button>
           <button className="btn btn-secondary" onClick={onClose}>

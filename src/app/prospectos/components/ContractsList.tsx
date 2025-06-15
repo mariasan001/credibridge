@@ -10,6 +10,7 @@ import { useContracts } from "../hook/useContracts";
 import { useAuth } from "@/context/AuthContext";
 import { ModalProspecto } from "./ModalProspecto";
 import { Contract } from "../models/Contract";
+import ProspectosSkeleton from "../ProspectosSkeleton"; // 👈 Skeleton importado
 
 export const ContractsList = () => {
   const {
@@ -39,7 +40,6 @@ export const ContractsList = () => {
   } = useContracts();
 
   const { user } = useAuth();
-
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
 
   const handleEjecutivoStatusClick = (contract: Contract) => {
@@ -57,19 +57,32 @@ export const ContractsList = () => {
 
   return (
     <div className="contracts-container">
-      <FiltersBar filtros={filtros} setFiltros={setFiltros} setPage={setPage} />
+      {loading ? (
+        <ProspectosSkeleton /> // 👈 Mostramos skeleton si está cargando
+      ) : (
+        <>
+          <FiltersBar
+            filtros={filtros}
+            setFiltros={setFiltros}
+            setPage={setPage}
+          />
 
-      <ContractsTable
-        contracts={contratosFiltradosFinal}
-        onChangeStatus={cambiarEstatus}
-        isEjecutivo={isEjecutivo}
-        onClickEjecutivoStatus={handleEjecutivoStatusClick}
-        onClickProspecto={handleProspectoClick} // ✅ Aquí se pasa
-      />
+          <ContractsTable
+            contracts={contratosFiltradosFinal}
+            onChangeStatus={cambiarEstatus}
+            isEjecutivo={isEjecutivo}
+            onClickEjecutivoStatus={handleEjecutivoStatusClick}
+            onClickProspecto={handleProspectoClick}
+          />
 
-      <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </>
+      )}
 
-      {/* Modal para asignación */}
       <AssignModal
         visible={modalVisible}
         usuariosAsignables={usuariosAsignables}
@@ -79,7 +92,6 @@ export const ContractsList = () => {
         onAssign={asignarContrato}
       />
 
-      {/* Modal para cambiar estatus */}
       {isEjecutivo && (
         <ChangeStatusModal
           visible={changeModalVisible}
@@ -89,12 +101,10 @@ export const ContractsList = () => {
         />
       )}
 
-      {/* ✅ Modal Prospecto */}
       <ModalProspecto
         contract={selectedContract}
         onClose={() => setSelectedContract(null)}
         onModificar={(c) => console.log("Modificar préstamo", c)}
-  
       />
     </div>
   );

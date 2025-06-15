@@ -1,13 +1,9 @@
 .resumen-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 26px;
-  margin-top: 14px;
-  margin-bottom: 14px;
-  margin-left: 20px;
-  margin-right: 20px;
+  gap: 24px;
+  margin: 16px 20px;
   font-family: 'Poppins', sans-serif;
-  
 }
 
 .card {
@@ -15,49 +11,86 @@
   min-width: 180px;
   padding: 16px 20px;
   border-radius: 12px;
-  box-shadow: 0 1px 6px rgba(134, 134, 134, 0.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: all 0.1s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: default;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card span {
   font-size: 11px;
   text-transform: uppercase;
   color: #a1a1a1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .card strong {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 700;
   color: #111;
 }
 
 /* Tipos de tarjeta */
 .card.neutral {
-  background: #fff;
+  background-color: #ffffff;
   border: 1px solid #e3e3e3;
 }
 
 .card.green {
-  background-color: #2a2a2a;
-  color: white;
+  background-color: #28a745;
+  color: #fff;
 }
 
 .card.green span,
 .card.green strong {
-  color: white;
+  color: #fff;
 }
 
 .card.red {
-  background-color: #b03030;
-  color: white;
+  background-color: #dc3545;
+  color: #fff;
 }
 
 .card.red span,
 .card.red strong {
-  color: white;
+  color: #fff;
+}
+
+.card.yellow {
+  background-color: #f7b924;
+  color: #212529;
+}
+
+.card.yellow span,
+.card.yellow strong {
+  color: #212529;
+}
+
+.card.blue {
+  background-color: #276ef1;
+  color: #fff;
+}
+
+.card.blue span,
+.card.blue strong {
+  color: #fff;
+}
+
+.card.black {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.card.black span,
+.card.black strong {
+  color: #fff;
 }

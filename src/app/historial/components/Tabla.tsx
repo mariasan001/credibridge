@@ -73,17 +73,18 @@ export default function Tabla({
                 <span className={`tiempo-tag ${tiempo.clase}`}>{tiempo.texto}</span>
               </td>
               <td className="cell-ellipsis">
-                {ticket.assignedTo ? (
-                  capitalizarNombre(ticket.assignedTo)
-                ) : (
-                  <span
-                    className="link-asignar"
-                    onClick={() => abrirAsignarModal(ticket.ticketId)}
-                  >
-                    No asignado
-                  </span>
-                )}
+                <span
+                  className="link-asignar"
+                  onClick={() => abrirAsignarModal(ticket.ticketId)}
+                  title="Editar asignación"
+                  style={{ cursor: "pointer" }}
+                >
+                  {ticket.assignedTo
+                    ? capitalizarNombre(ticket.assignedTo)
+                    : "No asignado"}
+                </span>
               </td>
+
               <td>
                 <Eye className="icon-view" onClick={() => abrirModal(ticket.ticketId)} />
               </td>

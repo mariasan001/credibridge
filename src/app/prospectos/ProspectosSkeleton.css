@@ -1,0 +1,49 @@
+.skeleton-container {
+  padding: 20px;
+}
+
+.skeleton-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.skeleton-filter {
+  flex: 1;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.skeleton-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.skeleton-row {
+  height: 52px;
+  border-bottom: 1px solid #eee;
+}
+
+.skeleton-cell {
+  padding: 8px 12px;
+}
+
+.skeleton-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.skeleton-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.skeleton-select {
+  width: 100px;
+  height: 32px;
+  border-radius: 6px;
+}

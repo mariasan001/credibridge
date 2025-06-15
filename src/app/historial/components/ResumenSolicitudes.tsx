@@ -1,24 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchTickets } from "../service/ticket_service";
 import { Ticket } from "../model/ticket_model";
+import { fetchTicketsByStatus } from "../service/ticket_service";
 import "./ResumenSolicitudes.css";
 
 export default function ResumenSolicitudes() {
   const [stats, setStats] = useState({
     total: 0,
-    sinAsignar: 0,
+    resueltos: 0,
     porVencer: 0,
     vencidas: 0,
-    activas: 0
+    enProceso: 0,
+    sinAsignar: 0,
   });
 
   useEffect(() => {
-    fetchTickets().then(data => {
-      const solicitudes: Ticket[] = data.filter(t => t.ticketType === "SOLICITUD");
-
+    fetchTicketsByStatus([1, 2, 3], 0, 100).then(data => {
+      const solicitudes: Ticket[] = data.content.filter(t => t.ticketType === "SOLICITUD");
       const hoy = new Date();
+
       const calcularDiasRestantes = (fechaStr: string) => {
         const fechaCreacion = new Date(fechaStr);
         return Math.floor((fechaCreacion.getTime() + 16 * 86400000 - hoy.getTime()) / 86400000);
@@ -26,14 +27,23 @@ export default function ResumenSolicitudes() {
 
       const resumen = {
         total: solicitudes.length,
-        sinAsignar: solicitudes.filter(t => !t.assignedTo).length,
-        porVencer: solicitudes.filter(t => {
-          const dias = calcularDiasRestantes(t.creationDate);
-          return dias >= 0 && dias <= 1;
-        }).length,
-        vencidas: solicitudes.filter(t => calcularDiasRestantes(t.creationDate) < 0).length,
-        activas: solicitudes.filter(t => calcularDiasRestantes(t.creationDate) > 1).length,
+        resueltos: 0,
+        porVencer: 0,
+        vencidas: 0,
+        enProceso: 0,
+        sinAsignar: 0,
       };
+
+      solicitudes.forEach(t => {
+        const dias = calcularDiasRestantes(t.creationDate);
+        if (dias >= 0 && dias <= 1) resumen.porVencer++;
+        if (dias < 0) resumen.vencidas++;
+
+        const status = t.status.toLowerCase();
+        if (status === "resuelto") resumen.resueltos++;
+        if (status === "en proceso") resumen.enProceso++;
+        if (!t.assignedTo) resumen.sinAsignar++;
+      });
 
       setStats(resumen);
     });
@@ -46,10 +56,14 @@ export default function ResumenSolicitudes() {
         <strong>{stats.total}</strong>
       </div>
       <div className="card neutral">
-        <span>Activas</span>
-        <strong>{stats.activas}</strong>
+        <span>En proceso</span>
+        <strong>{stats.enProceso}</strong>
       </div>
-      <div className="card yellow">
+      <div className="card neutral">
+        <span>Resueltas</span>
+        <strong>{stats.resueltos}</strong>
+      </div>
+      <div className="card neutral">
         <span>Por vencer</span>
         <strong>{stats.porVencer}</strong>
       </div>

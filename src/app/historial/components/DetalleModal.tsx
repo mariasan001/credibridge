@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
+import toast from "react-hot-toast";
 
 import { useAuth } from "@/context/AuthContext";
 import { ChatInputBar } from "@/app/perfil_user/solicitudes_quejas/components/ChatInput";
@@ -16,13 +16,13 @@ import { TicketDetailModel } from "@/app/perfil_user/solicitudes_quejas/model/Ti
 import { TicketFileModel } from "@/app/perfil_user/solicitudes_quejas/model/TicketFileModel";
 import { getTicketDetail } from "@/app/perfil_user/solicitudes_quejas/service/ticketDetailService";
 import { getTicketFiles } from "@/app/perfil_user/solicitudes_quejas/service/ticketFilesService";
+import { closeTicket } from "../service/closeTicketService";
 
 interface Props {
   ticketId: number;
   onClose: () => void;
 }
 
-// Extendemos temporalmente el modelo con archivos
 type TicketConArchivos = TicketDetailModel & { files: TicketFileModel[] };
 
 export default function DetalleModal({ ticketId, onClose }: Props) {
@@ -32,12 +32,10 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Cargar ticket cuando cambie el ID
   useEffect(() => {
     cargarTicket();
   }, [ticketId]);
 
-  // Auto-scroll al fondo cada vez que cambia el contenido
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -61,7 +59,6 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
 
   const enviarMensaje = async () => {
     if (!mensaje.trim() || !user) return;
-
     try {
       await respondTicket({
         ticketId,
@@ -76,6 +73,20 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
     }
   };
 
+  const cerrarTicket = async () => {
+    const confirmar = confirm("¿Estás seguro de cerrar este ticket?");
+    if (!confirmar) return;
+
+    try {
+      await closeTicket(ticketId);
+      toast.success("Ticket cerrado correctamente");
+      await cargarTicket();
+    } catch (err) {
+      toast.error("No se pudo cerrar el ticket");
+      console.error("❌ Error al cerrar ticket:", err);
+    }
+  };
+
   if (loading || !ticket) {
     return (
       <div className="modal-overlay">
@@ -85,6 +96,7 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
       </div>
     );
   }
+
   const itemsConversacion = [
     ...(ticket.messages?.map(msg => ({ tipo: "mensaje" as const, data: msg })) || []),
     ...(ticket.files?.map(file => ({ tipo: "archivo" as const, data: file })) || []),
@@ -107,6 +119,13 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
       <div className="modal-container1">
         <div className="modal-header">
           <button className="modal-close-btn" onClick={onClose}>✕</button>
+             {ticket.status.toLowerCase() !== "cerrado" && (
+            <div style={{ marginTop: "1rem", textAlign: "right" }}>
+              <button className="btn btn-danger" onClick={cerrarTicket}>
+                Cerrar ticket
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="modal-body">
@@ -115,6 +134,7 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
             status={ticket.status}
             financiera={ticket.lenderName}
           />
+
           <div className="modal-section comentarios-container" ref={scrollRef}>
             <h4>Comentarios</h4>
             {itemsConversacion.length ? (
@@ -132,8 +152,6 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
             )}
           </div>
 
-
-
           <ChatInputBar
             ticketId={ticket.ticketId}
             mensaje={mensaje}
@@ -141,6 +159,8 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
             onSend={enviarMensaje}
             onUploadSuccess={cargarTicket}
           />
+
+       
         </div>
       </div>
     </div>

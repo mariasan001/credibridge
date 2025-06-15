@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import { Contract } from "../models/Contract";
 import { ContractStatus } from "../models/ContractStatus";
@@ -14,26 +14,67 @@ import {
 } from "../services/assignService.";
 import { fetchAllStatuses } from "../services/contract-status";
 
+// 🧠 Opcional: mover a archivo externo para reutilizar
+const filtrarPorFecha = (fecha: Date, rango: string) => {
+  const hoy = new Date();
+  switch (rango) {
+    case "hoy":
+      return fecha.toDateString() === hoy.toDateString();
+    case "semana": {
+      const inicio = new Date(hoy);
+      inicio.setDate(hoy.getDate() - hoy.getDay());
+      const fin = new Date(inicio);
+      fin.setDate(inicio.getDate() + 6);
+      return fecha >= inicio && fecha <= fin;
+    }
+    case "mes":
+      return (
+        fecha.getMonth() === hoy.getMonth() &&
+        fecha.getFullYear() === hoy.getFullYear()
+      );
+    case "trimestre": {
+      const m = hoy.getMonth();
+      const t = Math.floor(m / 3);
+      const i = new Date(hoy.getFullYear(), t * 3, 1);
+      const f = new Date(hoy.getFullYear(), t * 3 + 3, 0);
+      return fecha >= i && fecha <= f;
+    }
+    case "año":
+      return fecha.getFullYear() === hoy.getFullYear();
+    default:
+      return true;
+  }
+};
+
 export function useContracts() {
   const { user } = useAuth();
   const roleId = user?.roles?.[0]?.id ?? 0;
   const isEjecutivo = roleId === 5;
 
+  // 📦 Estados principales
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [page, setPage] = useState(1);
+  const [pageSize] = useState(10); // Podrías permitir cambiarlo en el futuro
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  // 📦 Estados para asignación
   const [modalVisible, setModalVisible] = useState(false);
   const [usuariosAsignables, setUsuariosAsignables] = useState<string[]>([]);
   const [contractToAssign, setContractToAssign] = useState<number | null>(null);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState("");
 
-  const [estatusDisponibles, setEstatusDisponibles] = useState<ContractStatus[]>([]);
+  // 📦 Estados para cambio de estatus
+  const [estatusDisponibles, setEstatusDisponibles] = useState<
+    ContractStatus[]
+  >([]);
   const [changeModalVisible, setChangeModalVisible] = useState(false);
-  const [contractToUpdate, setContractToUpdate] = useState<Contract | null>(null);
+  const [contractToUpdate, setContractToUpdate] = useState<Contract | null>(
+    null
+  );
 
+  // 📦 Filtros
   const [filtros, setFiltros] = useState({
     userId: "",
     fechaRango: "",
@@ -43,12 +84,13 @@ export function useContracts() {
 
   const visibleStatusIds = getVisibleStatusesByRole(roleId);
 
+  // 🔄 Carga contratos
   const loadContracts = async () => {
     if (visibleStatusIds.length === 0) return;
     setLoading(true);
     setError(false);
     try {
-      const res = await fetchContracts(visibleStatusIds, page);
+      const res = await fetchContracts(visibleStatusIds, page, pageSize);
       setContracts(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -67,9 +109,8 @@ export function useContracts() {
   useEffect(() => {
     if (isEjecutivo) {
       fetchAllStatuses()
-        .then(res => {
-          const filtrados = res.data.filter(e => e.id !== 1); // excluir RESERVA
-          setEstatusDisponibles(filtrados);
+        .then((res) => {
+          setEstatusDisponibles(res.data.filter((e) => e.id !== 1));
         })
         .catch(() => {
           toast.error("No se pudieron cargar los estatus disponibles.");
@@ -77,6 +118,7 @@ export function useContracts() {
     }
   }, [isEjecutivo]);
 
+  // ✅ Cambia estatus
   const cambiarEstatus = async (contract: Contract) => {
     try {
       if (isEjecutivo) {
@@ -110,101 +152,65 @@ export function useContracts() {
     }
   };
 
+  // ✅ Confirma cambio de estatus (modal ejecutivo)
   const confirmarCambioEstatus = async (newStatusId: number) => {
     if (!contractToUpdate) return;
 
     try {
       await updateContractStatus(contractToUpdate.id, newStatusId);
-
       toast.success("Estatus actualizado correctamente");
       setChangeModalVisible(false);
       setContractToUpdate(null);
-
-      setTimeout(() => {
-        loadContracts();
-      }, 1000);
+      loadContracts();
     } catch (err) {
       toast.error("Error al actualizar estatus");
       console.error(err);
     }
   };
 
+  // ✅ Asigna contrato (actualizado con recarga real)
   const asignarContrato = async () => {
     if (!contractToAssign || !usuarioSeleccionado) return;
     try {
       await assignContract(contractToAssign, usuarioSeleccionado);
       await updateContractStatus(contractToAssign, 5);
 
-      setContracts((prev) =>
-        prev.map((c) =>
-          c.id === contractToAssign
-            ? { ...c, contractStatusDesc: "EN PROCESO" }
-            : c
-        )
-      );
+      // 🔄 Recargar contratos desde backend
+      await loadContracts(); // 👈 Aquí el cambio real
 
+      // 🧹 Limpiar y cerrar modal
       setModalVisible(false);
       setUsuarioSeleccionado("");
       setContractToAssign(null);
 
       toast.success("Contrato asignado correctamente.");
-
-      setTimeout(() => {
-        loadContracts();
-      }, 1500);
     } catch (err) {
       console.error("Error asignando contrato:", err);
       toast.error("Ocurrió un error al asignar el contrato.");
     }
   };
 
-  const contratosFiltrados = contracts.filter((c) => {
-    const f1 =
-      filtros.userId === "" ||
-      c.userId.toLowerCase().includes(filtros.userId.toLowerCase());
-    const f2 =
-      filtros.servicio === "" ||
-      c.typeService.toLowerCase().includes(filtros.servicio);
-    const f3 =
-      filtros.status === "" ||
-      c.contractStatusDesc.toLowerCase().includes(filtros.status);
-    const f4 =
-      filtros.fechaRango === "" ||
-      (() => {
-        const fecha = new Date(c.createdAt);
-        const hoy = new Date();
-        switch (filtros.fechaRango) {
-          case "hoy":
-            return fecha.toDateString() === hoy.toDateString();
-          case "semana": {
-            const i = new Date(hoy);
-            i.setDate(hoy.getDate() - hoy.getDay());
-            const f = new Date(i);
-            f.setDate(i.getDate() + 6);
-            return fecha >= i && fecha <= f;
-          }
-          case "mes":
-            return (
-              fecha.getMonth() === hoy.getMonth() &&
-              fecha.getFullYear() === hoy.getFullYear()
-            );
-          case "trimestre": {
-            const m = hoy.getMonth();
-            const t = Math.floor(m / 3);
-            const i = new Date(hoy.getFullYear(), t * 3, 1);
-            const f = new Date(hoy.getFullYear(), t * 3 + 3, 0);
-            return fecha >= i && fecha <= f;
-          }
-          case "año":
-            return fecha.getFullYear() === hoy.getFullYear();
-          default:
-            return true;
-        }
-      })();
+  // 🔍 Aplica filtros con `useMemo` (no se recalcula innecesariamente)
+  const contratosFiltrados = useMemo(() => {
+    return contracts.filter((c) => {
+      const f1 =
+        !filtros.userId ||
+        c.userId.toLowerCase().includes(filtros.userId.toLowerCase());
+      const f2 =
+        !filtros.servicio ||
+        c.typeService.toLowerCase().includes(filtros.servicio);
+      const f3 =
+        !filtros.status ||
+        c.contractStatusDesc.toLowerCase().includes(filtros.status);
+      const f4 =
+        !filtros.fechaRango ||
+        filtrarPorFecha(new Date(c.createdAt), filtros.fechaRango);
 
-    return f1 && f2 && f3 && f4;
-  });
+      return f1 && f2 && f3 && f4;
+    });
+  }, [contracts, filtros]);
 
+  // 🎯 Retornamos todo listo
   return {
     contracts,
     contratosFiltrados,
@@ -222,14 +228,12 @@ export function useContracts() {
     setUsuarioSeleccionado,
     cambiarEstatus,
     asignarContrato,
-    // NUEVOS
     isEjecutivo,
     estatusDisponibles,
     changeModalVisible,
     setChangeModalVisible,
     contractToUpdate,
     confirmarCambioEstatus,
-    setContractToUpdate, // 👈 Asegúrate de incluirl
-
+    setContractToUpdate,
   };
 }
