@@ -1,17 +1,17 @@
 .personal-info-card {
-  background-color: white;
+  background-color: var(--color-bg-sidebar);
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   flex: 1;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border);
 }
 
 .personal-info-card h4 {
   margin-bottom: 16px;
   font-size: 15px;
   font-weight: 600;
-  color: #222;
+  color: var(  --color-text-subtitle);
 }
 
 .grid {
@@ -19,7 +19,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px 32px;
   font-size: 14px;
-  color: #111;
+  color: var( --color-text-main);
 }
 
 .grid div {
@@ -29,10 +29,10 @@
 
 .grid span {
   font-size: 13px;
-  color: #666;
+  color: var(  --color-text-muted);
 }
 
 .grid strong {
   font-weight: 600;
-  color: #111;
+  color: var(--color-text-subtitle);
 }

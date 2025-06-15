@@ -3,7 +3,7 @@
 import { Contract } from "../models/Contract";
 import { getTagColorByService, getTagColorByStatus } from "../utils/tagHelpers";
 import { capitalizeFirst, capitalizeWords } from "../utils/capitalize";
-import { PlayCircle } from "lucide-react";
+import { Brain, FolderKanban, Inbox } from "lucide-react";
 import "./ContractRow.css";
 
 interface Props {
@@ -114,7 +114,7 @@ export const ContractsTable = ({
                     title="Iniciar proceso de contratación"
                     onClick={() => onClickProspecto(contract)}
                   >
-                    <PlayCircle size={20} />
+                    <FolderKanban	 size={20} />
                   </button>
                 </td>
               )}

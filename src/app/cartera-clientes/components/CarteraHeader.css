@@ -11,18 +11,18 @@
 .cartera-header__info h2 {
   font-size: 20px;
   font-weight: 700;
-  color: #111;
+  color: var(  --color-text-main);
   margin-bottom: 4px;
 }
 
 .cartera-header__info p {
   font-size: 13px;
-  color: #999;
+  color: var(  --coilor-fondo-cat);
   font-weight: 300;
 }
 
 .cartera-header__btn {
-  background-color: #1a1a1a;
+  background-color: var(  --color-bg-warning);
   color: var(  --color-bg-container);
   padding: 8px 16px;
   border-radius: 6px;

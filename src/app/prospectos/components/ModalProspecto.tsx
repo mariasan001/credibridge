@@ -185,7 +185,9 @@ export const ModalProspecto = ({ contract, onClose, onModificar }: Props) => {
           <SubirDocumentacion
             contractId={contract.id}
             onVolver={() => setView("detalle")}
+            onClose={onClose} // ✅ Esto es lo que falta
           />
+
         )}
       </div>
     </div>

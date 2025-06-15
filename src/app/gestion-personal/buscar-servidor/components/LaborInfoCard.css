@@ -1,8 +1,9 @@
 .labor-info-card {
-  background-color: var(   --color-bg-sidebar);
+  background-color: var(--color-bg-sidebar);
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
+  border:1px solid var(--color-border);
   flex: 1;
 }
 
@@ -10,15 +11,17 @@
   margin-bottom: 16px;
   font-size: 15px;
   font-weight: 600;
-  color: var(  --color-text-main);
+  border: var(--color-border);
+  color: var(--color-text-main);
 }
 
 .grid {
+  border: var(--color-border);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 32px;
   font-size: 14px;
-  color: var(  --color-text-main);
+  color: var(--color-text-main);
 }
 
 .grid div {
@@ -52,7 +55,7 @@
   gap: 10px;
 }
 
-.verificar-btn { 
+.verificar-btn {
   background-color: #007f5f;
   color: white;
   font-size: 11px;

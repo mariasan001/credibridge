@@ -12,8 +12,8 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #1a1a1a;
-  background-color: #f8f8f8;
+  color: var(--color-text-subtitle);
+  background-color: var(--color-bg-mai2);
   text-transform: uppercase;
   padding: 14px 16px;
   white-space: nowrap;
@@ -24,14 +24,14 @@
 
 /* FILAS */
 .tabla-contratos tbody tr {
-  background: #ffffff;
+  background: var(--color-bg-sidebar);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   border-radius: 10px;
   transition: all 0.2s ease;
 }
 
 .tabla-contratos tbody tr:hover {
-  background-color: #fdfdfd;
+  background-color:  var(  --color-bg-container);
   transform: scale(1.002);
 }
 
@@ -104,8 +104,8 @@
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
+  background-color: var( --color-text-subtitle);
+  color: var(  --color-bg-sidebar);
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 4px;
