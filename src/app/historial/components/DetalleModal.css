@@ -14,7 +14,7 @@
 }
 
 .modal-container1 {
-  background-color: #fff;
+  background-color:var( --color-bg-container);
   border-radius: 8px;
   width: 100%;
   max-width: 820px;
@@ -37,19 +37,19 @@
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  color: #000000;
+  color: var( --color-text-main);
 }
 
 /* ---------------- DETALLE GENERAL ---------------- */
 
 .modal-body {
   line-height: 1;
-  color: #333;
+  color: var(--color-text-strong);
 }
 
 .modal-top-title p {
   font-size: 12px;
-  color: #444;
+  color: var(--color-text-strong);
   margin-bottom: 4px;
 }
 
@@ -57,16 +57,16 @@
   font-size: 14px;
   font-weight: 700;
   margin: 0;
-  color: #111;
+  color: var(  --color-text-main);
 }
 
 .estado-abierto {
-  color: #e67e22;
+  color: var(--color-bg-warning2);
   font-weight: 600;
 }
 
 .estado-solucionada {
-  color: #27ae60;
+  color: var(  --color-general-verde);
   font-weight: 600;
 }
 
@@ -85,7 +85,7 @@
   display: block;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #444;
+  color: var( --color-text-strong);
 }
 
 /* ---------------- COMENTARIOS (ESTILO BURBUJA CHAT) ---------------- */
@@ -102,7 +102,7 @@
   font-size: 13PX;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #111;
+  color: var( --color-text-main);
 }
 
 .comentario-burbuja {
@@ -121,8 +121,8 @@
 
 /* Usuario (lado derecho, estilo burbuja con sombra más clara) */
 .comentario-burbuja.usuario {
-  background-color: #f5f6f8;
-  color: #616161;
+  background-color: var( --coilor-fondo-cat);
+  color: var( --color-text-strong);
   margin-left: auto;
   margin-right: 0;
   border-top-right-radius: 4px;
@@ -132,8 +132,8 @@
 
 /* Financiera (lado izquierdo, verde tenue) */
 .comentario-burbuja.financiera {
-  background-color: #fcf5de;
-  color: #848585;
+  background-color: var(  --coilor-fondo-cat);
+  color: var(--color-text-strong);
   margin-right: auto;
   margin-left: 0;
   border-top-left-radius: 4px;
@@ -148,7 +148,7 @@
   align-items: center;
   font-size: 0.82rem;
   font-weight: 500;
-  color: #4b4a4a;
+  color: var(--color-text-strong);
   font-size: 12PX;
   margin-bottom: 6px;
 }
@@ -157,7 +157,7 @@
 .comentario-texto {
   font-size: 0.96rem;
   font-weight: 400;
-  color: #222;
+  color: var(--color-text-strong);
   font-size: 13PX;
   margin: 0;
 }

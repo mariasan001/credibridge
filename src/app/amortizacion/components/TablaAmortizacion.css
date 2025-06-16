@@ -1,5 +1,5 @@
 .tabla-amortizacion-wrapper {
-  background-color: #fff;
+  background-color: var( --color-bg-sidebar);
   border-radius: 10px;
   padding: 16px 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -8,7 +8,7 @@
 .tabla-scroll {
   max-height: 360px; /* o el tamaño que desees */
   overflow-y: auto;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
 }
 
@@ -23,7 +23,7 @@
 .resumen-linea {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
   font-size: 13px;
@@ -32,8 +32,8 @@
 
 .resumen-linea > div {
   padding: 10px 12px;
-  border-right: 1px solid #e0e0e0;
-  background-color: #fafafa;
+  border-right: 1px solid var(--color-border);
+  background-color:var( --color-bg-mai2);
 }
 
 .resumen-linea > div:last-child {
@@ -46,12 +46,12 @@
   gap: 10px;
   font-size: 13px;
   margin-bottom: 12px;
-  color: #555;
+  color: var(  --color-text-strong);
 }
 
 .cuotas-info {
   font-size: 13px;
-  color: #111;
+  color: var( --color-text-subtitle);
 }
 
 .tabla-scroll {
@@ -68,12 +68,12 @@
 .tabla-amortizacion td {
   padding: 10px 12px;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .tabla-amortizacion th {
-  background-color: #f9f9f9;
-  color: #444;
+  background-color: var(  --coilor-fondo-cat);
+  color: var( --color-text-strong);
 }
 
 .ultima-cuota {

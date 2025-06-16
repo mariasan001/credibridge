@@ -13,8 +13,8 @@
   min-width: 36px;
   height: 36px;
   padding: 6px 12px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--color-bg-sidebar);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
@@ -22,14 +22,14 @@
 }
 
 .page-btn:hover:not(.active):not(:disabled) {
-  background-color: #f3f4f6;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background-color: var( --color-bg-mai2);
+  box-shadow: var(--shadow-md)
 }
 
 .page-btn.active {
-  background-color: #1f2937; 
-  color: #fff;
-  border-color: #1f2937;
+  background-color: var( --color-text-subtitle); 
+  color:var( --color-bg-sidebar);
+  border-color: var( --color-text-subtitle);
   cursor: default;
 }
 
@@ -40,7 +40,7 @@ button:disabled {
 
 .dots {
   padding: 6px 10px;
-  color: #999;
+  color: var( --color-text-muted);
   font-weight: bold;
 }
 
@@ -50,14 +50,14 @@ button:disabled {
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .pagination-jump select {
   padding: 4px 8px;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid var(--color-bg-mai2);
+  background: var(--color-bg-sideba);
   font-size: 13px;
   font-weight: 500;
 }

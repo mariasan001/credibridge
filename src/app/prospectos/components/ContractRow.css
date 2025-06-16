@@ -3,13 +3,13 @@
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 12px;
-  color: #1a1a1a;
+  color: var(--color-text-main);
 }
 
 /* SUBTÍTULO si usas uno */
 .contracts-subtitle {
   font-size: 14px;
-  color: #666;
+  color: var(  --color-text-strong);
   margin-bottom: 24px;
 }
 
@@ -24,6 +24,9 @@
   cursor: pointer;
   padding: 6px;
   transition: transform 0.2s ease;
+}
+.icon-button{
+  color: var(--color-text-strong);
 }
 
 .icon-button:hover {
@@ -62,8 +65,8 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #1a1a1a;
-  background-color: #f8f8f8;
+  color: var(  --color-text-strong);
+  background-color: var( --color-bg-mai2);
   text-transform: uppercase;
   padding: 14px 16px;
   white-space: nowrap;
@@ -73,14 +76,14 @@
 }
 /* FILAS */
 .contracts-table tbody tr {
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: var(--color-bg-sidebar);
+  box-shadow:var(--shadow-md);
   border-radius: 10px;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .contracts-table tbody tr:hover {
-  background-color: #f7fafd;
+  background-color: var( --coilor-fondo-cat);
   transform: scale(1.002);
 }
 
@@ -88,7 +91,7 @@
 .contracts-table td {
   padding: 12px 16px;
   font-size: 13px;
-  color: #444;
+  color: var(--color-text-secondary);
   font-weight: 400;
 }
 
@@ -106,7 +109,7 @@
 .contracts-table .bold {
   font-size: 13px;
   font-weight: 500;
-  color: #505050;
+  color: var(--color-text-secondary);
 }
 
 .contracts-table .tag {
@@ -120,13 +123,13 @@
 }
 
 .contracts-table .green {
-  background-color: #e1f8e7;
-  color: #2d8052;
+  background-color: var(  --color-declaracion-finiquito-bg);
+  color: var(  --color-declaracion-finiquito-text);
 }
 
 .contracts-table .red {
-  background-color: #fce1e1;
-  color: #bf4242;
+  background-color: var(--color-queja-bg);
+  color: var( --color-queja-text);
 }
 
 /* ETIQUETAS (tags) generales */
@@ -143,36 +146,36 @@
 
 /* Colores por tipo y estatus (ajustados para más contraste y estética) */
 .tag-green {
-  background-color: #e1f8e7;
-  color: #2d8052;
+  background-color: var(  --color-declaracion-finiquito-bg);
+  color: var(  --color-declaracion-finiquito-text);
 }
 
 .tag-yellow {
-  background-color: #fff6cc;
-  color: #b08b00;
+  background-color: var( --color-modalidad-seguro-bg);
+  color: var(  --color-status-activo-text);
 }
 
 .tag-orange {
-  background-color: #ffe9cc;
-  color: #cc5a00;
+  background-color: var(  --color-declaracion-carta-bg);
+  color: var( --color-declaracion-carta-text);
 }
 
 .tag-blue {
-  background-color: #e6f0ff;
-  color: #1d4ed8;
+  background-color: var(  --color-declaracion-estado-bg);
+  color: var( --color-declaracion-estado-text);
 }
 
 .tag-red {
-  background-color: #fce1e1;
-  color: #bf4242;
+  background-color: var(--color-queja-bg);
+  color: var( --color-queja-text);
 }
 
 .tag-purple {
-  background-color: #ece9fd;
-  color: #5b36a5;
+  background-color: var(--color-declaracion-solicitud-bg);
+  color: var( --color-declaracion-solicitud-text);
 }
 
 .tag-gray {
-  background-color: #f3f3f3;
-  color: #666;
+  background-color: var( --colorborde);
+  color: var(--color-text-strong);
 }

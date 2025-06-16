@@ -1,0 +1,67 @@
+.cartera-skeleton {
+  padding: 16px 8px;
+}
+
+.skeleton-resumen-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.skeleton-box {
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-box.resumen {
+  width: 220px;
+  height: 80px;
+}
+
+.skeleton-box.resumen.sm {
+  width: 180px;
+}
+
+.skeleton-filter-bar {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 32px;
+}
+
+.skeleton-box.filtro {
+  width: 200px;
+  height: 42px;
+}
+
+.skeleton-box.boton {
+  width: 100px;
+  height: 42px;
+}
+
+.skeleton-tabla {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-row-tabla {
+  height: 48px;
+  border-radius: 8px;
+  background-color: #e5e7eb;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

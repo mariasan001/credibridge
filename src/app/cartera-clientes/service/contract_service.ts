@@ -4,7 +4,6 @@ import { ClientPortfolioContract } from "../model/contract_model"
 interface Pageable {
   page: number
   size: number
-  // sort eliminado porque no es necesario ni soportado correctamente
 }
 
 interface FetchClientPortfolioResponse {
@@ -14,16 +13,17 @@ interface FetchClientPortfolioResponse {
 }
 
 export async function fetchClientPortfolio(
-  claveSp?: string,
+  rfc?: string,
   fechaInicio?: string,
   fechaFin?: string,
-  pageable?: Pageable
+  pageable?: Pageable,
+  status?: string
 ): Promise<FetchClientPortfolioResponse> {
   const params: Record<string, any> = {
-
-    ...(claveSp ? { claveSp } : {}),
+    ...(rfc ? { rfc } : {}),
     ...(fechaInicio ? { fechainicio: fechaInicio } : {}),
     ...(fechaFin ? { fechaFin } : {}),
+    ...(status ? { status } : {}),
     page: pageable?.page,
     size: pageable?.size,
   }

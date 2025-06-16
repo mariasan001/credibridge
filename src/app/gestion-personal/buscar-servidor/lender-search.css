@@ -44,7 +44,7 @@
 }
 
 .search-bar button:hover {
-  background-color: #000000;
+  background-color:var(  --color-general-naranja);
 }
 
 

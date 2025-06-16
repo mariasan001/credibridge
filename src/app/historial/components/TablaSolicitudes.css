@@ -2,7 +2,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #111827;
+  color: var(--color-text-main);
 }
 
 .tabla-solicitudes {
@@ -28,8 +28,8 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #3c3c3c;
-  background-color: #f8f8f8;
+  color: var(--color-text-strong);
+  background-color: var(--color-bg-mai2);
   text-transform: uppercase;
   padding: 14px 16px;
   white-space: nowrap;
@@ -39,20 +39,20 @@
 }
 
 .tabla-solicitudes tbody tr {
-  background: #ffffff;
+  background: var(--color-bg-sidebar);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   transition: all 0.2s ease;
 }
 
 .tabla-solicitudes tbody tr :hover {
-  background-color: #fdfdfd;
+  background-color: var(  --color-bg-sidebar);
   transform: scale(1.002);
 }
 .tabla-solicitudes tbody td {
   padding: 12px 16px;
   font-size: 13px;
-  color: #747474;
+  color: var(--color-text-main);
   vertical-align: middle;
 }
 
@@ -77,8 +77,8 @@
 }
 
 .status-tag.abierto {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: var(--color-modalidad-seguro-bg);
+  color: var(--color-modalidad-seguro-text);
 }
 
 .tiempo-tag {
@@ -89,18 +89,18 @@
 }
 
 .tiempo-normal {
-  background-color: #f0fdf4;
-  color: #15803d;
+  background-color: var(--color-declaracion-finiquito-bg);
+  color: var(--color-declaracion-finiquito-text);
 }
 
 .tiempo-urgente {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--color-queja-bg);
+  color: var(--color-queja-text);
 }
 
 .tiempo-rebasado {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: var(--color-queja-bg);
+  color: var(--color-queja-text);
 }
 
 .icon-eye {
@@ -113,11 +113,11 @@
 .link-asignar {
   cursor: pointer;
   transition: color 0.2s;
-  color: #065f46;
+  color: var(--color-status-activo-bg);
 }
 
 .icon-eye:hover {
-  color: #111827;
+  color: var(--color-text-subtitle);
 }
 .filtros-solicitudes {
   display: flex;
@@ -126,6 +126,8 @@
   margin-bottom: 6px;
   padding: 10px 0;
   width: 100%;
+  background: var(--color-bg-container);
+  color: var(--color-text-main);
 }
 
 .filtros-solicitudes select {
@@ -133,8 +135,9 @@
   min-width: 432px;
   max-width: 240px;
   padding: 8px 12px;
-  border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 13px;
   box-sizing: border-box;
+  background: var(--color-bg-container);
+  color: var(--color-text-main);
 }

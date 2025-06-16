@@ -5,13 +5,13 @@
 .upload-subtitle {
   margin-bottom: 12px;
   font-size: 16px;
-  color: #374151;
+  color: var(--color-text-strong);
   font-weight: 500;
 }
 
 .upload-dropzone {
-  border: 2px dashed #c7d2fe;
-  background-color: #f3f4f6;
+  border: 2px dashed var(--color-border);
+  background-color: var(--coilor-fondo-cat);
   border-radius: 12px;
   padding: 40px;
   text-align: center;
@@ -20,8 +20,8 @@
 }
 
 .upload-dropzone:hover {
-  background-color: #eef2ff;
-  border-color: #6366f1;
+  background-color: var(--color-declaracion-estado-bg);
+  border-color: var(--color-declaracion-estado-text);
 }
 
 .upload-dropzone.large {
@@ -33,7 +33,7 @@
 }
 
 .upload-placeholder {
-  color: #4b5563;
+  color: var( --color-text-strong);
   font-size: 16px;
   display: flex;
   flex-direction: column;
@@ -43,11 +43,11 @@
 
 .upload-placeholder svg {
   font-size: 36px;
-  color: #6366f1;
+  color: var( --color-declaracion-estado-text);
 }
 
 .upload-link {
-  color: #111827;
+  color: var(  --color-text-strong);
   text-decoration: underline;
   font-weight: 500;
   cursor: pointer;
@@ -59,18 +59,18 @@
 
 .upload-note {
   font-size: 13px;
-  color: #6b7280;
+  color: var( --color-text-secondary);
   margin: 16px 0 24px;
   text-align: center;
 }
 
 .upload-hint-box {
-  background-color: #fefce8;
-  border: 1px solid #fde68a;
+  background-color: var( --color-fondo-claro);
+  border: 1px solid var(  --color-bg-warning2);
   border-radius: 8px;
   padding: 16px;
   font-size: 14px;
-  color: #4b5563;
+  color: var(  --color-bg-warning2);
   margin-bottom: 32px;
 }
 
@@ -92,8 +92,8 @@
 }
 
 .btn.primary {
-  background-color: #111827!important;
-  color: #fff;
+  background-color: var(--color-text-main)!important;
+  color: var( --color-bg-sidebar) !important;
   padding: 10px 18px;
   font-size: 14px;
   font-weight: 500;
@@ -103,12 +103,12 @@
 }
 
 .btn.primary:hover {
-  background-color: #1f2937;
+  background-color: var(--color-text-subtitle);
 }
 
 .btn.outline {
-  border: 1px solid #d1d5db;
-  background-color: #fff;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-text-main);
   color: #374151;
   padding: 10px 18px;
   font-size: 14px;

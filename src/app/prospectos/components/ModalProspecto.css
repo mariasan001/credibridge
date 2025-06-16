@@ -14,12 +14,12 @@
 
 /* Caja del modal */
 .modal-box {
-  background: #fff;
+  background: var(--color-bg-container);
   padding: 20px;
   border-radius: 20px;
   width: 100%;
   max-width: 760px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow:var( --shadow-lg);
 }
 
 .modal-box.wide {
@@ -44,12 +44,12 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #4b5563;
+  color: var(  --color-text-secondary);
   transition: color 0.2s;
 }
 
 .close-btn:hover {
-  color: #000000;
+  color: var(  --color-text-main);
 }
 
 /* Layout del formulario */
@@ -66,35 +66,35 @@
   font-weight: 500;
   font-size: 14px;
   margin-bottom: 4px;
-  color: #4b5563;
+  color: var( --color-text-strong);
 }
 
 .form-group input {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
+  border: 1px solid var( --color-border);
+  background: var(--color-bg-mai2);
   font-size: 14px;
-  color: #111827;
+  color: var(--color-text-subtitle);
   transition: border 0.2s, background-color 0.2s;
 }
 
 /* Estados especiales */
 input[readonly] {
-  background-color: #f3f4f6;
-  color: #6b7280;
-  border: 1px solid #e5e7eb;
+  background-color: var(--colorborde);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
 }
 
 input[readonly]:hover {
-  border: 1px solid #d1d5db;
+  border: 1px solid var( --color-border);
 }
 
 input.editable {
-  background-color: #ffffff;
-  border: 1px solid #a5b4fc;
-  outline: 2px solid #000000;
+  background-color: var(--colorborde);
+  border: 1px solid var(  --coilor-fondo-cat);
+  outline: 2px solid var(--color-text-main);
 }
 
 /* Botonera del modal */

@@ -25,7 +25,7 @@
 /* FILAS */
 .tabla-contratos tbody tr {
   background: var(--color-bg-sidebar);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: var( --color-border);
   border-radius: 10px;
   transition: all 0.2s ease;
 }
@@ -39,7 +39,7 @@
 .tabla-contratos tbody td {
   padding: 12px 16px;
   font-size: 13px;
-  color: #747474;
+  color: var(  --color-text-strong);
   vertical-align: middle;
 }
 
@@ -63,7 +63,7 @@
 .tabla-contratos .bold {
     font-size: 13px;
   font-weight: 500;
-  color: #505050;
+  color: var(  --color-text-strong);
 }
 
 .tabla-contratos .tag {
@@ -89,7 +89,7 @@
 /* ICONO CON TOOLTIP */
 .tabla-contratos .icon-view {
   cursor: pointer;
-  color: #555;
+  color: var( --color-text-strong);
   transition: 0.2s ease;
   position: relative;
 }

@@ -9,18 +9,18 @@
 }
 
 .modal-container {
-  background: #fff;
+  background: var(--color-bg-sidebar)!important;
   padding: 28px;
   border-radius: 16px;
   max-width: 480px;
   width: 90%;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow:var(--shadow-lg);
 }
 
 .modal-title {
   font-size: 20px;
   font-weight: 700;
-  color: #111;
+  color: var(--color-text-main);
   margin-bottom: 20px;
 }
 
@@ -29,15 +29,17 @@
   font-weight: 500;
   margin-bottom: 6px;
   display: block;
-  color: #333;
+  color: var(--color-text-strong);
 }
 
 .modal-select {
   width: 100%;
   padding: 10px 12px;
   font-size: 14px;
+  background: var(--color-bg-container);
+  color: var(  --color-text-main);
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   margin-bottom: 24px;
 }
 
@@ -58,17 +60,18 @@
   border: none;
 }
 
-.btn-primary {
-  background-color: #276ef1;
-  color: white;
+.btn-primary2 {
+  background-color: var(--color-text-label-comunicado) !important;
+  color: var(--color-declaracion-estado-bg)!important;
 }
 
 .btn-primary:disabled {
-  background-color: #a0c3ff;
+  background-color:var(  --color-text-strong) !important;
+   color: var( --color-bg-container2) !important;
   cursor: not-allowed;
 }
 
 .btn-secondary {
-  background-color: #f0f0f0;
+  background-color: var( --color-text-danger) !important ;
   color: #333;
 }

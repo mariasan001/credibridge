@@ -17,10 +17,10 @@
 }
 
 .tabla-contratos thead {
-  background-color: #f5f5f5;
+  background-color: var( --color-bg-mai2);
   font-size: 14px;
   font-weight: 600;
-  color: #444;
+  color: var(--color-text-strong);
 }
 
 .tabla-contratos th {
@@ -29,16 +29,16 @@
 }
 
 .tabla-contratos td {
-  background: white;
+  background: var( --color-bg-sidebar);
   padding: 16px 12px;
   font-size: 14px;
   vertical-align: middle;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(  --colorborde);
   border-radius: 8px;
 }
 
 .tabla-contratos tbody tr {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow:var(--breakpoint-md);
   border-radius: 10px;
 }
 
@@ -46,7 +46,7 @@
 .cartera-clientes-page p {
   text-align: center;
   font-size: 16px;
-  color: #777;
+  color: var(--color-text-strong);
   margin-top: 24px;
 }
 
@@ -65,26 +65,29 @@
   flex-direction: column;
   min-width: 200px;
   flex: 1;
+
 }
 
 .filtro-grupo label {
   font-size: 14px;
-  color: #444;
+  color: var(  --color-text-strong);
   margin-bottom: 4px;
   font-weight: 500;
 }
 
-.filtro-grupo input {
+.filtro-grupo input, select {
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border) ;
   border-radius: 8px;
+  background: var(  --coilor-fondo-cat);
+  color: var( --color-text-main);
   font-size: 14px;
 }
 
 .btn-buscar {
   padding: 10px 20px;
-  background-color: #1f1f1f;
-  color: white;
+  background-color: var(  --color-text-strong);
+  color:var(  --color-bg-container);
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -93,5 +96,6 @@
 }
 
 .btn-buscar:hover {
-  background-color: #000000;
+  background-color: var(--color-bg-mai2);
+  color:var( --color-text-main)!important;
 }

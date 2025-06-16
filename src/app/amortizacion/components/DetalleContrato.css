@@ -1,11 +1,11 @@
 .detalle-contrato {
-  background-color: white;
+  background-color:var( --color-bg-sideba);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow:var(  --shadow-md);
   font-size: 13px;
   line-height: 2.2;
-  color: #777777;
+  color: var(  --color-text-secondar);
   border: 1px solid var(  --color-border);
 }
 
@@ -17,22 +17,22 @@
   margin-bottom: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #111;
+  color: var(  --color-text-strong);
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 6px;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1px dashed var(  --color-border);
   padding-bottom: 4px;
 }
 
 .info-row span {
   font-weight: 500;
-  color: #000000;
+  color: var(  --color-text-subtitle);
 }
 
 .info-row strong {
-  color: #222;
+  color: var(  --color-text-subtitle);
 }

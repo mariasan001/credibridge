@@ -45,7 +45,7 @@ export const AssignModal = ({
 
         <div className="modal-actions">
           <button
-            className="btn btn-primary"
+            className="btn btn-primary2"
             onClick={onAssign}
             disabled={!usuarioSeleccionado}
           >

@@ -13,7 +13,9 @@ import ResumenContrato from "./components/ResumenContrato";
 import DetalleContrato from "./components/DetalleContrato";
 import TablaAmortizacion from "./components/TablaAmortizacion";
 import TablaDescuentosRecuperados from "./components/TablaDescuentosRecuperados";
+
 import "./Contratos.css";
+import { AmortizationSkeleton } from "./AmortizationSkeleton";
 
 export default function AmortizationPage() {
   const [data, setData] = useState<AmortizationResponse | null>(null);
@@ -23,14 +25,15 @@ export default function AmortizationPage() {
     const id = localStorage.getItem("selectedContractId");
     const status = localStorage.getItem("selectedContractStatus");
 
-    if (status) setStatusLocal(status); // ← estatus correcto
+    if (status) setStatusLocal(status);
 
     if (id) {
       getAmortizationDetail(parseInt(id)).then(setData);
     }
   }, []);
 
-  if (!data) return <p>Cargando datos...</p>;
+  // 🟡 Mostrar Skeleton mientras se cargan los datos
+  if (!data) return <AmortizationSkeleton />;
 
   const { contract, actualPayments, simulatedSchedule } = data;
 
@@ -44,7 +47,7 @@ export default function AmortizationPage() {
           discountsAplied={contract.discountsAplied}
           amount={contract.amount}
           newBalance={contract.newBalance}
-          estatus={statusLocal} // ← usamos el estatus de localStorage
+          estatus={statusLocal}
         />
 
         <div className="amortizacion-body">

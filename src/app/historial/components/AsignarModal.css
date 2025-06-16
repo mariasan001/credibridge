@@ -9,12 +9,12 @@
 }
 
 .modal-container {
-  background: #fff;
+  background: var( --color-bg-container2);
   border-radius: 12px;
   padding: 24px;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  box-shadow:var(--shadow-lg);
   animation: fadeIn 0.2s ease-in-out;
 }
 
@@ -35,7 +35,7 @@
   background: none;
   border: none;
   font-size: 20px;
-  color: #555;
+  color: var(--color-text-strong);
   cursor: pointer;
 }
 
@@ -45,7 +45,7 @@
   margin-bottom: 20px;
   font-size: 14px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
 }
 
 .modal-actions {
@@ -63,16 +63,16 @@
 }
 
 .btn-primary {
-  background-color: #276ef1;
-  color: white;
+  background-color: var(--color-declaracion-estado-text);
+  color: var(--color-bg-container);
 }
 
 .btn-primary:disabled {
-  background-color: #a0c3ff;
+  background-color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
 .btn-secondary {
-  background-color: #ddd;
-  color: #333;
+  background-color: var( --colorborde);
+  color: var(--color-text-strong);
 }
