@@ -1,0 +1,46 @@
+.filtros-admin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 220px;
+}
+
+.filtro-item label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #111827;
+}
+
+.filtro-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 8px;
+}
+
+.filtro-box select {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+  color: #111827;
+  font-family: 'Poppins', sans-serif;
+}
+
+.filtro-icon {
+  color: #6b7280;
+}

@@ -1,0 +1,59 @@
+.resumen-admin-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.resumen-card {
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 220px;
+  flex: 1 1 200px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: 0.3s ease;
+  color: #111827;
+}
+
+.resumen-card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.resumen-card p {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* Blancas por default */
+.resumen-card.blanco {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+/* Verde (por expirar) */
+.resumen-card.verde {
+  background-color: #3b3c3c;
+  color: #fff;
+}
+
+.resumen-card.verde h4,
+.resumen-card.verde p {
+  color: #fff;
+}
+
+/* Rojo (no asignados) */
+.resumen-card.rojo {
+  background-color: #b91c1c;
+  color: #fff;
+}
+
+.resumen-card.rojo h4,
+.resumen-card.rojo p {
+  color: #fff;
+}

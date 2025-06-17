@@ -70,7 +70,18 @@ export const menuItems = [
         route: "/gestion-personal/buscar-servidor",
         roles: [1, 2, 4, 5],
       },
+        {
+        label: "Contratos por Financiera",
+        route: "/gestion-personal/contratos",
+        roles: [1, 2],
+      },
     ],
+  },
+        {
+    label: "Historial",
+    icon: Clock,
+    route: "/solcitudes_quejas",
+    roles: [ 1,2],
   },
   {
     label: "Comparativas",
@@ -196,12 +207,7 @@ export const menuItems = [
     roles: [4, 5],
   },
 
-  {
-    label: "Simulación",
-    icon: Cpu,
-    route: "/simulacion",
-    roles: [1, 2],
-  },
+
   {
     label: "Centro de Comunicación",
     icon: MessageCircle,
@@ -229,20 +235,21 @@ export const menuItems = [
     label: "Historial",
     icon: Clock,
     route: "/historial",
-    roles: [1, 2, 4,5],
+    roles: [ 4,5],
     children: [
       {
         label: "Historial de Solicitudes",
         route: "/historial/historia-solicitudes",
-        roles: [1, 2, 4,5],
+        roles: [ 4,5],
       },
       {
         label: "Historial de Quejas",
         route: "/historial/histroial-quejas",
-        roles: [1, 2, 4,5],
+        roles: [ 4,5],
       },
     ],
   },
+
   {
     label: "Configuración",
     icon: Settings,

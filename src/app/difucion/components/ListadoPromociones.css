@@ -8,7 +8,7 @@
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #1f2937;
+  color:var(--color-text-subtitle);
 }
 
 /* MENSAJE VACÍO */
@@ -16,7 +16,7 @@
   font-size: 0.8rem;
   color: #6b7280;
   padding: 1rem;
-  background-color: #f9fafb;
+  background-color: var(--coilor-fondo-cat);
   border-radius: 8px;
   text-align: center;
 }
@@ -29,13 +29,13 @@
 }
 
 .promocion-tab {
-  background-color: #f1f5f9;
+  background-color:var(--coilor-fondo-cat);
   border: none;
   border-radius: 6px;
   padding: 6px 14px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #1f2937;
+  color: var(  --color-text-main);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -62,7 +62,7 @@
 
 /* TARJETA PRINCIPAL */
 .promocion-card {
-  background-color: white;
+  background-color:var(--color-bg-container );
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid #e5e7eb;
@@ -84,7 +84,7 @@
 }
 
 .promocion-avatar {
-  background-color: #eef2ff;
+  background-color: var( --coilor-fondo-cat);
   padding: 10px;
   border-radius: 50%;
   display: flex;
@@ -105,12 +105,12 @@
 .promocion-titulo {
   font-weight: 700;
   font-size: .8rem;
-  color: #1e293b;
+  color: var(  --color-text-strong);
 }
 
 .promocion-financiera {
   font-size: 0.7rem;
-  color: #64748b;
+   color: var(  --color-text-strong);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -126,7 +126,7 @@
 .promocion-actions button {
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(  --color-text-strong);
   cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -144,7 +144,7 @@
 
 .promocion-beneficios {
   padding-left: 1rem;
-  color: #3d3d3d;
+  color: var(  --color-text-strong);
   font-size: 0.8rem;
 }
 
