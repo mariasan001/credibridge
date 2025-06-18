@@ -2,17 +2,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin: 20px 0;
+  margin: 24px 0;
 }
 
 .resumen-card {
-  border-radius: 12px;
-  padding: 20px;
-  min-width: 220px;
-  flex: 1 1 200px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  transition: 0.3s ease;
-  color: #111827;
+  border-radius: 14px;
+  padding: 18px 20px;
+  min-width: 200px;
+  flex: 1 1 220px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.resumen-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .resumen-card h4 {
@@ -20,40 +27,56 @@
   font-weight: 600;
   color: #6b7280;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
 .resumen-card p {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: #111827;
   margin: 0;
+  line-height: 1.2;
 }
 
-/* Blancas por default */
+/* === VARIANTES DE COLOR === */
+
+/* Blanca (default) */
 .resumen-card.blanco {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #e5e7eb;
+  color: #111827;
 }
 
-/* Verde (por expirar) */
+/* Verde elegante */
 .resumen-card.verde {
-  background-color: #3b3c3c;
-  color: #fff;
+  background-color: #047857;
+  color: #ffffff;
 }
 
 .resumen-card.verde h4,
 .resumen-card.verde p {
-  color: #fff;
+  color: #ffffff;
 }
 
-/* Rojo (no asignados) */
+/* Rojo sobrio */
 .resumen-card.rojo {
   background-color: #b91c1c;
-  color: #fff;
+  color: #ffffff;
 }
 
 .resumen-card.rojo h4,
 .resumen-card.rojo p {
-  color: #fff;
+  color: #ffffff;
+}
+
+/* Puedes agregar más colores aquí: */
+.resumen-card.azul {
+  background-color: #1e40af;
+  color: #ffffff;
+}
+
+.resumen-card.amarillo {
+  background-color: #ca8a04;
+  color: #ffffff;
 }

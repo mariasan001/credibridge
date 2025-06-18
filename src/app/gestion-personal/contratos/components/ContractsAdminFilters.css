@@ -1,0 +1,47 @@
+.filters-container {
+  display: flex;
+  gap: 16px;
+  background-color: #fafafa;
+  padding: 16px;
+  border-radius: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 160px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.filter-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  height: 36px;
+}
+
+.filter-icon {
+  margin-right: 6px;
+  color: #777;
+}
+
+.filter-input select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+}

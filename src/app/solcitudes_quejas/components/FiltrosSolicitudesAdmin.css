@@ -1,34 +1,42 @@
 .filtros-admin {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   background-color: #f9f9f9;
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 24px;
+  padding: 12px 16px;
+  border-radius: 16px;
+
+  border: 1px solid #ececec;
 }
 
 .filtro-item {
   display: flex;
   flex-direction: column;
-  flex: 1 1 220px;
+  flex: 1 1 200px;
+  min-width: 160px;
 }
 
 .filtro-item label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #111827;
+  font-weight: 500;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #374151;
+  letter-spacing: 0.3px;
 }
 
 .filtro-box {
   display: flex;
   align-items: center;
   background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 8px 12px;
-  gap: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 10px;
+  gap: 6px;
+  transition: border 0.2s ease;
+}
+
+.filtro-box:hover {
+  border-color: #9ca3af;
 }
 
 .filtro-box select {
@@ -36,11 +44,16 @@
   outline: none;
   background: transparent;
   flex: 1;
-  font-size: 14px;
+  font-size: 13px;
   color: #111827;
   font-family: 'Poppins', sans-serif;
+  padding: 2px 0;
+  cursor: pointer;
 }
 
 .filtro-icon {
-  color: #6b7280;
+  color: #9ca3af;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }

@@ -1,10 +1,24 @@
-import { PageLayout } from "@/components/PageLayout"
+"use client"
 
-export default function InicioUserPage() {
+/**
+ * Esta es la sección de creación de usuarios
+ * para Financiera
+ */
+
+import { useState } from "react"
+import { PageLayout } from "@/components/PageLayout"
+import UsersHeader from "./components/UsersHeader"
+import UserCreateModal from "./components/UserCreateModal"
+import ActiveUserTable from "./components/ActiveUserList"
+
+export default function UsuariosPage() {
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <PageLayout>
-      <h1>Pagina de Motivo de termino </h1>
-      <p>Contenido de la sección</p>
+      <UsersHeader onCreateUser={() => setShowModal(true)} />
+      <ActiveUserTable />
+      {showModal && <UserCreateModal onClose={() => setShowModal(false)} />}
     </PageLayout>
   )
 }

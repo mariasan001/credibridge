@@ -1,0 +1,39 @@
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.users-header-text h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.users-header-text p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.crear-usuario-btn {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.crear-usuario-btn:hover {
+  background-color: #1d4ed8;
+}

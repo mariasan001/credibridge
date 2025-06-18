@@ -8,6 +8,15 @@ interface Props {
   contracts: ContractAdmin[]
 }
 
+// 🔧 Función para normalizar texto a clase CSS
+function normalizeClass(text: string) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // elimina acentos
+    .replace(/\s+/g, "-") // reemplaza espacios por guiones
+}
+
 export default function ContractsAdminTable({ contracts }: Props) {
   return (
     <div className="contracts-admin-table">
@@ -22,7 +31,6 @@ export default function ContractsAdminTable({ contracts }: Props) {
             <th>Plazos</th>
             <th>Descuento</th>
             <th>Monto</th>
-
           </tr>
         </thead>
         <tbody>
@@ -31,12 +39,19 @@ export default function ContractsAdminTable({ contracts }: Props) {
               <td>{c.userId}</td>
               <td>{capitalizeWords(c.lenderName)}</td>
               <td>{capitalizeWords(c.nombre)}</td>
-              <td>{c.contractStatusDesc}</td>
-              <td>{c.typeService}</td>
+              <td>
+                <span className={`badge estatus ${normalizeClass(c.contractStatusDesc)}`}>
+                  {capitalizeWords(c.contractStatusDesc)}
+                </span>
+              </td>
+              <td>
+                <span className={`badge servicio ${normalizeClass(c.typeService)}`}>
+                  {capitalizeWords(c.typeService)}
+                </span>
+              </td>
               <td>{c.installments}</td>
               <td>${c.biweeklyDiscount.toFixed(2)}</td>
               <td>${c.amount.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</td>
-
             </tr>
           ))}
         </tbody>

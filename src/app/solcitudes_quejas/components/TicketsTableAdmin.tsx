@@ -46,7 +46,7 @@ function calcularTiempoDeResolucion(ticket: Ticket): string {
 export default function TicketsTableAdmin({ tickets }: Props) {
   return (
     <div className="tickets-table-admin">
-      <table className="tabla-contratos">
+      <table className="tabla-contratos contracts-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -74,10 +74,14 @@ export default function TicketsTableAdmin({ tickets }: Props) {
             return (
               <tr key={ticket.ticketId}>
                 <td>{ticket.ticketId}</td>
-                <td>{ticket.ticketType}</td>
-                <td><span className={claseEstatus}>{ticket.status}</span></td>
-                <td className="cell-ellipsis">{ticket.lenderName }</td>
-                <td className="cell-ellipsis">{ticket.clarificationType || "—"}</td>
+                <td>
+                  <span className="tag gray">{capitalizeWords(ticket.ticketType)}</span>
+                </td>
+                <td>
+                  <span className={claseEstatus}>{capitalizeWords(ticket.status)}</span>
+                </td>
+                <td className="cell-ellipsis">{capitalizeWords(ticket.lenderName)}</td>
+                <td className="cell-ellipsis">{capitalizeWords(ticket.clarificationType || "—")}</td>
                 <td className="cell-ellipsis">{capitalizeWords(ticket.assignedTo || "No asignado")}</td>
                 <td className="cell-ellipsis">{capitalizeWords(ticket.user)}</td>
                 <td>
