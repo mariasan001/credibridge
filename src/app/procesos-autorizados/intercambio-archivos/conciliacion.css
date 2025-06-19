@@ -1,0 +1,259 @@
+/* ================================
+   ✦ Encabezado
+================================== */
+.conciliacion-titulo {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.conciliacion-titulo h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.conciliacion-titulo p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* ================================
+   ✦ Área para subir archivo
+================================== */
+.upload-area {
+  border: 2px dashed #e5e7eb;
+  background-color: #f9fafb;
+  border-radius: 16px;
+  padding: 48px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  margin-bottom: 32px;
+}
+
+.upload-area:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.upload-area p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.upload-area .sub {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 6px;
+}
+
+/* ================================
+   ✦ Indicador de análisis
+================================== */
+.analyzing-box {
+  text-align: center;
+  margin: 24px 0;
+}
+
+.analyzing-box p {
+  font-size: 15px;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 480px;
+  height: 10px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.progress-inner {
+  height: 100%;
+  background-color: #fb923c; /* naranja institucional */
+  transition: width 0.3s ease;
+}
+
+/* ================================
+   ✦ Tabla scrollable con estilo
+================================== */
+.conciliacion-tabla-container {
+  margin-top: 32px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.conciliacion-tabla-container h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.tabla-scrollable {
+  max-height: 380px;
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Tabla principal */
+.conciliacion-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #374151;
+  background: #fff;
+}
+
+/* Encabezado sticky */
+.conciliacion-tabla thead {
+  background-color: #f9fafb;
+}
+
+.conciliacion-tabla th {
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #4b5563;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  background: #f9fafb;
+  z-index: 5;
+}
+
+/* Celdas normales */
+.conciliacion-tabla td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+/* Monoespaciado para ID */
+.conciliacion-tabla td:first-child {
+  font-family: monospace;
+  font-weight: 500;
+  color: #111827;
+}
+/* Encabezado alineado a la izquierda */
+.tabla-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+  text-align: left;
+}
+
+/* Etiquetas visuales (chips) */
+.badge {
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Conciliado → Verde */
+.badge-conciliado {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* Faltante → Rojo institucional */
+.badge-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Conciliado y No conciliado como chips */
+.conciliado td:nth-child(2) {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.no-conciliado td:nth-child(2) {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Badge como fondo (opcional si quieres más parecido) */
+.conciliacion-tabla td.estado-badge span {
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.conciliado td.estado-badge span {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.no-conciliado td.estado-badge span {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Acción final */
+.acciones-finales {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.boton-descarga {
+  background-color: #fb923c;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.boton-descarga:hover {
+  background-color: #f97316;
+}
+
+/* ================================
+   ✦ Botón descarga CSV
+================================== */
+.acciones-finales {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.boton-descarga {
+  background-color: #000000;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.boton-descarga:hover {
+  background-color: #f97316;
+}

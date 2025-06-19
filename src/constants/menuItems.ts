@@ -36,7 +36,7 @@ export const menuItems = [
   {
     label: "Inicio Admin Nómina",
     icon: Home,
-    route: "/admin_nom/inicio",
+    route: "/inicio_nom",
     roles: [2],
   },
   {
@@ -189,7 +189,7 @@ export const menuItems = [
     roles: [1, 2],
     children: [
       {
-        label: "Intercambio de Archivos",
+        label: "Conciliación",
         route: "/procesos-autorizados/intercambio-archivos",
         roles: [1, 2],
       },
