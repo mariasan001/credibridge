@@ -1,11 +1,12 @@
 .filters-container {
   display: flex;
-  gap: 16px;
-  background-color: #fafafa;
-  padding: 16px;
-  border-radius: 12px;
+  gap: var(--spacing-md);
+  background-color: var(  --colorborde);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
   justify-content: space-between;
   flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
 }
 
 .filter-group {
@@ -16,25 +17,25 @@
 }
 
 .filter-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #333;
+  font-size: var(--text-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-subtitle);
   margin-bottom: 6px;
 }
 
 .filter-input {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-main);
+  border-radius: var(--radius-md);
   padding: 4px 8px;
   height: 36px;
 }
 
 .filter-icon {
   margin-right: 6px;
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .filter-input select {
@@ -42,6 +43,6 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 14px;
-  color: #333;
+  font-size: var(--text-size-md);
+  color: var(--color-text-main);
 }

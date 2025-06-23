@@ -14,13 +14,13 @@
   text-align: left;
   font-size: 12px;
   font-weight: 600;
-  color: #666;
+  color: var( --color-text-secondary );
   padding: 10px 14px;
-  background-color: #f1f1f1;
+  background-color: var(  --colorborde);
 }
 
 .tabla-contratos tbody tr {
-  background-color: #fff;
+  background-color: var(  --color-bg-container2);
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   transition: all 0.2s ease;
@@ -29,11 +29,11 @@
 .tabla-contratos tbody td {
   padding: 10px 14px;
   font-size: 13px;
-  color: #444;
+  color: var(  --color-text-strong);
 }
 
 .tabla-contratos tbody tr:hover {
-  background-color: #f7f7f7;
+  background-color: var(  --color-border);
 }
 
 /* === Badges estilo píldora === */

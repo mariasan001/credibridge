@@ -42,15 +42,16 @@ export default function ContractsAdminFilters({
     <div className="filters-container">
       <div className="filter-group">
         <label>Tipo</label>
-        <div className="filter-input">
-          <HelpCircle size={16} className="filter-icon" />
-          <select name="servicio" value={filters.servicio} onChange={handleChange}>
-            <option value="">Todos</option>
-            {servicios.map((s, i) => (
-              <option key={i} value={s}>{s}</option>
-            ))}
-          </select>
-        </div>
+<div className="filter-input">
+  <HelpCircle size={16} className="filter-icon" />
+  <select name="servicio" value={filters.servicio} onChange={handleChange}>
+    <option value="">Todos</option>
+    {servicios.map((s, i) => (
+      <option key={i} value={s}>{s}</option>
+    ))}
+  </select>
+</div>
+
       </div>
 
       <div className="filter-group">
