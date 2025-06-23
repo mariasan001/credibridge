@@ -36,7 +36,7 @@ export const menuItems = [
   {
     label: "Inicio Admin Nómina",
     icon: Home,
-    route: "/inicio_nom",
+    route: "/admin_prin_nom",
     roles: [2],
   },
   {
@@ -66,9 +66,14 @@ export const menuItems = [
     roles: [1, 2, 4,5],
     children: [
       {
-        label: "Buscar Servidor Público",
+        label: "Buscar usuario",
         route: "/gestion-personal/buscar-servidor",
         roles: [1, 2, 4, 5],
+      },
+            {
+        label: "Valoracion",
+        route: "/valoracion",
+        roles: [4],
       },
         {
         label: "Contratos por Financiera",
@@ -194,7 +199,7 @@ export const menuItems = [
         roles: [1, 2],
       },
       {
-        label: "Procesamiento por lote",
+        label: "Actualizacion de datos",
         route: "/procesos-autorizados/proceso-lote",
         roles: [1, 2],
       },

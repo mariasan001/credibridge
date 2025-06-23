@@ -1,10 +1,11 @@
-import { PageLayout } from "@/components/PageLayout"
+import { PageLayout } from "@/components/PageLayout";
+import FormularioBroadcastTicket from "./components/FormularioBroadcastTicket";
 
-export default function ReportPage() {
+export default function RankingDashboardPage() {
   return (
     <PageLayout>
-      <h1>Pagina de reportes </h1>
-      <p>Contenido de la sección</p>
+      {/* Tu dashboard aquí */}
+      <FormularioBroadcastTicket />
     </PageLayout>
-  )
+  );
 }

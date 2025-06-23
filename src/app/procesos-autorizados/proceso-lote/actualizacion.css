@@ -1,0 +1,149 @@
+/* Encabezado */
+.conciliacion-titulo {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.conciliacion-titulo h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.conciliacion-titulo p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* Área de carga */
+.upload-area {
+  border: 2px dashed #d1d5db;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 48px 16px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+.upload-area:hover {
+  background: #f3f4f6;
+  border-color: #a3a3a3;
+}
+.upload-area p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.upload-area .sub {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 6px;
+}
+
+/* Progreso de análisis */
+.analyzing-box {
+  margin: 24px 0;
+  text-align: center;
+}
+.analyzing-box p {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 12px;
+}
+.progress-bar {
+  width: 100%;
+  max-width: 480px;
+  height: 10px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.progress-inner {
+  height: 100%;
+  background-color: #f97316;
+  transition: width 0.3s ease;
+}
+
+/* Tabla */
+.conciliacion-tabla-container {
+  margin-top: 32px;
+}
+.tabla-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+  text-align: left;
+}
+.tabla-scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.conciliacion-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: white;
+}
+.conciliacion-tabla thead {
+  background-color: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.conciliacion-tabla th,
+.conciliacion-tabla td {
+  text-align: left;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.conciliacion-tabla th {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.conciliacion-tabla td:first-child {
+  font-family: monospace;
+  font-weight: 500;
+}
+
+/* Etiquetas de estado */
+.badge {
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  display: inline-block;
+  white-space: nowrap;
+}
+.badge-conciliado {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+.badge-error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Botón */
+.acciones-finales {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+.boton-descarga {
+  background-color: #111827;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+.boton-descarga:hover {
+  background-color: #374151;
+}

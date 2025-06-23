@@ -2,20 +2,32 @@
 
 import { useEffect, useState } from "react"
 import { User } from "../model/User"
-import { fetchActiveUsers, deleteUser } from "../service/userService"
+import {
+  fetchActiveUsers,
+  deleteUser,
+  UserPayload
+} from "../service/userService"
 import { Pencil, Trash2 } from "lucide-react"
 import toast, { Toaster } from "react-hot-toast"
+import UserCreateModal from "./UserCreateModal"
 import "./ActiveUserTable.css"
 
 export default function ActiveUserTable() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [editingUser, setEditingUser] = useState<UserPayload | null>(null)
+  const [mostrarModal, setMostrarModal] = useState(false)
 
   useEffect(() => {
-    fetchActiveUsers().then(data => {
-      setUsers(data)
-      setLoading(false)
-    })
+    fetchActiveUsers()
+      .then(data => {
+        setUsers(data)
+        setLoading(false)
+      })
+      .catch(() => {
+        toast.error("Error al cargar usuarios")
+        setLoading(false)
+      })
   }, [])
 
   const handleDelete = async (userId: string) => {
@@ -32,12 +44,27 @@ export default function ActiveUserTable() {
     }
   }
 
+  const handleEdit = (user: User) => {
+    const payload: UserPayload = {
+      usuario: user.userId,
+      name: user.name,
+      firstname: "NombreGenérico",
+      secondName: "ApellidoGenérico",
+      email: user.email,
+      password: "", // no se edita aquí
+      roleId: user.roles[0]?.id || 1
+    }
+    setEditingUser(payload)
+    setMostrarModal(true)
+  }
+
   if (loading) return <p>Cargando usuarios...</p>
 
   return (
     <div className="user-table-container">
       <Toaster position="top-right" />
       <h2>Usuarios Activos</h2>
+
       <table className="user-table">
         <thead>
           <tr>
@@ -58,7 +85,11 @@ export default function ActiveUserTable() {
                 <span className="role-pill">{user.roles[0]?.description || "—"}</span>
               </td>
               <td className="acciones">
-                <button className="edit-btn" title="Editar">
+                <button
+                  className="edit-btn"
+                  title="Editar"
+                  onClick={() => handleEdit(user)}
+                >
                   <Pencil size={16} />
                 </button>
                 <button
@@ -73,6 +104,18 @@ export default function ActiveUserTable() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal para editar usuario */}
+      {mostrarModal && editingUser && (
+        <UserCreateModal
+          onClose={() => {
+            setMostrarModal(false)
+            setEditingUser(null)
+          }}
+          usuarioAEditar={editingUser}
+          modoEdicion={true}
+        />
+      )}
     </div>
   )
 }

@@ -54,7 +54,7 @@ export function useContracts() {
   // 📦 Estados principales
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(10); // Podrías permitir cambiarlo en el futuro
+  const [pageSize] = useState(6); 
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

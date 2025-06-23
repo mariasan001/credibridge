@@ -1,0 +1,73 @@
+.resumen-section {
+  margin-bottom: 40px;
+}
+
+.resumen-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.resumen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.resumen-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.resumen-card:hover {
+  transform: translateY(-2px);
+}
+
+.resumen-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resumen-icon {
+  color: #4b5563;
+}
+
+.resumen-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.resumen-number {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.resumen-diff {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.resumen-diff.up {
+  color: #10b981; /* green */
+}
+
+.resumen-diff.down {
+  color: #ef4444; /* red */
+}
+
+.resumen-description {
+  font-size: 0.85rem;
+  color: #6b7280;
+}

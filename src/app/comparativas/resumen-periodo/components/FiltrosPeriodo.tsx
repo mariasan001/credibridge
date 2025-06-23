@@ -11,7 +11,7 @@ export const FiltrosPeriodo = () => {
         <div className="filtro-select-wrapper">
           <Building2 className="filtro-icon" size={18} />
           <select id="nomina">
-            <option value="edomex">Gobierno Estado de México</option>
+            <option value="edomex">Nómina Consolidada</option>
             <option value="otros">Otro</option>
           </select>
         </div>
@@ -22,7 +22,7 @@ export const FiltrosPeriodo = () => {
         <div className="filtro-select-wrapper">
           <Banknote className="filtro-icon" size={18} />
           <select id="institucion">
-            <option value="edomex">Gobierno Estado de México</option>
+            <option value="edomex">Hospital Privado Del Bosque</option>
             <option value="otra">Otra Institución</option>
           </select>
         </div>

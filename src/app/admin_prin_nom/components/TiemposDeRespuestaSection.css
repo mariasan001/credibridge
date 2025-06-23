@@ -1,0 +1,62 @@
+.ranking-card-tiempo {
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 40px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+}
+
+.ranking-card-header-tiempo h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+.tabla-respuesta {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-respuesta th {
+  text-align: left;
+  padding: 12px;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+}
+
+.tabla-respuesta td {
+  padding: 12px;
+  border-top: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.etiqueta {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.etiqueta-verde {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+.etiqueta-amarilla {
+  background-color: #fef9c3;
+  color: #ca8a04;
+}
+
+.etiqueta-roja {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}

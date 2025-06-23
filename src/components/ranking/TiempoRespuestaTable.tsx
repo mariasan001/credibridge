@@ -1,13 +1,11 @@
-"use client" // Indica que este componente se debe renderizar en el cliente (Next.js)
+"use client"
 
-// Importa los estilos específicos de esta tabla
 import "./respuesta.css"
 
-// Datos simulados (mock) que representan registros de instituciones con tiempos de respuesta
 const mockData = [
   {
     dias: 1,
-    institucion: "Administradora de Caja Bienestar SA de CV",
+    institucion: "Kueski",
     solicitudes: 10,
     expedidas: 10,
     activas: 10,
@@ -15,65 +13,61 @@ const mockData = [
   },
   {
     dias: 5,
-    institucion: "ASF servicios Financieros SAPI de CV",
+    institucion: "Creditea",
     solicitudes: 30,
     expedidas: 30,
     activas: 30,
     total: 90,
   },
   {
-    dias: 5,
-    institucion: "ASF servicios Financieros SAPI de CV",
-    solicitudes: 30,
-    expedidas: 30,
-    activas: 30,
-    total: 90,
+    dias: 6,
+    institucion: "Konfío",
+    solicitudes: 22,
+    expedidas: 20,
+    activas: 18,
+    total: 60,
   },
   {
-    dias: 5,
-    institucion: "ASF servicios Financieros SAPI de CV",
-    solicitudes: 30,
-    expedidas: 30,
-    activas: 30,
-    total: 90,
+    dias: 8,
+    institucion: "Yotepresto",
+    solicitudes: 14,
+    expedidas: 14,
+    activas: 14,
+    total: 42,
   },
   {
     dias: 10,
-    institucion: "Asociacion Necrologico Mexicana",
+    institucion: "Moneyman",
     solicitudes: 11,
     expedidas: 11,
     activas: 11,
     total: 33,
   },
   {
-    dias: 10,
-    institucion: "Asociacion Necrologico Mexicana",
-    solicitudes: 11,
-    expedidas: 11,
-    activas: 11,
-    total: 33,
+    dias: 12,
+    institucion: "Credilikeme",
+    solicitudes: 9,
+    expedidas: 8,
+    activas: 7,
+    total: 24,
   },
 ]
 
-// 🔥 Función auxiliar para asignar clases según la semaforización del tiempo de respuesta
 const getBadgeClass = (dias: number) => {
-  if (dias <= 3) return "badge-success"  // verde
-  if (dias <= 7) return "badge-warning"  // amarillo
-  return "badge-danger"                  // rojo
+  if (dias <= 3) return "badge-success"
+  if (dias <= 7) return "badge-warning"
+  return "badge-danger"
 }
 
-// Componente principal
 export const TiempoRespuestaTable = () => {
   return (
     <div className="respuesta-card">
-      {/* Encabezado con título y botón de descarga */}
       <div className="respuesta-header">
         <h3>Tiempo de Respuesta</h3>
         <button className="respuesta-btn-pdf">Descargar pdf</button>
       </div>
 
-      {/* Contenedor scrollable para mantener altura constante */}
-      <div className="respuesta-table-scroll">
+      <div className="respuesta-table-scroll"> 
         <table className="respuesta-table">
           <thead>
             <tr>
@@ -89,7 +83,6 @@ export const TiempoRespuestaTable = () => {
             {mockData.map((item, idx) => (
               <tr key={idx}>
                 <td>
-                  {/* Badge con color dinámico según días */}
                   <span className={`badge ${getBadgeClass(item.dias)}`}>
                     {item.dias} {item.dias === 1 ? "día" : "días"}
                   </span>
@@ -105,15 +98,11 @@ export const TiempoRespuestaTable = () => {
         </table>
       </div>
 
-      {/* Paginación de tabla */}
       <div className="respuesta-pagination">
         <button className="respuesta-btn">← Regresar</button>
         <div className="respuesta-pages">
           {[1, 2, 3, "...", 8, 9, 10].map((p, i) => (
-            <button
-              key={i}
-              className={`respuesta-page ${p === 1 ? "active" : ""}`}
-            >
+            <button key={i} className={`respuesta-page ${p === 1 ? "active" : ""}`}>
               {p}
             </button>
           ))}
