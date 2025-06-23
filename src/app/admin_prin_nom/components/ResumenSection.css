@@ -2,12 +2,6 @@
   margin-bottom: 40px;
 }
 
-.resumen-title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
 .resumen-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -15,10 +9,11 @@
 }
 
 .resumen-card {
-  background-color: #ffffff;
+  background-color: var(  --color-bg-sidebar);
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  box-shadow:var(--shadow-md);
+  border: var( --color-border);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -36,26 +31,26 @@
 }
 
 .resumen-icon {
-  color: #4b5563;
+  color: var( --color-text-muted);
 }
 
 .resumen-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(  --color-text-secondary);
 }
 
 .resumen-number {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #111827;
+  color: var(  --color-text-main);
   display: flex;
   align-items: baseline;
   gap: 8px;
 }
 
 .resumen-diff {
-  font-size: 1rem;
+  font-size: .8rem;
   font-weight: 500;
 }
 
@@ -68,6 +63,6 @@
 }
 
 .resumen-description {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
 }

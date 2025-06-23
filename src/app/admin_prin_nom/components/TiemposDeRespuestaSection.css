@@ -1,19 +1,30 @@
+/* 📦 Contenedor principal */
 .ranking-card-tiempo {
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 40px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  background: #ffffff;
+  background: var(--color-bg-container);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* 🧠 Encabezado */
+.ranking-card-header-tiempo {
+  margin-bottom: var(--spacing-md);
 }
 
 .ranking-card-header-tiempo h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 16px;
+  font-size: var(--text-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
+/* 📋 Tabla */
 .tabla-scroll {
   overflow-x: auto;
 }
@@ -21,42 +32,53 @@
 .tabla-respuesta {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--text-size-md);
+  color: var(--color-text-main);
 }
 
-.tabla-respuesta th {
+.tabla-respuesta thead th {
+  background-color: var(--color-bg-main);
   text-align: left;
-  padding: 12px;
-  background: #f3f4f6;
-  color: #374151;
-  font-weight: 600;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-subtitle);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
 }
 
-.tabla-respuesta td {
-  padding: 12px;
-  border-top: 1px solid #e5e7eb;
-  color: #111827;
+.tabla-respuesta tbody td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--colorborde);
+  white-space: nowrap;
 }
 
+.tabla-respuesta tbody tr:hover {
+  background-color: var(--color-bg-mai2);
+
+}
+
+/* 🔵 Etiquetas por color */
 .etiqueta {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 13px;
   display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  white-space: nowrap;
 }
 
 .etiqueta-verde {
-  background-color: #d1fae5;
-  color: #059669;
+  background-color: var(--color-bg-success);
+  color: var(--color-text-success);
 }
 
 .etiqueta-amarilla {
-  background-color: #fef9c3;
-  color: #ca8a04;
+  background-color: var(--color-bg-warning);
+  color: var(--color-text-warning);
 }
 
 .etiqueta-roja {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: var(--color-bg-danger);
+  color: var(--color-text-danger);
 }

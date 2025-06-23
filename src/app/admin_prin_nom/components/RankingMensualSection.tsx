@@ -1,13 +1,11 @@
 import { RankingMensual } from "../model/ranking-dashboard.model";
 import {
   ResponsiveContainer,
-  LineChart,
-  Line,
+  AreaChart,
   Area,
   XAxis,
   YAxis,
   Tooltip,
-  AreaChart,
   CartesianGrid,
 } from "recharts";
 import "./RankingMensualSection.css";
@@ -65,64 +63,69 @@ export default function RankingMensualSection({ data }: Props) {
         </div>
       </div>
 
-<ResponsiveContainer width="100%" height={300}>
-  <AreaChart data={dataTransformada}>
-    <defs>
-      <linearGradient id="colorAtendidas" x1="0" y1="0" x2="0" y2="1">
-    
-      </linearGradient>
-      <linearGradient id="colorExpiradas" x1="0" y1="0" x2="0" y2="1">
-       
-      </linearGradient>
-      <linearGradient id="colorActivas" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-      </linearGradient>
-    </defs>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={dataTransformada}>
+          <defs>
+            <linearGradient id="colorAtendidas" x1="0" y1="0" x2="0" y2="1">
+             
+            </linearGradient>
+            <linearGradient id="colorExpiradas" x1="0" y1="0" x2="0" y2="1">
+           
+            </linearGradient>
+            <linearGradient id="colorActivas" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+            </linearGradient>
+          </defs>
 
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis
-      dataKey="mesLabel"
-      tick={{ fontSize: 12, fill: "#111827" }}
-      tickLine={false}
-      axisLine={false}
-    />
-    <YAxis tick={false} axisLine={false} />
-    <Tooltip />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis
+            dataKey="mesLabel"
+            tick={{ fontSize: 12, fill: "#111827" }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis tick={false} axisLine={false} />
+          <Tooltip
+            contentStyle={{
+              borderRadius: 10,
+              fontSize: 13,
+              border: "1px solid #e5e7eb",
+              background: "#ffffff",
+              color: "#111827",
+            }}
+          />
 
-    <Area
-      type="monotone"
-      dataKey="atendidas"
-      stroke="#ff7f50"
-      fill="url(#colorAtendidas)"
-      strokeWidth={2}
-      dot={{ r: 4 }}
-      name="Atendidas"
-    />
-
-    <Area
-      type="monotone"
-      dataKey="expiradas"
-      stroke="#111827"
-      fill="url(#colorExpiradas)"
-      strokeWidth={2}
-      strokeDasharray="5 5"
-      dot={{ r: 4 }}
-      name="Expiradas"
-    />
-
-    <Area
-      type="monotone"
-      dataKey="activas"
-      stroke="#3b82f6"
-      fill="url(#colorActivas)"
-      strokeWidth={2}
-      dot={{ r: 4 }}
-      name="Activas"
-    />
-  </AreaChart>
-</ResponsiveContainer>
-
+          <Area
+            type="monotone"
+            dataKey="atendidas"
+            stroke="#fb923c"
+            fill="url(#colorAtendidas)"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+            name="Atendidas"
+          />
+          <Area
+            type="monotone"
+            dataKey="expiradas"
+            stroke="#111827"
+            fill="url(#colorExpiradas)"
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={{ r: 4 }}
+            name="Expiradas"
+          />
+          <Area
+            type="monotone"
+            dataKey="activas"
+            stroke="#3b82f6"
+            fill="url(#colorActivas)"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+            name="Activas"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </section>
   );
 }

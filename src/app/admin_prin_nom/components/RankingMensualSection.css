@@ -1,10 +1,10 @@
 .ranking-card {
- 
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+  box-shadow:var(--shadow-md);
+  border: 1px solid var(   --color-border);
+  background: var(  --color-bg-sidebar);
 }
 
 .ranking-card-header {
@@ -23,7 +23,7 @@
 .ranking-total-num {
   font-size: 2.4rem;
   font-weight: 700;
-  color: #ff7f50;
+  color: #fb923c;
 }
 
 .ranking-total-diff {
@@ -36,10 +36,4 @@
   align-items: center;
   gap: 4px;
   font-weight: 500;
-}
-
-.ranking-title {
-  font-size: 1.2rem;
-  color: #111827;
-  font-weight: 600;
 }

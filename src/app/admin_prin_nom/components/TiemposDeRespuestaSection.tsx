@@ -12,10 +12,13 @@ export default function TiemposDeRespuestaSection({ data }: Props) {
     return "etiqueta-roja";
   };
 
+  const capitalizar = (texto: string) =>
+    texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+
   return (
     <section className="ranking-card-tiempo">
       <div className="ranking-card-header-tiempo">
-        <h3>⏱ Tiempo de Respuesta</h3>
+        <h3>Tiempo de Respuesta</h3>
       </div>
       <div className="tabla-scroll">
         <table className="tabla-respuesta">
@@ -37,7 +40,7 @@ export default function TiemposDeRespuestaSection({ data }: Props) {
                     {item.tiempoRespuesat} días
                   </span>
                 </td>
-                <td>{item.financiera}</td>
+                <td>{capitalizar(item.financiera)}</td>
                 <td>{item.solicitudes}</td>
                 <td>{item.quejas}</td>
                 <td>{item.activas}</td>

@@ -9,7 +9,11 @@ import ResumenSection from "./components/ResumenSection";
 import RankingMensualSection from "./components/RankingMensualSection";
 import IncidenciasPorInstitucionSection from "./components/IncidenciasPorInstitucionSection";
 import TiemposDeRespuestaSection from "./components/TiemposDeRespuestaSection";
+import { CarteraHeader } from "./components/CarteraHeader";
+import DashboardSkeleton from "./components/DashboardSkeleton";
+
 import "./ranking-dashboard.css";
+
 export default function RankingDashboardPage() {
   const [data, setData] = useState<RankingDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,24 +33,34 @@ export default function RankingDashboardPage() {
     cargarDatos();
   }, []);
 
-  if (loading) return <PageLayout>Cargando...</PageLayout>;
-  if (!data) return <PageLayout>Error cargando datos.</PageLayout>;
+  if (loading) {
+    return (
+      <PageLayout>
+        <DashboardSkeleton />
+      </PageLayout>
+    );
+  }
+
+  if (!data) {
+    return <PageLayout>Error cargando datos.</PageLayout>;
+  }
 
   return (
-<PageLayout>
-  <ResumenSection resumen={data.resumen} />
+    <PageLayout>
+      <CarteraHeader />
 
-  <div className="ranking-contenedor-secciones">
-    <div className="ranking-mensual">
-      <RankingMensualSection data={data.rankingMensual} />
-    </div>
-    <div className="ranking-por-institucion">
-      <IncidenciasPorInstitucionSection data={data.incidenciasPorInstitucion} />
-    </div>
-  </div>
+      <ResumenSection resumen={data.resumen} />
 
-  <TiemposDeRespuestaSection data={data.tiemposDeRespuesta} />
-</PageLayout>
+      <div className="ranking-contenedor-secciones">
+        <div className="ranking-mensual">
+          <RankingMensualSection data={data.rankingMensual} />
+        </div>
+        <div className="ranking-por-institucion">
+          <IncidenciasPorInstitucionSection data={data.incidenciasPorInstitucion} />
+        </div>
+      </div>
 
+      <TiemposDeRespuestaSection data={data.tiemposDeRespuesta} />
+    </PageLayout>
   );
 }

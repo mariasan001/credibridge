@@ -40,7 +40,6 @@ export default function ResumenSection({ resumen }: Props) {
 
   return (
     <section className="resumen-section">
-      <h2 className="resumen-title">Resumen de Incidencias</h2>
       <div className="resumen-grid">
         {cards.map((card, idx) => (
           <div className="resumen-card" key={idx}>
