@@ -1,0 +1,20 @@
+.reportes-listado {
+  background-color: #ffffff;
+  padding: 1.5rem;
+
+  /* Scroll interno */
+  max-height: calc(100vh - 4rem); /* Ajusta si hay navbar o padding exterior */
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* espacio entre cards */
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.reportes-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
