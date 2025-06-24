@@ -15,7 +15,9 @@ export const useFormularioBroadcastTicket = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
   const [lenders, setLenders] = useState<Lender[]>([]);
-  const [clarificationTypes, setClarificationTypes] = useState<ClarificationType[]>([]);
+  const [clarificationTypes, setClarificationTypes] = useState<
+    ClarificationType[]
+  >([]);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -30,17 +32,31 @@ export const useFormularioBroadcastTicket = () => {
   });
 
   useEffect(() => {
-    fetchTicketTypes().then(setTicketTypes).catch(() => toast.error("Error al obtener tipos de ticket"));
-    fetchLenders().then(setLenders).catch(() => toast.error("Error al obtener financieras"));
+    fetchTicketTypes()
+      .then(setTicketTypes)
+      .catch(() => toast.error("Error al obtener tipos de ticket"));
+    fetchLenders()
+      .then(setLenders)
+      .catch(() => toast.error("Error al obtener financieras"));
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     if (name === "ticketTypeId") {
-      setFormData((prev) => ({ ...prev, [name]: value, clarificationType: "" }));
-      const selectedType = ticketTypes.find(t => t.id === parseInt(value));
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        clarificationType: "",
+      }));
+      const selectedType = ticketTypes.find((t) => t.id === parseInt(value));
       if (selectedType?.ticketTypeDesc.toLowerCase() === "solicitud") {
-        fetchClarificationTypes().then(setClarificationTypes).catch(() => toast.error("Error al obtener tipos de solicitud"));
+        fetchClarificationTypes()
+          .then(setClarificationTypes)
+          .catch(() => toast.error("Error al obtener tipos de solicitud"));
       } else {
         setClarificationTypes([]);
       }
@@ -54,52 +70,58 @@ export const useFormularioBroadcastTicket = () => {
     if (selectedFile) setFile(selectedFile);
   };
 
-const handleSelectLenders = (selected: any) => {
-  const id = selected?.value ? [selected.value] : [];
-  setFormData((prev) => ({ ...prev, participantUserIds: id }));
-};
-
-
-
-const handleSubmit = async () => {
-  const parsedTicketTypeId = parseInt(formData.ticketTypeId);
-  const clarification = parseInt(formData.clarificationType);
-
-  if (isNaN(parsedTicketTypeId)) {
-    toast.error("Selecciona un tipo de reporte válido");
-    return;
-  }
-
-  const payload: TicketBroadcastPayload = {
-    data: {
-      userId: user?.userId || "",
-      subject: formData.subject,
-      description: formData.description,
-      ticketTypeId: parsedTicketTypeId,
-      clarification_type: isNaN(clarification) ? 0 : clarification,
-      initialMessage: formData.initialMessage,
-      participantUserIds: formData.participantUserIds.map(String),
-    },
-    file: file || undefined,
+  const handleSelectLenders = (selected: any) => {
+    if (Array.isArray(selected)) {
+      const ids = selected.map((s) => s.value);
+      setFormData((prev) => ({ ...prev, participantUserIds: ids }));
+    } else if (selected) {
+      setFormData((prev) => ({
+        ...prev,
+        participantUserIds: [selected.value],
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, participantUserIds: [] }));
+    }
   };
 
-  try {
-    setLoading(true);
+  const handleSubmit = async () => {
+    const parsedTicketTypeId = parseInt(formData.ticketTypeId);
+    const clarification = parseInt(formData.clarificationType);
 
-    console.log("Payload enviado:", payload); // 👈 Imprime lo que se está enviando
+    if (isNaN(parsedTicketTypeId)) {
+      toast.error("Selecciona un tipo de reporte válido");
+      return;
+    }
 
-    const response = await sendBroadcastTicket(payload);
+    const payload: TicketBroadcastPayload = {
+      data: {
+        userId: user?.userId || "",
+        subject: formData.subject,
+        description: formData.description,
+        ticketTypeId: parsedTicketTypeId,
+        clarification_type: isNaN(clarification) ? 0 : clarification,
+        initialMessage: formData.initialMessage,
+        participantUserIds: formData.participantUserIds.map(String),
+      },
+      file: file || undefined,
+    };
 
-    console.log("Respuesta del servidor:", response); // 👈 Imprime lo que responde el backend
+    try {
+      setLoading(true);
 
-    toast.success("Reporte enviado correctamente");
-  } catch (error: any) {
-    console.error("Error al enviar el reporte:", error); // 👈 Muestra el error detallado en consola
-    toast.error(error?.response?.data?.message || "Error inesperado");
-  } finally {
-    setLoading(false);
-  }
-};
+      console.log("Payload enviado:", payload);
+      const response = await sendBroadcastTicket(payload);
+
+      console.log("Respuesta del servidor:", response);
+
+      toast.success("Reporte enviado correctamente");
+    } catch (error: any) {
+      console.error("Error al enviar el reporte:", error);
+      toast.error(error?.response?.data?.message || "Error inesperado");
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     inputRef,
     ticketTypes,
@@ -113,6 +135,6 @@ const handleSubmit = async () => {
     handleFileChange,
     handleSelectLenders,
     handleSubmit,
-    setFile
+    setFile,
   };
 };

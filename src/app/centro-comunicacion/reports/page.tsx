@@ -56,7 +56,7 @@ export default function RankingDashboardPage() {
                     <div className="bubble me"></div>
                     <div className="bubble other short"></div>
                     <div className="bubble me short"></div>
-                        <div className="bubble other"></div>
+                    <div className="bubble other"></div>
                     <div className="bubble me"></div>
                     <div className="bubble other short"></div>
                     <div className="bubble me short"></div>
@@ -64,7 +64,6 @@ export default function RankingDashboardPage() {
                   <p className="placeholder-msg">Selecciona un ticket para visualizar la conversación.</p>
                 </div>
               )
-
           )}
         </div>
       </div>

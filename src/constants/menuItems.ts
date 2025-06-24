@@ -203,6 +203,11 @@ export const menuItems = [
         route: "/procesos-autorizados/proceso-lote",
         roles: [1, 2],
       },
+           {
+        label: "Actualizar Archivos de Nomina ",
+        route: "/procesos-autorizados/archivos_nomina",
+        roles: [1,2],
+      },
     ],
   },
   {

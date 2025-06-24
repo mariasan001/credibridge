@@ -6,13 +6,13 @@ import { fetchReportTickets } from "../service/reportTicketsService";
 import { TicketModal } from "./TicketModal";
 import { useAuth } from "@/context/AuthContext";
 import { ReportTicket } from "../model/reportTicket.model";
-
 interface Props {
   selectedTicketId: number | null;
-  onSelectTicket: (ticket: ReportTicket) => void; // ✅ CAMBIO AQUÍ
+  onSelectTicket: (ticket: ReportTicket) => void;
   showModal: boolean;
   onCloseModal: () => void;
   ticketsRolesAllowed: boolean;
+  ticketFilter?: (ticket: ReportTicket) => boolean; // ✅ NUEVO
 }
 
 export const ReportTicketsList = ({
@@ -21,6 +21,7 @@ export const ReportTicketsList = ({
   showModal,
   onCloseModal,
   ticketsRolesAllowed,
+  ticketFilter, // ✅ NUEVO
 }: Props) => {
   const { user } = useAuth();
   const userId = user?.userId;
@@ -40,14 +41,17 @@ export const ReportTicketsList = ({
   if (error) return <p>Error al cargar tickets.</p>;
   if (!tickets || tickets.length === 0) return <p>No hay tickets disponibles.</p>;
 
+  // ✅ Aplica el filtro si existe
+  const filteredTickets = ticketFilter ? tickets.filter(ticketFilter) : tickets;
+
   return (
     <>
       <div className="tickets-list">
-        {tickets.map((ticket) => (
+        {filteredTickets.map((ticket) => (
           <div
             key={ticket.id}
             className={`ticket-card ${selectedTicketId === ticket.id ? "activo" : ""}`}
-            onClick={() => onSelectTicket(ticket)} // ✅ CAMBIO AQUÍ
+            onClick={() => onSelectTicket(ticket)}
           >
             <div className="ticket-icon">{ticket.ticket.ticketType[0] || "?"}</div>
 

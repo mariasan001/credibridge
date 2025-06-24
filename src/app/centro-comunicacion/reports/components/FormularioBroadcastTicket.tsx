@@ -8,7 +8,11 @@ import { useFormularioBroadcastTicket } from "../hooks/useFormularioBroadcastTic
 
 const animatedComponents = makeAnimated();
 
-export default function FormularioBroadcastTicket() {
+interface Props {
+  modoComunicacion?: boolean; // ✅ Prop para activar modo de Comunicado
+}
+
+export default function FormularioBroadcastTicket({ modoComunicacion = false }: Props) {
   const {
     inputRef,
     ticketTypes,
@@ -21,48 +25,90 @@ export default function FormularioBroadcastTicket() {
     handleFileChange,
     handleSelectLenders,
     handleSubmit,
-    setFile
+    setFile,
   } = useFormularioBroadcastTicket();
 
-  const lenderOptions = lenders.map((l) => ({ value: l.id, label: l.lenderName }));
-  const selectedType = ticketTypes.find(t => t.id === parseInt(formData.ticketTypeId));
+  const lenderOptions = lenders.map((l) => ({
+    value: l.id,
+    label: l.lenderName,
+  }));
+
+  const selectedType = ticketTypes.find(
+    (t) => t.id === parseInt(formData.ticketTypeId)
+  );
+
+  const isComunicacion =
+    selectedType?.ticketTypeDesc.toUpperCase() === "COMUNICACION";
 
   return (
     <div className="formulario-broadcast-container">
       <div className="formulario-card">
-        <h3 className="titulo">Creacion de Reporte </h3>
+        <h3 className="titulo">
+          {modoComunicacion ? "Enviar Comunicado" : "Creación de Reporte"}
+        </h3>
 
-        <select name="ticketTypeId" onChange={handleChange} value={formData.ticketTypeId}>
+        {/* Tipo de Reporte */}
+        <label>Tipo de Reporte</label>
+        <select
+          name="ticketTypeId"
+          onChange={handleChange}
+          value={formData.ticketTypeId}
+        >
           <option value="">Selecciona tipo de reporte</option>
           {ticketTypes
-            .filter(type => type.ticketTypeDesc.trim().toUpperCase() !== "COMUNICACION")
-            .map(type => (
+            .filter((type) =>
+              modoComunicacion
+                ? type.ticketTypeDesc.trim().toUpperCase() === "COMUNICACION"
+                : type.ticketTypeDesc.trim().toUpperCase() !== "COMUNICACION"
+            )
+            .map((type) => (
               <option key={type.id} value={type.id}>
                 {type.ticketTypeDesc}
               </option>
             ))}
-
         </select>
 
+        {/* Tipo de solicitud solo si aplica */}
         {selectedType?.ticketTypeDesc.toLowerCase() === "solicitud" && (
           <>
-            <label>Selecciona tipo de solicitud</label>
-            <select name="clarificationType" onChange={handleChange} value={formData.clarificationType}>
+            <label>Tipo de Solicitud</label>
+            <select
+              name="clarificationType"
+              onChange={handleChange}
+              value={formData.clarificationType}
+            >
               <option value="">Selecciona una opción</option>
-              {clarificationTypes.filter(c => c.id >= 4).map((clarif) => (
-                <option key={clarif.id} value={clarif.id}>{clarif.clarificationTypeDesc}</option>
-              ))}
+              {clarificationTypes
+                .filter((c) => c.id >= 4)
+                .map((clarif) => (
+                  <option key={clarif.id} value={clarif.id}>
+                    {clarif.clarificationTypeDesc}
+                  </option>
+                ))}
             </select>
           </>
         )}
+
+        {/* Instituciones */}
+        <label>Institución</label>
         <Select
           options={lenderOptions}
           components={animatedComponents}
+          isMulti={isComunicacion}
           onChange={handleSelectLenders}
-          value={lenderOptions.find(opt => formData.participantUserIds.includes(opt.value))}
+          value={
+            isComunicacion
+              ? lenderOptions.filter((opt) =>
+                  formData.participantUserIds.includes(opt.value)
+                )
+              : lenderOptions.find((opt) =>
+                  formData.participantUserIds.includes(opt.value)
+                ) || null
+          }
           placeholder="Selecciona una institución"
         />
 
+        {/* Asunto */}
         <label>Asunto</label>
         <input
           type="text"
@@ -72,13 +118,15 @@ export default function FormularioBroadcastTicket() {
           onChange={handleChange}
         />
 
-        <label>Agregar Contenido del mensaje</label>
+        {/* Mensaje */}
+        <label>Contenido del mensaje</label>
         <textarea
           name="initialMessage"
           placeholder="Escribe aquí tu mensaje..."
           onChange={handleChange}
         />
 
+        {/* Archivo */}
         {file && (
           <div className="file-info">
             <span>{file.name}</span>
@@ -86,6 +134,7 @@ export default function FormularioBroadcastTicket() {
           </div>
         )}
 
+        {/* Dropzone para subir archivo */}
         <div
           className="dropzone"
           onClick={() => inputRef.current?.click()}
@@ -106,9 +155,18 @@ export default function FormularioBroadcastTicket() {
           />
         </div>
 
+        {/* Botón */}
         <div className="acciones">
-          <button className="btn-primario" onClick={handleSubmit} disabled={loading}>
-            {loading ? "Enviando..." : "Enviar Reporte"}
+          <button
+            className="btn-primario"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading
+              ? "Enviando..."
+              : modoComunicacion
+              ? "Enviar Comunicado"
+              : "Enviar Reporte"}
           </button>
         </div>
       </div>

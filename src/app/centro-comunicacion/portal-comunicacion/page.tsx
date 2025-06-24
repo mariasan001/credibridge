@@ -1,33 +1,55 @@
-"use client"
+"use client";
 
-import { PageLayout } from "@/components/PageLayout"
-import { TabsPortal } from "./components/TabsPortal"
-import { ListadoPublicaciones } from "./components/ListadoPublicaciones"
-import { FormularioPublicacion } from "./components/FormularioPublicacion"
-import "./portal-comunicacion.css"
+import { useState } from "react";
+import { PageLayout } from "@/components/PageLayout";
+import { useAuth } from "@/context/AuthContext";
 
-export default function PortalComunicacionPage() {
+import "./portal-comunicacion.css";
+import { ReportTicket } from "../reports/model/reportTicket.model";
+import { ReportTicketsList } from "../reports/components/ReportTicketsList";
+import FormularioBroadcastTicket from "../reports/components/FormularioBroadcastTicket";
+
+export default function ReportesFinancierosPage() {
+  const { user } = useAuth();
+  const [selectedTicket, setSelectedTicket] = useState<ReportTicket | null>(null);
+
+  if (!user) return <PageLayout><p>Cargando...</p></PageLayout>;
+
+  const roles = user.roles || [];
+  const esAdminGeneral = roles.some((r) => r.id === 1 || r.id === 2);
+  const esAdminFinanciera = roles.some((r) => r.id === 4);
+  const puedeAcceder = esAdminGeneral || esAdminFinanciera;
+
+  if (!puedeAcceder) {
+    return <PageLayout><p>No tienes permiso para ver esta sección.</p></PageLayout>;
+  }
+
   return (
     <PageLayout>
-      <div className="portal-comunicacion-wrapper">
-        <h1 className="portal-comunicacion__titulo">Portal de Comunicación</h1>
-        <p className="portal-comunicacion__subtitulo">
-          Publicaciones recientes, avisos importantes y recordatorios.
-        </p>
+      <div className="reportes-layout">
+        <div className="reportes-listado">
+          <h2>Centro de Comunicacion</h2>
+          <ReportTicketsList
+            selectedTicketId={selectedTicket?.id || null}
+            onSelectTicket={setSelectedTicket}
+            showModal={true}
+            onCloseModal={() => setSelectedTicket(null)}
+            ticketsRolesAllowed={true}
+            ticketFilter={(ticket) => ticket.ticket.ticketType === "COMUNICACION"} // ✅ solo muestra tickets tipo comunicación
+          />
 
-        {/* Tabs para secciones */}
-        <TabsPortal />
+        </div>
 
-        {/* Sección principal: publicaciones + formulario */}
-        <div className="portal-comunicacion__contenido">
-          <div className="portal-comunicacion__publicaciones">
-            <ListadoPublicaciones />
-          </div>
-          <div className="portal-comunicacion__formulario">
-            <FormularioPublicacion />
-          </div>
+        <div className="reportes-formulario">
+          {/* Mostrar el formulario a todos los roles permitidos */}
+          {puedeAcceder && (
+            <FormularioBroadcastTicket modoComunicacion={true} />
+          )}
+
+          {/* Mostrar mensajes o placeholder */}
+
         </div>
       </div>
     </PageLayout>
-  )
+  );
 }
