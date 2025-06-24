@@ -18,3 +18,51 @@
   gap: 2rem;
   padding: 2rem;
 }
+
+.chat-placeholder {
+  position: relative;
+  height: 100%;
+  min-height: 680px;
+  background: #fcfcfc;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.chat-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0.3;
+  margin-top: 2rem;
+}
+
+
+
+.bubble.short {
+  width: 35%;
+}
+
+.bubble.me {
+  align-self: flex-end;
+  background-color: #aaaaaa;
+}
+
+.bubble.other {
+  align-self: flex-start;
+  background-color: #cccccc;
+}
+
+.placeholder-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+}

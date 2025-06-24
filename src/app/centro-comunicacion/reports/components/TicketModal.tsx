@@ -112,19 +112,32 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
         <section className="ticket-body">
           <main className="conversation">
             <div className="messages">
-              {sortedMessages.map((m) => (
-                <div key={m.id} className="message">
-                  <div className="avatar small">
-                    {m.senderId.substring(0, 2).toUpperCase()}
+              {sortedMessages.map((m) => {
+                const isCurrentUser = m.senderId === user?.userId;
+                const alignment = isCurrentUser ? "right" : "left";
+
+                return (
+                  <div key={m.id} className={`message ${alignment}`}>
+                    {!isCurrentUser && (
+                      <div className="avatar small">
+                        {m.senderId?.substring(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="bubble-group">
+                      <div className="bubble">{m.content}</div>
+                      <small className="timestamp">
+                        {new Date(m.sentAt).toLocaleString("es-MX")}
+                      </small>
+                    </div>
+                    {isCurrentUser && (
+                      <div className="avatar small">
+                        {m.senderId?.substring(0, 2).toUpperCase()}
+                      </div>
+                    )}
                   </div>
-                  <div className="bubble-group">
-                    <div className="bubble">{m.content}</div>
-                    <small className="timestamp">
-                      {new Date(m.sentAt).toLocaleString("es-MX")}
-                    </small>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
+
               {files.map((f) => (
                 <TicketFileBubble key={f.id} file={f} />
               ))}
@@ -136,7 +149,7 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
               <label className="upload-button" title="Subir archivo">
                 <div className="upload-icon-wrapper">
                   <Upload size={18} className="upload-icon" />
-                 
+
                 </div>
                 <input
                   type="file"

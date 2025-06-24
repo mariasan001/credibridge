@@ -61,39 +61,45 @@ const handleSelectLenders = (selected: any) => {
 
 
 
-  const handleSubmit = async () => {
-    const parsedTicketTypeId = parseInt(formData.ticketTypeId);
-    const clarification = parseInt(formData.clarificationType);
+const handleSubmit = async () => {
+  const parsedTicketTypeId = parseInt(formData.ticketTypeId);
+  const clarification = parseInt(formData.clarificationType);
 
-    if (isNaN(parsedTicketTypeId)) {
-      toast.error("Selecciona un tipo de reporte válido");
-      return;
-    }
+  if (isNaN(parsedTicketTypeId)) {
+    toast.error("Selecciona un tipo de reporte válido");
+    return;
+  }
 
-    const payload: TicketBroadcastPayload = {
-      data: {
-        userId: user?.userId || "",
-        subject: formData.subject,
-        description: formData.description,
-        ticketTypeId: parsedTicketTypeId,
-        clarification_type: isNaN(clarification) ? 0 : clarification,
-        initialMessage: formData.initialMessage,
-        participantUserIds: formData.participantUserIds.map(String),
-      },
-      file: file || undefined,
-    };
-
-    try {
-      setLoading(true);
-      await sendBroadcastTicket(payload);
-      toast.success("Reporte enviado correctamente");
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Error inesperado");
-    } finally {
-      setLoading(false);
-    }
+  const payload: TicketBroadcastPayload = {
+    data: {
+      userId: user?.userId || "",
+      subject: formData.subject,
+      description: formData.description,
+      ticketTypeId: parsedTicketTypeId,
+      clarification_type: isNaN(clarification) ? 0 : clarification,
+      initialMessage: formData.initialMessage,
+      participantUserIds: formData.participantUserIds.map(String),
+    },
+    file: file || undefined,
   };
 
+  try {
+    setLoading(true);
+
+    console.log("Payload enviado:", payload); // 👈 Imprime lo que se está enviando
+
+    const response = await sendBroadcastTicket(payload);
+
+    console.log("Respuesta del servidor:", response); // 👈 Imprime lo que responde el backend
+
+    toast.success("Reporte enviado correctamente");
+  } catch (error: any) {
+    console.error("Error al enviar el reporte:", error); // 👈 Muestra el error detallado en consola
+    toast.error(error?.response?.data?.message || "Error inesperado");
+  } finally {
+    setLoading(false);
+  }
+};
   return {
     inputRef,
     ticketTypes,
