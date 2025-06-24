@@ -10,7 +10,7 @@ export default function RankingDashboardPage() {
     <PageLayout>
       <div className="reportes-layout">
         <div className="reportes-listado">
-          <h2>Historial de Tickets</h2>
+          <h2>Historial </h2>
           <ReportTicketsList /> {/* Ya se encarga de cargar y mostrar los datos */}
         </div>
 

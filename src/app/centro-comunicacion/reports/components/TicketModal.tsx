@@ -5,6 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { ReportTicket } from "../model/reportTicket.model";
 import { respondTicket } from "@/app/perfil_user/solicitudes_quejas/service/toketResponService";
 import { useAuth } from "@/context/AuthContext";
+import { Paperclip, Upload } from "lucide-react";
+import { TicketFileModel } from "@/app/perfil_user/solicitudes_quejas/model/TicketFileModel";
+import { uploadTicketFile } from "@/app/perfil_user/solicitudes_quejas/service/ticketFileUploadService";
+import { getTicketFiles } from "@/app/perfil_user/solicitudes_quejas/service/ticketFilesService";
+import { TicketFileBubble } from "@/app/perfil_user/solicitudes_quejas/components/TicketFileBubble";
 
 interface Props {
   ticket: ReportTicket;
@@ -14,12 +19,13 @@ interface Props {
 export const TicketModal = ({ ticket, onClose }: Props) => {
   const [message, setMessage] = useState("");
   const [localMessages, setLocalMessages] = useState([...ticket.messageDtos]);
+  const [files, setFiles] = useState<TicketFileModel[]>([]);
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!message.trim()) return;
 
     try {
@@ -31,13 +37,11 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
       };
 
       await respondTicket(payload);
-      console.log("Mensaje enviado");
 
-      // Añadir mensaje a los locales (fake refresh)
       setLocalMessages((prev) => [
         ...prev,
         {
-          id: Date.now(), // ID temporal
+          id: Date.now(),
           senderId: payload.senderId,
           content: payload.message,
           sentAt: new Date().toISOString(),
@@ -50,12 +54,30 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
     }
   };
 
-  // Scroll automático al fondo al recibir mensajes nuevos
+  const handleFileUpload = async () => {
+    if (!fileToUpload) return;
+    try {
+      await uploadTicketFile(ticket.id, fileToUpload);
+      const updatedFiles = await getTicketFiles(ticket.id);
+      setFiles(updatedFiles);
+      setFileToUpload(null);
+    } catch (error) {
+      console.error("Error al subir archivo:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const result = await getTicketFiles(ticket.id);
+      setFiles(result);
+    };
+    fetchFiles();
+  }, [ticket.id]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [localMessages]);
+  }, [localMessages, files]);
 
-  // Ordenar mensajes por fecha
   const sortedMessages = [...localMessages].sort(
     (a, b) => new Date(a.sentAt).getTime() - new Date(b.sentAt).getTime()
   );
@@ -82,12 +104,7 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
             </div>
           </div>
 
-          <button
-            className="close-button"
-            onClick={onClose}
-            aria-label="Cerrar modal"
-            title="Cerrar"
-          >
+          <button className="close-button" onClick={onClose} title="Cerrar">
             ✕
           </button>
         </header>
@@ -108,10 +125,25 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
                   </div>
                 </div>
               ))}
+              {files.map((f) => (
+                <TicketFileBubble key={f.id} file={f} />
+              ))}
+
               <div ref={messagesEndRef} />
             </div>
 
             <form className="message-input" onSubmit={handleSubmit}>
+              <label className="upload-button" title="Subir archivo">
+                <div className="upload-icon-wrapper">
+                  <Upload size={18} className="upload-icon" />
+                 
+                </div>
+                <input
+                  type="file"
+                  onChange={(e) => setFileToUpload(e.target.files?.[0] || null)}
+                  style={{ display: "none" }}
+                />
+              </label>
               <input
                 type="text"
                 placeholder="Escribe un mensaje..."
@@ -120,6 +152,22 @@ export const TicketModal = ({ ticket, onClose }: Props) => {
               />
               <button type="submit">Enviar</button>
             </form>
+
+            {fileToUpload && (
+              <div className="file-preview">
+                <div className="file-info">
+                  <i className="fas fa-paperclip"></i>
+                  <span className="file-name">{fileToUpload.name}</span>
+                </div>
+                <button
+                  type="button"
+                  className="upload-btn"
+                  onClick={handleFileUpload}
+                >
+                  Subir archivo
+                </button>
+              </div>
+            )}
           </main>
         </section>
       </div>
