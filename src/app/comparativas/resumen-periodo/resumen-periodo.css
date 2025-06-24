@@ -1,0 +1,18 @@
+.resumen-periodo-skeleton {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+}
+
+.skeleton-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.skeleton-tabla {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

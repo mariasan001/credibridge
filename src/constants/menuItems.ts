@@ -49,7 +49,7 @@ export const menuItems = [
     label: "Inicio ",
     icon: Home,
     route: "/inicio/inicio_finaciera/ini_admin",
-    roles: [4,5],
+    roles: [4, 5],
   },
 
   {
@@ -63,51 +63,46 @@ export const menuItems = [
     label: "Gestión de Personal",
     icon: Users,
     route: "/gestion-personal",
-    roles: [1, 2, 4,5],
+    roles: [1, 2, 4, 5],
     children: [
       {
         label: "Buscar usuario",
         route: "/gestion-personal/buscar-servidor",
         roles: [1, 2, 4, 5],
       },
-            {
+      {
         label: "Valoracion",
         route: "/valoracion",
         roles: [4],
       },
-        {
-        label: "Contratos por Financiera",
-        route: "/gestion-personal/contratos",
-        roles: [1, 2],
-      },
     ],
   },
-        {
+  {
     label: "Historial",
     icon: Clock,
     route: "/solcitudes_quejas",
-    roles: [ 1,2],
+    roles: [1, 2],
   },
   {
     label: "Comparativas",
     icon: BarChart2,
     route: "/comparativas",
-    roles: [1, 2],
+    roles: [],
     children: [
       {
         label: "Ranking de Instituciones",
         route: "/comparativas/ranking-instituciones",
-        roles: [1, 2],
+        roles: [],
       },
 
       {
         label: "Resumen de Periodos",
         route: "/comparativas/resumen-periodo",
-        roles: [1, 2],
+        roles: [],
       },
     ],
   },
-,
+  ,
   {
     label: "Reportes y Consultas",
     icon: FileText,
@@ -115,77 +110,82 @@ export const menuItems = [
     roles: [1, 2, 4],
     children: [
       {
-        label: "Conciliación",
-        route: "/reportes-consultas/concialicion",
+        label: "Resumen de Periodos",
+        route: "/comparativas/resumen-periodo",
+        roles: [1, 2],
+      },
+      {
+        label: "Contratos por Financiera",
+        route: "/gestion-personal/contratos",
         roles: [1, 2],
       },
       {
         label: "Consulta TNIS",
         route: "/reportes-consultas/reporte-tnis",
-        roles: [1, 2],
+        roles: [],
       },
       {
         label: "Contratos a expirar",
         route: "/reportes-consultas/contratos-expirar",
-        roles: [1, 2, 4],
+        roles: [],
       },
       {
         label: "Contratos Bloqueados",
         route: "/reportes-consultas/contratos-bloqueados",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Contratos Modificados",
         route: "/reportes-consultas/contratos-modificados",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Contratos Pagados",
         route: "/reportes-consultas/contratos-pagados",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Contratos Terminados",
         route: "/reportes-consultas/contratos-terminados",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Insertados por Nómina",
         route: "/reportes-consultas/insetados-nomina",
-        roles: [1, 2],
+        roles: [],
       },
       {
         label: "Instalados por Periodo",
         route: "/reportes-consultas/instalados-periodos",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Liquidaciones",
         route: "/reportes-consultas/liquidaciones",
-        roles: [1, 2, ],
+        roles: [],
       },
       {
         label: "Modalidad por Nómina",
         route: "/reportes-consultas/modalidad-nominas",
-        roles: [1, 2],
+        roles: [],
       },
       {
         label: "Reservas Activas",
         route: "/reportes-consultas/reservas-activas",
-        roles: [1, 2],
+        roles: [],
       },
       {
         label: "Reservas en el periodo",
         route: "/reportes-consultas/reservas-periodo",
-        roles: [1, 2, ],
+        roles: [],
       },
     ],
   },
-    {
+  {
     label: "Prospectos",
     icon: BadgeCheck,
     route: "/prospectos",
-    roles: [4,5],
+    roles: [4, 5],
   },
   {
     label: "Procesos Autorizados",
@@ -212,7 +212,6 @@ export const menuItems = [
     roles: [4, 5],
   },
 
-
   {
     label: "Centro de Comunicación",
     icon: MessageCircle,
@@ -236,21 +235,21 @@ export const menuItems = [
       },
     ],
   },
-    {
+  {
     label: "Historial",
     icon: Clock,
     route: "/historial",
-    roles: [ 4,5],
+    roles: [4, 5],
     children: [
       {
         label: "Historial de Solicitudes",
         route: "/historial/historia-solicitudes",
-        roles: [ 4,5],
+        roles: [4, 5],
       },
       {
         label: "Historial de Quejas",
         route: "/historial/histroial-quejas",
-        roles: [ 4,5],
+        roles: [4, 5],
       },
     ],
   },

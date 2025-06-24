@@ -1,31 +1,68 @@
-"use client"
-import { useEffect, useState } from "react"
-import { PageLayout } from "@/components/PageLayout"
-import { HeaderResumen } from "./components/HeaderResumen"
-import { FiltrosPeriodo } from "./components/FiltrosPeriodo"
-import { TablaResumen } from "./components/TablaResumen"
-import { ResumenPeriodoSkeleton } from "./components/ResumenPeriodoSkeleton"
-import "./resumen.css"
+"use client";
 
-export default function ResumenPeriodoPage() {
-  const [loading, setLoading] = useState(true)
+import { useState, useEffect } from "react";
+import { fetchDashboardContracts } from "./service/dashboard_service";
+import { DashboardContract } from "./model/dashboard.model";
+import { PageLayout } from "@/components/PageLayout";
+import { DashboardContractsTable } from "./components/ContratoItemCard";
+import { Pagination } from "@/app/cartera-clientes/components/Pagination";
+import { FiltrosDashboard } from "./components/FiltrosDashboard";
+import { ResumenHeader } from "./components/CarteraHeader";
+import "./dashboard-page.css";
+import ResumenSkeleton from "./ResumenSkeleton";
+
+export default function DashboardPage() {
+  const [contratos, setContratos] = useState<DashboardContract[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filtros, setFiltros] = useState({
+    startDateFrom: "2025-01-01",
+    startDateTo: "2025-12-31",
+    contractStatusIds: [1, 2, 3, 4, 5, 6],
+    lenderId: 16,
+  });
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const res = await fetchDashboardContracts(filtros, currentPage - 1, 10);
+      setContratos(res.content);
+      setTotalPages(res.totalPages);
+    } catch (err) {
+      console.error("Error al cargar contratos:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1500)
-    return () => clearTimeout(timeout)
-  }, [])
+    loadData();
+  }, [filtros, currentPage]);
 
   return (
     <PageLayout>
-      {loading ? (
-        <ResumenPeriodoSkeleton />
-      ) : (
-        <div className="resumen-wrapper">
-          <HeaderResumen />
-          <FiltrosPeriodo />
-          <TablaResumen />
-        </div>
-      )}
+
+        {loading ? (
+          <ResumenSkeleton />
+        ) : (
+          <>
+            <ResumenHeader />
+            <FiltrosDashboard
+              onFiltrar={(f) => {
+                setCurrentPage(1);
+                setFiltros(f);
+              }}
+            />
+            <DashboardContractsTable contratos={contratos} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        )}
+
     </PageLayout>
-  )
+  );
 }
