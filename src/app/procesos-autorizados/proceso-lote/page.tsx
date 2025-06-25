@@ -26,7 +26,7 @@ export default function UploadFilesPage() {
   return (
     <PageLayout>
       <div className={styles.container}>
-        <h1 className={styles.heading}>Subir archivos .dbf</h1>
+        <h1 className={styles.heading}></h1>
 
         <div className={styles.uploadRow}>
           <UploadBox title="Subir archivo de nómina" onUpload={handleUploadPayroll} />

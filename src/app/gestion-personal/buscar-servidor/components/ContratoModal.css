@@ -1,0 +1,109 @@
+.modal-overlay1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content1 {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.detalle-contrato {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.detalle-contrato li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.upload-modern {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload-modern:hover {
+  background-color: #f0f0f0;
+}
+
+.upload-icon {
+  color: #4a4a4a;
+  margin-bottom: 0.8rem;
+}
+
+.upload-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.upload-desc {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.browse-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.browse-button:hover {
+  background-color: #3a3a3a;
+}
+
+.cerrar-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.7rem 2rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.cerrar-btn:hover {
+  background-color: #7e1b35;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

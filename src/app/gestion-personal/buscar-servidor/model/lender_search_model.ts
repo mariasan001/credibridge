@@ -1,3 +1,5 @@
+import { identity } from "node_modules/cypress/types/lodash"
+
 export interface WorkUnit {
   id: string
   desc: string

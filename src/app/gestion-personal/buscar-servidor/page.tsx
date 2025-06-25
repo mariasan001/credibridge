@@ -11,18 +11,20 @@ import { LenderSearchSkeleton } from "./LenderSearchSkeleton";
 
 import "./lender-search.css";
 import BuscarServidorSkeleton from "./BuscarServidorSkeleton";
+import { useAuth } from "@/context/AuthContext"; // ✅ Asegúrate de tener este hook importado
 
 export default function LenderSearchPage() {
   const [input, setInput] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const { data, loading, error, buscar } = useLenderSearch();
+  const { user } = useAuth(); // ✅ Obtener usuario actual del contexto
 
   // Simular carga inicial
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsFirstLoad(false);
-    }, 800); // puedes ajustar el tiempo de carga inicial
+    }, 800);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -37,10 +39,8 @@ export default function LenderSearchPage() {
   return (
     <PageLayout>
       {isFirstLoad ? (
-        // ⏳ Solo mostrar skeleton inicial
         <BuscarServidorSkeleton />
       ) : (
-        // ✅ Mostrar toda la página completa después de la carga inicial
         <div className="lender-search-page">
           <h3>Buscar servidor público</h3>
           <p className="subtitle">
@@ -60,21 +60,19 @@ export default function LenderSearchPage() {
 
           <div className="result-container">
             {hasSearched && loading && <LenderSearchSkeleton />}
-
             {hasSearched && error && <p>{error}</p>}
-
             {!hasSearched && (
               <div className="empty-state">
                 <p>🔍 No hay resultados. Realiza una búsqueda para comenzar.</p>
               </div>
             )}
 
-            {data && (
+            {data && user && (
               <div className="result-data">
                 <LenderHeader data={data} />
                 <div className="discounts-section">
                   <DiscountLimitBox limit={data.discountLimit} />
-                  <ContractTable data={data} />
+                  <ContractTable data={data} usuarioActual={user} /> {/* ✅ AQUÍ */}
                 </div>
               </div>
             )}
@@ -82,6 +80,5 @@ export default function LenderSearchPage() {
         </div>
       )}
     </PageLayout>
-
   );
 }
