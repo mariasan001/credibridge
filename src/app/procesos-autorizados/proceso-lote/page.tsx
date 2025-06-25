@@ -5,6 +5,7 @@ import { PageLayout } from "@/components/PageLayout";
 import UploadBox from "./components/UploadBox";
 import { uploadCatalogFile, uploadPayrollFile } from "./service/uploadService";
 import { getUserAudit, getCatalogAudit } from "./service/auditService";
+import styles from "./UploadFilesPage.module.css";
 
 export default function UploadFilesPage() {
   const [userLogs, setUserLogs] = useState([]);
@@ -24,15 +25,18 @@ export default function UploadFilesPage() {
 
   return (
     <PageLayout>
-      <div className="max-w-2xl mx-auto space-y-6 p-6">
-        <h1 className="text-xl font-bold">Subir archivos .dbf</h1>
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Subir archivos .dbf</h1>
 
-        <UploadBox title="Subir archivo de nómina" onUpload={handleUploadPayroll} />
+        <div className={styles.uploadRow}>
+          <UploadBox title="Subir archivo de nómina" onUpload={handleUploadPayroll} />
+          <UploadBox title="Subir archivo de catálogo" onUpload={handleUploadCatalog} />
+        </div>
 
         {userLogs.length > 0 && (
-          <div className="bg-gray-100 p-4 rounded">
-            <h2 className="font-semibold">Auditoría de Usuario</h2>
-            <ul className="text-sm">
+          <div className={styles.auditBox}>
+            <h2 className={styles.auditTitle}>Auditoría de Usuario</h2>
+            <ul className={styles.auditList}>
               {userLogs.map((log: any) => (
                 <li key={log.id}>
                   [{new Date(log.auditTimestamp).toLocaleString()}] {log.userId} - {log.operation}
@@ -42,12 +46,10 @@ export default function UploadFilesPage() {
           </div>
         )}
 
-        <UploadBox title="Subir archivo de catálogo" onUpload={handleUploadCatalog} />
-
         {catalogLogs.length > 0 && (
-          <div className="bg-gray-100 p-4 rounded">
-            <h2 className="font-semibold">Auditoría de Catálogo</h2>
-            <ul className="text-sm">
+          <div className={styles.auditBox}>
+            <h2 className={styles.auditTitle}>Auditoría de Catálogo</h2>
+            <ul className={styles.auditList}>
               {catalogLogs.map((log: any) => (
                 <li key={log.id}>
                   [{new Date(log.changedAt).toLocaleString()}] {log.operation} en {log.tableName} (ID: {log.recordId})

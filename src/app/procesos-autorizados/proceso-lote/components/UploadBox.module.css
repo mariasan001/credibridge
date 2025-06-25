@@ -1,0 +1,81 @@
+.uploadBox {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 2rem;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+
+  /* 👇 Añade estas líneas */
+  flex: 1;
+  min-width: 280px; /* para responsive */
+}
+
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dropArea {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #fefefe;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.dropArea:hover {
+  border-color: #000000;
+  background-color: #f0f8ff;
+}
+
+.icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.input {
+  display: none;
+}
+
+.button {
+  padding: 0.6rem 1.2rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #2f3030;
+}
+
+.message {
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+}
+
+.success {
+  color: #28a745;
+}
+
+.error {
+  color: #dc3545;
+}

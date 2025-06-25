@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { PayrollFile } from "../model/types/payroll";
 import {
   getAllPayrollFiles,
-
+  downloadPayrollFile,
 } from "../service/payrollServiceFile";
-import { downloadPayrollFile } from "../service/payrollServiceFile";
+import { FileText, Download } from "lucide-react";
+import "./PayrollListCards.css";
 
 export default function PayrollList() {
   const [files, setFiles] = useState<PayrollFile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -27,49 +29,59 @@ export default function PayrollList() {
     fetchFiles();
   }, []);
 
+  const filteredFiles = files.filter((file) =>
+    `${file.originalName} ${file.year} ${file.period}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Archivos Subidos</h2>
+    <div className="payroll-list-container">
+      <div className="payroll-header">
+        <h2 className="payroll-title">Mis Archivos de Nómina</h2>
+        <input
+          type="text"
+          placeholder="Buscar por nombre, año o periodo..."
+          className="search-input"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       {loading ? (
-        <p>Cargando...</p>
-      ) : files.length === 0 ? (
-        <p>No hay archivos cargados.</p>
+        <p className="loading-text">Cargando...</p>
+      ) : filteredFiles.length === 0 ? (
+        <p className="empty-text">No hay archivos que coincidan con tu búsqueda.</p>
       ) : (
-        <table className="min-w-full border">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 border">ID</th>
-              <th className="p-2 border">Nombre original</th>
-              <th className="p-2 border">Periodo</th>
-              <th className="p-2 border">Año</th>
-              <th className="p-2 border">Fecha de subida</th>
-              <th className="p-2 border">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map((file) => (
-              <tr key={file.id}>
-                <td className="p-2 border">{file.id}</td>
-                <td className="p-2 border">{file.originalName}</td>
-                <td className="p-2 border">{file.period}</td>
-                <td className="p-2 border">{file.year}</td>
-                <td className="p-2 border">
-                  {new Date(file.uploadDate).toLocaleString()}
-                </td>
-                <td className="p-2 border text-center">
-                  <button
-                    className="text-blue-600 hover:underline"
-                    onClick={() =>
-                      downloadPayrollFile(file.id, file.originalName)
-                    }
-                  >
-                    Descargar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="card-grid">
+          {filteredFiles.map((file) => (
+            <div key={file.id} className="file-card">
+              <div className="file-icon-wrapper">
+                <FileText className="file-icon" />
+              </div>
+              <div className="file-details">
+                <h3 className="file-name" title={file.originalName}>
+                  {file.originalName}
+                </h3>
+                <p className="file-info">Periodo {file.period}, Año {file.year}</p>
+                <p className="file-date">
+                  Subido el{" "}
+                  {new Date(file.uploadDate).toLocaleDateString("es-MX", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+              </div>
+              <button
+                className="download-icon-button"
+                onClick={() => downloadPayrollFile(file.id, file.originalName)}
+              >
+                <Download className="download-icon" />
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

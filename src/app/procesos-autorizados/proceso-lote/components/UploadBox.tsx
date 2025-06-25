@@ -1,5 +1,6 @@
 // components/UploadBox.tsx
 import { useState } from "react";
+import styles from "./UploadBox.module.css";
 
 interface Props {
   title: string;
@@ -24,19 +25,34 @@ export default function UploadBox({ title, onUpload }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border p-4 rounded space-y-3">
-      <h2 className="font-bold">{title}</h2>
-      <input
-        type="file"
-        accept=".dbf"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-      />
-      <button type="submit" className="bg-blue-600 text-white px-4 py-1 rounded">
+    <form onSubmit={handleSubmit} className={styles.uploadBox}>
+      <h2 className={styles.title}>{title}</h2>
+      
+      <label className={styles.dropArea}>
+        <span className={styles.icon}>📁</span>
+        <span className={styles.text}>Arrastra o haz clic para subir un archivo .dbf</span>
+        <input
+          type="file"
+          accept=".dbf"
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
+          className={styles.input}
+        />
+      </label>
+
+      <button type="submit" className={styles.button}>
         Subir archivo
       </button>
 
-      {status === "success" && <p className="text-green-600">Archivo subido con éxito.</p>}
-      {status === "error" && <p className="text-red-600">Error al subir el archivo.</p>}
+      {status === "success" && (
+        <p className={`${styles.message} ${styles.success}`}>
+          Archivo subido con éxito.
+        </p>
+      )}
+      {status === "error" && (
+        <p className={`${styles.message} ${styles.error}`}>
+          Error al subir el archivo.
+        </p>
+      )}
     </form>
   );
 }

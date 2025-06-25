@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import styles from "./AuditLog.module.css";
 import { CatalogAudit, UserAudit } from "../model/auditTypes";
 import { getCatalogAudit, getUserAudit } from "../service/auditService";
 
@@ -19,10 +20,10 @@ export default function AuditLog() {
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-lg font-bold">Auditoría de Usuario</h2>
-        <ul className="text-sm">
+    <div className={styles.auditContainer}>
+      <div className={styles.auditSection}>
+        <h2 className={styles.auditTitle}>Auditoría de Usuario</h2>
+        <ul className={styles.auditList}>
           {userAudit.map((log) => (
             <li key={log.id}>
               [{new Date(log.auditTimestamp).toLocaleString()}] {log.userId} - {log.operation}
@@ -31,9 +32,9 @@ export default function AuditLog() {
         </ul>
       </div>
 
-      <div>
-        <h2 className="text-lg font-bold">Auditoría de Catálogo</h2>
-        <ul className="text-sm">
+      <div className={styles.auditSection}>
+        <h2 className={styles.auditTitle}>Auditoría de Catálogo</h2>
+        <ul className={styles.auditList}>
           {catalogAudit.map((log) => (
             <li key={log.id}>
               [{new Date(log.changedAt).toLocaleString()}] {log.operation} en {log.tableName} (ID: {log.recordId})

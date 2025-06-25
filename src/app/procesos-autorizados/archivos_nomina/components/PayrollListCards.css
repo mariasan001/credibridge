@@ -1,0 +1,131 @@
+.payroll-list-container {
+  padding: 2rem;
+}
+
+.payroll-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.payroll-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.payroll-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.search-input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  outline: none;
+  transition: border 0.3s;
+  width: 100%;
+  max-width: 350px;
+}
+
+.search-input:focus {
+  border-color: #f97316; /* naranja bonito */
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.file-card {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+}
+
+.search-input:focus {
+  border-color: #f97316; /* naranja bonito */
+}
+
+.file-icon-wrapper {
+  background-color: #f3f4f6;
+  padding: 0.40rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-icon {
+  font-size: 1.8rem;
+  color: #9ca3af;
+}
+
+.file-details {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.file-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.file-info {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.file-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.download-icon-button {
+  background-color: #fb923c; /* naranja bonito */
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.download-icon-button:hover {
+  background-color: #f97316;
+}
+.file-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  cursor: help;
+}
