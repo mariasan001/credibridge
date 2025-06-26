@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 import { RankingMensual } from "../model/ranking-dashboard.model";
 import {
   ResponsiveContainer,
@@ -15,38 +16,38 @@ interface Props {
   data: RankingMensual[];
 }
 
-export default function RankingMensualSection({ data }: Props) {
-  const totalIncidencias = data.reduce(
-    (acc, curr) =>
-      acc +
-      (curr.atendidas || 0) +
-      (curr.expiradas || 0) +
-      (curr.activas || 0),
-    0
-  );
+const mesesTraducidos: Record<string, string> = {
+  "2025-01": "Ene",
+  "2025-02": "Feb",
+  "2025-03": "Mar",
+  "2025-04": "Abr",
+  "2025-05": "May",
+  "2025-06": "Jun",
+  "2025-07": "Jul",
+  "2025-08": "Ago",
+  "2025-09": "Sep",
+  "2025-10": "Oct",
+  "2025-11": "Nov",
+  "2025-12": "Dic",
+};
 
-  const mesesTraducidos: Record<string, string> = {
-    "2025-01": "Ene",
-    "2025-02": "Feb",
-    "2025-03": "Mar",
-    "2025-04": "Abr",
-    "2025-05": "May",
-    "2025-06": "Jun",
-    "2025-07": "Jul",
-    "2025-08": "Ago",
-    "2025-09": "Sep",
-    "2025-10": "Oct",
-    "2025-11": "Nov",
-    "2025-12": "Dic",
-  };
+const RankingMensualSection = memo(function RankingMensualSection({ data }: Props) {
+  const dataTransformada = useMemo(() => {
+    return data.map((d) => ({
+      ...d,
+      atendidas: d.atendidas ?? 0,
+      expiradas: d.expiradas ?? 0,
+      activas: d.activas ?? 0,
+      mesLabel: mesesTraducidos[d.mes] || d.mes,
+    }));
+  }, [data]);
 
-  const dataTransformada = data.map((d) => ({
-    ...d,
-    atendidas: d.atendidas ?? 0,
-    expiradas: d.expiradas ?? 0,
-    activas: d.activas ?? 0,
-    mesLabel: mesesTraducidos[d.mes] || d.mes,
-  }));
+  const totalIncidencias = useMemo(() => {
+    return dataTransformada.reduce(
+      (acc, curr) => acc + curr.atendidas + curr.expiradas + curr.activas,
+      0
+    );
+  }, [dataTransformada]);
 
   return (
     <section className="ranking-card">
@@ -67,10 +68,12 @@ export default function RankingMensualSection({ data }: Props) {
         <AreaChart data={dataTransformada}>
           <defs>
             <linearGradient id="colorAtendidas" x1="0" y1="0" x2="0" y2="1">
-             
+              <stop offset="5%" stopColor="#fb923c" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#fb923c" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="colorExpiradas" x1="0" y1="0" x2="0" y2="1">
-           
+              <stop offset="5%" stopColor="#111827" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#111827" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="colorActivas" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
@@ -128,4 +131,6 @@ export default function RankingMensualSection({ data }: Props) {
       </ResponsiveContainer>
     </section>
   );
-}
+});
+
+export default RankingMensualSection;
