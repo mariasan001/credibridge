@@ -19,6 +19,9 @@ export function ContractTable({ data, usuarioActual }: Props) {
 
   const contracts = useMemo(() => data.contracts, [data])
 
+  const rolesRestringidos = [1, 2]
+  const tieneRolRestringido = usuarioActual.roles.some(rol => rolesRestringidos.includes(rol.id))
+
   const handleCompraDeudaClick = () => {
     const contrato = contracts[0]
     setContratoSeleccionado(contrato)
@@ -26,16 +29,12 @@ export function ContractTable({ data, usuarioActual }: Props) {
   }
 
   function getTipoClase(tipo: string) {
-    const tipoNormalizado = tipo.toLowerCase();
+    const tipoNormalizado = tipo.toLowerCase()
     switch (tipoNormalizado) {
-      case "préstamo":
-        return styles.prestamo;
-      case "seguro":
-        return styles.seguro;
-      case "producto":
-        return styles.producto;
-      default:
-        return styles.otro;
+      case "préstamo": return styles.prestamo
+      case "seguro": return styles.seguro
+      case "producto": return styles.producto
+      default: return styles.otro
     }
   }
 
@@ -62,6 +61,7 @@ export function ContractTable({ data, usuarioActual }: Props) {
   }
 
   const handleRowClick = (contrato: any) => {
+    if (tieneRolRestringido) return
     setContratoSeleccionado(contrato)
     setMostrarModalDetalle(true)
   }
@@ -75,7 +75,7 @@ export function ContractTable({ data, usuarioActual }: Props) {
         <DetalleContratoModal contrato={contratoSeleccionado} onClose={handleDetalleModalClose} />
       )}
 
-      {!mostrarTabla && (
+      {!mostrarTabla && !tieneRolRestringido && (
         <div className={styles.overlayInside}>
           <button className={styles.btnCompraDeuda} onClick={handleCompraDeudaClick}>
             Compra de deuda
@@ -83,7 +83,8 @@ export function ContractTable({ data, usuarioActual }: Props) {
         </div>
       )}
 
-      <div className={`${styles.tableBlurWrapper} ${!mostrarTabla ? styles.blurred : ""}`}>
+      <div className={`${styles.tableBlurWrapper} ${(!mostrarTabla && !tieneRolRestringido) ? styles.blurred : ""}`}>
+
         <h4>Detalle de Contratos</h4>
         <div className={styles.tableScrollWrapper}>
           <table className={styles.contractTable}>
@@ -113,20 +114,22 @@ export function ContractTable({ data, usuarioActual }: Props) {
                 const estatus = c.contractStatus?.contractStatusDesc || "N/A"
 
                 return (
-                  <tr key={c.contractId} className={styles.clickableRow} onClick={() => handleRowClick(c)}>
+                  <tr
+                    key={c.contractId}
+                    className={tieneRolRestringido ? "" : styles.clickableRow}
+                    onClick={() => handleRowClick(c)}
+                  >
                     <td>
                       <span className={`${styles.tipoBadge} ${getTipoClase(tipo)}`}>
                         {capitalizar(tipo)}
                       </span>
                     </td>
-
                     <td>{financiera}</td>
                     <td>
                       <span className={`${styles.estatusBadge} ${getEstatusClase(estatus)}`}>
                         {capitalizar(estatus)}
                       </span>
                     </td>
-
                     <td>{c.contractId}</td>
                     <td>{c.installments}</td>
                     <td>{formatCurrency(c.biweeklyDiscount)}</td>

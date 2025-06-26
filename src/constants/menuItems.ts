@@ -101,7 +101,7 @@ export const menuItems = [
     label: "Reportes y Consultas",
     icon: FileText,
     route: "/reportes-consultas",
-    roles: [1, 2, 4],
+    roles: [1, 2, ],
     children: [
       {
         label: "Resumen de Periodos",
@@ -229,7 +229,7 @@ export const menuItems = [
       {
         label: "Chat",
         route: "/centro-comunicacion/chat",
-        roles: [1, 2, 3, 4, 5],
+        roles: [],
       },
     ],
   },
@@ -262,11 +262,7 @@ export const menuItems = [
         route: "/configuracion/admin_user",
         roles: [1, 2, 4],
       },
-      {
-        label: "Actualizar contraseña",
-        route: "/configuracion/contrasena",
-        roles: [1, 2, 4, 3, 5, 6],
-      },
+  
       { label: "Perfil", route: "/perfil_user/perfil", roles: [3] },
       { label: "Perfil", route: "/perfil_user/perfil", roles: [1, 2, 4, 5, 6] },
     ],

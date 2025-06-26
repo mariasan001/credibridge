@@ -28,7 +28,7 @@ export default function RankingDashboardPage() {
     <PageLayout>
       <div className="reportes-layout">
         <div className="reportes-listado">
-          <h2>Centro de Quejas</h2>
+          <h3>Centro de Quejas</h3>
 
           <ReportTicketsList
             selectedTicketId={selectedTicket?.id || null}

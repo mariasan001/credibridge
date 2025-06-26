@@ -32,7 +32,7 @@
   margin-bottom: 10px;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #ebeae5;
   font-size: 14px;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .submit-btn {
-  background: #2563eb;
+  background: #131314;
   color: white;
   border: none;
   padding: 8px 14px;

@@ -63,8 +63,6 @@ export default function ActiveUserTable() {
   return (
     <div className="user-table-container">
       <Toaster position="top-right" />
-      <h2>Usuarios Activos</h2>
-
       <table className="user-table">
         <thead>
           <tr>

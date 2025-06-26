@@ -1,82 +1,78 @@
 "use client";
 
 import { enviarSolicitudPaso2 } from "../service/debtPurchaseService";
+import styles from "./DetalleContratoModal.module.css";
+import toast from "react-hot-toast";
 
 interface Props {
-    contrato: any;
-    onClose: (success?: boolean) => void;
+  contrato: any;
+  onClose: (success?: boolean) => void;
 }
 
 export function DetalleContratoModal({ contrato, onClose }: Props) {
-    const handleConfirmarCompra = async () => {
-        const idDbtPurchase = localStorage.getItem("idDbtPurchase");
+  const handleConfirmarCompra = async () => {
+    const idDbtPurchase = localStorage.getItem("idDbtPurchase");
 
-        if (!idDbtPurchase || isNaN(Number(idDbtPurchase))) {
-            alert("El ID de la solicitud no es válido.");
-            return;
-        }
+    if (!idDbtPurchase || isNaN(Number(idDbtPurchase))) {
+      toast.error("El ID de la solicitud no es válido.");
+      return;
+    }
 
-        const body = {
-            requestId: Number(idDbtPurchase),
-            lenderServiceId: contrato.lenderService?.id || 0,
-            userId: contrato.user.userId,
-            contractType: contrato.lenderService?.serviceType.id || 0,
-            installments: contrato.installments,
-            amount: contrato.amount,
-            biweeklyDiscount: contrato.biweeklyDiscount,
-            effectiveRate: contrato.effectiveRate ?? 0,
-            effectiveAnnualRate: contrato.anualRate ?? 0,
-            phone: contrato.user.phone || "",
-            installmentsToCover: contrato.installmentsToCover ?? 0,
-            outstandingBalance: contrato.lastBalance ?? 0,
-            beneficiaryName: contrato.user.name,
-            beneficiaryRfc: contrato.user.rfc,
-            serverClabe: contrato.serverClabe || "",
-            oldContract: contrato.contractId
-        };
-
-        console.log("📦 Enviando solicitud:", body);
-
-        try {
-            const res = await enviarSolicitudPaso2(body);
-            console.log("✅ Respuesta recibida:", res);
-
-            alert("✅ Contrato registrado exitosamente."); 
-
-            onClose(true);
-        } catch (error: any) {
-            console.error("❌ Error capturado:", error);
-
-            if (error.response) {
-                alert(`Error del servidor: ${JSON.stringify(error.response.data)}`);
-            } else if (error.request) {
-                alert("No hubo respuesta del servidor.");
-            } else {
-                alert(`Error inesperado: ${error.message || "Desconocido"}`);
-            }
-        }
-
+    const body = {
+      requestId: Number(idDbtPurchase),
+      lenderServiceId: contrato.lenderService?.id || 0,
+      userId: contrato.user.userId,
+      contractType: contrato.lenderService?.serviceType.id || 0,
+      installments: contrato.installments,
+      amount: contrato.amount,
+      biweeklyDiscount: contrato.biweeklyDiscount,
+      effectiveRate: contrato.effectiveRate ?? 0,
+      effectiveAnnualRate: contrato.anualRate ?? 0,
+      phone: contrato.user.phone || "",
+      installmentsToCover: contrato.installmentsToCover ?? 0,
+      outstandingBalance: contrato.lastBalance ?? 0,
+      beneficiaryName: contrato.user.name,
+      beneficiaryRfc: contrato.user.rfc,
+      serverClabe: contrato.serverClabe || "",
+      oldContract: contrato.contractId,
     };
 
-    return (
-        <div className="modal-backdrop">
-            <div className="modal-detalle">
-                <h3>Detalle del Contrato</h3>
-                <p><strong>Financiera:</strong> {contrato.lender?.lenderName}</p>
-                <p><strong>Tipo:</strong> {contrato.lenderService?.serviceType?.serviceTypeDesc}</p>
-                <p><strong>Folio:</strong> {contrato.contractId}</p>
-                <p><strong>Saldo Anterior:</strong> ${contrato.lastBalance?.toFixed(2) || "0.00"}</p>
-                <p><strong>Plazos:</strong> {contrato.installments}</p>
-                <div className="acciones">
-                    <button onClick={() => onClose(false)}>Cancelar</button>
-                    <button onClick={handleConfirmarCompra}>Confirmar Compra</button>
-                </div>
-            </div>
+    try {
+      await toast.promise(
+        enviarSolicitudPaso2(body),
+        {
+          loading: "Registrando contrato...",
+          success: "Contrato registrado exitosamente.",
+          error: (err) =>
+            err?.response?.data
+              ? `Error del servidor: ${JSON.stringify(err.response.data)}`
+              : "Ocurrió un error inesperado.",
+        }
+      );
+      onClose(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className={styles.backdrop}>
+      <div className={styles.modal}>
+        <h2 className={styles.title}>Confirmar Compra de Deuda</h2>
+
+        <div className={styles.infoGroup}>
+          <div><span>Financiera:</span> {contrato.lender?.lenderName}</div>
+          <div><span>Tipo:</span> {contrato.lenderService?.serviceType?.serviceTypeDesc}</div>
+          <div><span>Folio:</span> {contrato.contractId}</div>
+          <div><span>Saldo Anterior:</span> ${contrato.lastBalance?.toFixed(2) || "0.00"}</div>
+          <div><span>Plazos:</span> {contrato.installments}</div>
         </div>
-    );
+
+        <div className={styles.actions}>
+          <button className={styles.cancelBtn} onClick={() => onClose(false)}>Cancelar</button>
+          <button className={styles.confirmBtn} onClick={handleConfirmarCompra}>Confirmar</button>
+        </div>
+      </div>
+    </div>
+  );
 }
-/**
- * ahora vamos con este componte es un detalle el objetivo de este es confimar la compra de dedua es parasolo confiamr nonmover nada del
- * pero si de pude mejorar elremieno, velocidad y otimizacion
- * ESTE COMPONETE NO TOENE DSEÑO CREA UNNO CON CSS AISLADO UN DISEO LIMPOIO MODERNO QUE SEAVA COOL NO SOLO ASI EL TEXTOALANO SIN ESTILO 
- */

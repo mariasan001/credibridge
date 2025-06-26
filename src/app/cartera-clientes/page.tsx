@@ -11,6 +11,8 @@ import { CarteraHeader } from "./components/CarteraHeader"
 import { fetchClientPortfolio } from "./service/contract_service"
 import { ClientPortfolioContract } from "./model/contract_model"
 import CarteraSkeleton from "./CarteraSkeleton"
+import { useDebounce } from "use-debounce"
+import { getFechasPorFiltroTiempo } from "./utils/fechasUtils"
 
 export default function CarteraClientesPage() {
   const { user } = useAuth()
@@ -24,30 +26,17 @@ export default function CarteraClientesPage() {
   const [rfc, setRfc] = useState("")
   const [status, setStatus] = useState("todos")
   const [tiempo, setTiempo] = useState("todos")
+  const [debouncedRfc] = useDebounce(rfc, 500)
 
   const buscar = () => {
+    if (loading) return
     setLoading(true)
+    setContracts([])
 
-    // 🔄 Calcular fechaInicio y fechaFin según filtro de tiempo
-    let fechaInicio: string | undefined = undefined
-    let fechaFin: string | undefined = undefined
-    const hoy = new Date()
-
-    if (tiempo === "mes") {
-      fechaInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split("T")[0]
-      fechaFin = hoy.toISOString().split("T")[0]
-    } else if (tiempo === "trimestre") {
-      const tresMesesAntes = new Date(hoy)
-      tresMesesAntes.setMonth(hoy.getMonth() - 3)
-      fechaInicio = tresMesesAntes.toISOString().split("T")[0]
-      fechaFin = hoy.toISOString().split("T")[0]
-    } else if (tiempo === "año") {
-      fechaInicio = new Date(hoy.getFullYear(), 0, 1).toISOString().split("T")[0]
-      fechaFin = hoy.toISOString().split("T")[0]
-    }
+    const { fechaInicio, fechaFin } = getFechasPorFiltroTiempo(tiempo)
 
     fetchClientPortfolio(
-      rfc || undefined,
+      debouncedRfc || undefined,
       fechaInicio,
       fechaFin,
       { page: currentPage - 1, size: 7 },
@@ -65,7 +54,7 @@ export default function CarteraClientesPage() {
 
   useEffect(() => {
     buscar()
-  }, [currentPage, rfc, status, tiempo])
+  }, [currentPage, debouncedRfc, status, tiempo])
 
   if (!user?.lender) {
     return <p>No tienes una financiera asociada.</p>
@@ -92,7 +81,7 @@ export default function CarteraClientesPage() {
         </div>
 
         <div className="filtro-grupo">
-          <label>Estatus</label>
+          <label className="text-title">Estatus</label>
           <select
             value={status}
             onChange={(e) => {
@@ -123,7 +112,7 @@ export default function CarteraClientesPage() {
         </div>
       </div>
 
-      <div className="cartera-clientes-page">
+      <div className="cartera-clientes-page fade-in">
         {loading ? (
           <CarteraSkeleton />
         ) : contracts.length === 0 ? (
@@ -159,7 +148,6 @@ export default function CarteraClientesPage() {
           </>
         )}
       </div>
-
     </PageLayout>
   )
 }

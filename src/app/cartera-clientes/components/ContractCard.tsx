@@ -1,43 +1,33 @@
 "use client";
 
+import { memo } from "react";
 import { Eye } from "lucide-react";
 import "./ContractRow.css";
 import { ClientPortfolioContract } from "../model/contract_model";
 import { useRouter } from "next/navigation";
+import { capitalize } from "../utils/text";
+import { getServiceTagClass } from "../utils/tags";
 
 interface Props {
   contract: ClientPortfolioContract;
   onView?: (contractId: number) => void;
 }
 
-function capitalize(text: string) {
-  if (!text) return "";
-  return text
-    .toLowerCase()
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
-
-function getServiceTagClass(service: string) {
-  const s = service.toLowerCase();
-  if (s.includes("préstamo")) return "green";
-  if (s.includes("seguro")) return "blue";
-  return "gray";
-}
-
-export function ContractRow({ contract, onView }: Props) {
+export const ContractRow = memo(function ContractRow({ contract, onView }: Props) {
   const router = useRouter();
 
   const handleViewClick = () => {
+    if (!contract.contractId || !contract.status) return;
+
     if (onView) {
       onView(contract.contractId);
     } else {
-      // ✅ Guardar datos en localStorage
-      localStorage.setItem("selectedContractId", contract.contractId.toString());
-      localStorage.setItem("selectedContractStatus", contract.status); // ← guardar estatus real
-
-      router.push("/amortizacion"); // sin ID en la URL
+      const selectedContract = {
+        id: contract.contractId,
+        status: contract.status,
+      };
+      localStorage.setItem("selectedContract", JSON.stringify(selectedContract));
+      router.push("/amortizacion");
     }
   };
 
@@ -82,8 +72,15 @@ export function ContractRow({ contract, onView }: Props) {
       </td>
 
       <td>
-        <Eye className="icon-view" onClick={handleViewClick} />
+        <Eye
+          className="icon-view"
+          onClick={handleViewClick}
+      
+          aria-label="Ver detalle del contrato"
+          role="button"
+          tabIndex={0}
+        />
       </td>
     </tr>
   );
-}
+});

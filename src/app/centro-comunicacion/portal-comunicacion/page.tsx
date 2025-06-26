@@ -28,14 +28,14 @@ export default function ReportesFinancierosPage() {
     <PageLayout>
       <div className="reportes-layout">
         <div className="reportes-listado">
-          <h2>Centro de Comunicacion</h2>
+          <h3>Centro de Comunicacion</h3>
           <ReportTicketsList
             selectedTicketId={selectedTicket?.id || null}
             onSelectTicket={setSelectedTicket}
             showModal={true}
             onCloseModal={() => setSelectedTicket(null)}
             ticketsRolesAllowed={true}
-            ticketFilter={(ticket) => ticket.ticket.ticketType === "COMUNICACION"} // ✅ solo muestra tickets tipo comunicación
+            ticketFilter={(ticket) => ticket.ticket.ticketType === "COMUNICACION"} 
           />
 
         </div>

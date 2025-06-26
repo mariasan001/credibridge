@@ -48,7 +48,7 @@ export default function FormularioBroadcastTicket({ modoComunicacion = false }: 
         </h3>
 
         {/* Tipo de Reporte */}
-        <label>Tipo de Reporte</label>
+        <label className="text-title">Tipo de Reporte</label>
         <select
           name="ticketTypeId"
           onChange={handleChange}
@@ -71,7 +71,7 @@ export default function FormularioBroadcastTicket({ modoComunicacion = false }: 
         {/* Tipo de solicitud solo si aplica */}
         {selectedType?.ticketTypeDesc.toLowerCase() === "solicitud" && (
           <>
-            <label>Tipo de Solicitud</label>
+            <label className="text-title">Tipo de Solicitud</label>
             <select
               name="clarificationType"
               onChange={handleChange}
@@ -90,7 +90,7 @@ export default function FormularioBroadcastTicket({ modoComunicacion = false }: 
         )}
 
         {/* Instituciones */}
-        <label>Institución</label>
+        <label className="text-title">Institución</label>
         <Select
           options={lenderOptions}
           components={animatedComponents}
@@ -109,7 +109,7 @@ export default function FormularioBroadcastTicket({ modoComunicacion = false }: 
         />
 
         {/* Asunto */}
-        <label>Asunto</label>
+        <label className="text-title">Asunto</label>
         <input
           type="text"
           name="subject"
@@ -119,7 +119,7 @@ export default function FormularioBroadcastTicket({ modoComunicacion = false }: 
         />
 
         {/* Mensaje */}
-        <label>Contenido del mensaje</label>
+        <label className="text-title">Contenido del mensaje</label>
         <textarea
           name="initialMessage"
           placeholder="Escribe aquí tu mensaje..."

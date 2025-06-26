@@ -24,7 +24,7 @@
 
 /* FILAS */
 .tabla-contratos tbody tr {
-  background: var(--color-bg-sidebar);
+  background: var( --color-bg-container);
   box-shadow: var( --color-border);
   border-radius: 10px;
   transition: all 0.2s ease;

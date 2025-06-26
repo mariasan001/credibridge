@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 16px 0;
+  gap: 1px;
+  padding: 10px 0;
   border-bottom: 1px solid #e5e7eb;
   margin-bottom: 24px;
 }
@@ -17,13 +17,13 @@
 }
 
 .users-header-text p {
-  font-size: 14px;
-  color: #6b7280;
-  margin-top: 6px;
+  font-size: 13px;
+  color: #898989;
+  margin-top: 1px;
 }
 
 .crear-usuario-btn {
-  background-color: #2563eb;
+  background-color: #000000;
   color: #fff;
   border: none;
   padding: 10px 16px;
@@ -35,5 +35,5 @@
 }
 
 .crear-usuario-btn:hover {
-  background-color: #1d4ed8;
+  background-color: #393939;
 }

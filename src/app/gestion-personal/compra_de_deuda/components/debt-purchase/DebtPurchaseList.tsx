@@ -1,15 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./DebtPurchaseList.css";
 import { DebtPurchase } from "../../model/DebtPurchase";
-import { actualizarEstatusSolicitud, obtenerSolicitudesDeuda } from "../../services/debtPurchaseService";
+import {
+  actualizarEstatusSolicitud,
+  obtenerSolicitudesDeuda,
+} from "../../services/debtPurchaseService";
+import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
+const formatoMoneda = (valor: number | null | undefined) =>
+  typeof valor === "number"
+    ? valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" })
+    : "-";
 
-const formatoMoneda = (valor: number | null | undefined) => {
-  if (typeof valor !== "number") return "-";
-  return valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" });
-};
+const capitalizar = (texto: string) =>
+  texto ? texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase() : "";
 
 const formatoFecha = (fecha: string | null | undefined) => {
   if (!fecha) return "-";
@@ -17,18 +24,82 @@ const formatoFecha = (fecha: string | null | undefined) => {
   return isNaN(d.getTime()) ? "-" : d.toLocaleString();
 };
 
+const FilaSolicitud = React.memo(
+  ({
+    s,
+    cambiarStatus,
+    puedeCambiar,
+  }: {
+    s: DebtPurchase;
+    cambiarStatus: (id: number, currentStatus: string) => void;
+    puedeCambiar: boolean;
+  }) => {
+    return (
+      <tr>
+        <td>{s.id}</td>
+        <td>{s.contractId}</td>
+        <td>{capitalizar(s.beneficiaryName || "-")}</td>
+        <td>{s.beneficiaryRfc || "-"}</td>
+        <td className="center-text">{s.cartaAutorizacionPath ? "✅" : ""}</td>
+        <td>{s.newContractId || "-"}</td>
+        <td>
+          <span
+            className={`tag-status ${s.status.toLowerCase().replaceAll(" ", "-")} ${puedeCambiar ? "clickable" : ""}`}
+            onClick={() => puedeCambiar && cambiarStatus(s.id, s.status)}
+            title={puedeCambiar ? "Cambiar estado" : "Solo lectura"}
+          >
+            {capitalizar(s.status)}
+          </span>
+        </td>
+        <td className="center-text">{s.installmentsToCover ?? "-"}</td>
+        <td className="center-text">{formatoMoneda(s.biweeklyDiscount)}</td>
+        <td className="center-text">{formatoMoneda(s.outstandingBalance)}</td>
+        <td className="center-text">{formatoFecha(s.createdAt)}</td>
+        <td className="center-text">{formatoFecha(s.updatedAt)}</td>
+      </tr>
+    );
+  }
+);
+
 const DebtPurchaseList = () => {
+  const { user } = useAuth();
   const [solicitudes, setSolicitudes] = useState<DebtPurchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [clicks, setClicks] = useState<{ [id: number]: number }>({});
 
+  const rolId = user?.roles?.[0]?.id;
+  const lenderId = user?.lender?.id;
+
+  const esSoloVisualizacion = rolId === 1 || rolId === 2;
+  const puedeEditar = rolId === 4 || rolId === 5;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await obtenerSolicitudesDeuda();
-        const filtradas = data.filter((s: DebtPurchase) => s.status !== "INICIADO");
+        const data: DebtPurchase[] = await obtenerSolicitudesDeuda();
+
+        // Siempre eliminar los que tengan status INICIADO
+        const sinIniciados = data.filter(
+          (s) => s.status.toUpperCase() !== "INICIADO"
+        );
+
+        let filtradas: DebtPurchase[] = [];
+
+        if (esSoloVisualizacion) {
+          // Roles 1 y 2 → pueden ver todo excepto INICIADO
+          filtradas = sinIniciados;
+        } else if (puedeEditar && lenderId) {
+          // Roles 4 y 5 → solo si su financiera está involucrada y no INICIADO
+          filtradas = sinIniciados.filter(
+            (s) =>
+              s.sellingLenderId === lenderId ||
+              s.buyingLenderId === lenderId
+          );
+        }
+
         setSolicitudes(filtradas);
       } catch (error) {
+        toast.error("Error al cargar solicitudes.");
         console.error("Error al obtener solicitudes:", error);
       } finally {
         setLoading(false);
@@ -36,45 +107,31 @@ const DebtPurchaseList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [esSoloVisualizacion, puedeEditar, lenderId]);
 
-const cambiarStatus = async (id: number, currentStatus: string) => {
-  const nuevoClick = (clicks[id] || 0) + 1;
-  const nuevoEstado = nuevoClick % 2 === 1 ? "LIBERADO" : "BLOQUEADO";
+  const cambiarStatus = useCallback(
+    async (id: number, currentStatus: string) => {
+      const nuevoClick = (clicks[id] || 0) + 1;
+      const nuevoEstado = nuevoClick % 2 === 1 ? "LIBERADO" : "BLOQUEADO";
 
-  try {
-    console.log(`🔄 Enviando cambio de estado a "${nuevoEstado}" para solicitud #${id}`);
+      await toast.promise(actualizarEstatusSolicitud(id, nuevoEstado), {
+        loading: `Actualizando a ${capitalizar(nuevoEstado)}...`,
+        success: "¡Estado actualizado!",
+        error: "Error al actualizar el estado",
+      });
 
-    await actualizarEstatusSolicitud(id, nuevoEstado);
-
-    setSolicitudes((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, status: nuevoEstado } : s))
-    );
-
-    setClicks((prev) => ({ ...prev, [id]: nuevoClick }));
-
-    console.log("✅ Estado actualizado correctamente");
-  } catch (error: any) {
-    console.error("❌ Error al actualizar estado:", error);
-
-    if (error.response) {
-      console.log("📦 Error con respuesta del servidor:");
-      console.log("Status:", error.response.status);
-      console.log("Data:", error.response.data);
-    } else if (error.request) {
-      console.log("📡 Solicitud enviada pero sin respuesta:");
-      console.log(error.request);
-    } else {
-      console.log("⚠️ Error general:");
-      console.log(error.message);
-    }
-  }
-};
-
+      setSolicitudes((prev) =>
+        prev.map((s) =>
+          s.id === id ? { ...s, status: nuevoEstado } : s
+        )
+      );
+      setClicks((prev) => ({ ...prev, [id]: nuevoClick }));
+    },
+    [clicks]
+  );
 
   return (
     <div className="debt-list-container">
-      <h2>Solicitudes de Compra de Deuda</h2>
       {loading ? (
         <p>Cargando...</p>
       ) : (
@@ -98,27 +155,12 @@ const cambiarStatus = async (id: number, currentStatus: string) => {
             </thead>
             <tbody>
               {solicitudes.map((s) => (
-                <tr key={s.id}>
-                  <td>{s.id}</td>
-                  <td>{s.contractId}</td>
-                  <td>{s.beneficiaryName || "-"}</td>
-                  <td>{s.beneficiaryRfc || "-"}</td>
-                  <td>{s.cartaAutorizacionPath ? "✅" : ""}</td>
-                  <td>{s.newContractId || "-"}</td>
-                  <td>
-                    <span
-                      className={`tag-status ${s.status.toLowerCase()}`}
-                      onClick={() => cambiarStatus(s.id, s.status)}
-                    >
-                      {s.status}
-                    </span>
-                  </td>
-                  <td className="center-text">{s.installmentsToCover ?? "-"}</td>
-                  <td className="center-text">{formatoMoneda(s.biweeklyDiscount)}</td>
-                  <td className="center-text">{formatoMoneda(s.outstandingBalance)}</td>
-                  <td className="center-text">{formatoFecha(s.createdAt)}</td>
-                  <td className="center-text">{formatoFecha(s.updatedAt)}</td>
-                </tr>
+                <FilaSolicitud
+                  key={s.id}
+                  s={s}
+                  cambiarStatus={cambiarStatus}
+                  puedeCambiar={!esSoloVisualizacion && puedeEditar}
+                />
               ))}
             </tbody>
           </table>

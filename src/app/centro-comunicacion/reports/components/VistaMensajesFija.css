@@ -3,6 +3,7 @@
   align-items: flex-end;
   margin: 1px 0;
   max-width: 100%;
+
 }
 
 .message.left {
@@ -66,7 +67,7 @@
 .vista-mensajes-fija-extendida {
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ajusta a la altura del contenedor padre */
+    height: 650px !important; /* Ajusta a la altura del contenedor padre */
 }
 
 .ticket-header {

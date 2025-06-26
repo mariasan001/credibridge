@@ -8,6 +8,7 @@ import DashboardSkeletonPage from "./DashboardSkeleton";
 import "./dashboard.css";
 import "./DashboardSkeleton.css";
 import { DashboardResumenTotales } from "./components/DashboardResumenTotales";
+import { CarteraHeader } from "./components/CarteraHeader";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -36,10 +37,7 @@ export default function DashboardPage() {
         <DashboardSkeletonPage />
       ) : (
         <div className="dashboard-page">
-          <h2 className="dashboard-title">Panel de Control</h2>
-          <p className="dashboard-subtitle">
-            Podrás ver tu tendencia de préstamos obtenidos en tiempo real
-          </p>
+         <CarteraHeader></CarteraHeader>
 
           <DashboardResumenTotales />
 

@@ -9,20 +9,20 @@
 }
 
 .cartera-header__info h2 {
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 700;
-  color: var(  --color-text-main);
+  color: var(--color-text-main);
   margin-bottom: 4px;
 }
 
 .cartera-header__info p {
-  font-size: 13px;
-  color: var(--color-text-strong);
+  font-size: 14px;
+  color: var( --color-text-muted);
   font-weight: 300;
 }
 
 .cartera-header__btn {
-  background-color: var(    --color-text-main);
+  background-color: var(--color-text-main);
   color: var(  --color-bg-container);
   padding: 8px 16px;
   border-radius: 6px;
