@@ -7,12 +7,9 @@
   flex-direction: column;
   gap: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-
-  /* 👇 Añade estas líneas */
   flex: 1;
-  min-width: 280px; /* para responsive */
+  min-width: 280px;
 }
-
 
 .title {
   font-size: 1.2rem;
@@ -24,11 +21,15 @@
   border: 2px dashed #ccc;
   padding: 2rem;
   border-radius: 10px;
+  background-color: #f9f9f9;
   text-align: center;
-  background-color: #fefefe;
   cursor: pointer;
-  position: relative;
-  transition: border-color 0.2s;
+  transition: border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .dropArea:hover {
@@ -37,9 +38,9 @@
 }
 
 .icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  color: #000000;
 }
 
 .text {
@@ -52,19 +53,20 @@
 }
 
 .button {
+  margin-top: 1rem;
   padding: 0.6rem 1.2rem;
   background-color: #000000;
   color: white;
   border: none;
   border-radius: 6px;
-  text-align: center;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: background-color 0.3s;
 }
 
 .button:hover {
-  background-color: #2f3030;
+  background-color: #393939;
 }
 
 .message {
@@ -78,4 +80,19 @@
 
 .error {
   color: #dc3545;
+}
+
+.spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

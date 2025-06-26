@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { Ticket } from "../model/ticket.model"
 import "./FiltrosSolicitudesAdmin.css"
 import { Building2, BadgeHelp, CalendarDays, Layers3 } from "lucide-react"
@@ -21,14 +21,19 @@ export default function FiltrosSolicitudesAdmin({ tickets, onChange }: Props) {
   const [financiera, setFinanciera] = useState("TODAS")
   const [tiempo, setTiempo] = useState("TODO")
 
-  const financierasUnicas = Array.from(new Set(tickets.map(t => t.lenderName)))
+  // ⚡ Memoizar las financieras únicas para rendimiento
+  const financierasUnicas = useMemo(() => {
+    return Array.from(new Set(tickets.map(t => t.lenderName)))
+  }, [tickets])
 
+  // ☑️ Ejecutar callback al cambiar cualquier filtro
   useEffect(() => {
     onChange({ tipo, estatus, financiera, tiempo })
-  }, [tipo, estatus, financiera, tiempo])
+  }, [tipo, estatus, financiera, tiempo, onChange])
 
   return (
     <div className="filtros-admin">
+      {/* Tipo */}
       <div className="filtro-item">
         <label>Tipo</label>
         <div className="filtro-box">
@@ -41,6 +46,7 @@ export default function FiltrosSolicitudesAdmin({ tickets, onChange }: Props) {
         </div>
       </div>
 
+      {/* Estatus */}
       <div className="filtro-item">
         <label>Estatus</label>
         <div className="filtro-box">
@@ -54,6 +60,7 @@ export default function FiltrosSolicitudesAdmin({ tickets, onChange }: Props) {
         </div>
       </div>
 
+      {/* Financiera */}
       <div className="filtro-item">
         <label>Financiera</label>
         <div className="filtro-box">
@@ -67,6 +74,7 @@ export default function FiltrosSolicitudesAdmin({ tickets, onChange }: Props) {
         </div>
       </div>
 
+      {/* Tiempo */}
       <div className="filtro-item">
         <label>Tiempo</label>
         <div className="filtro-box">

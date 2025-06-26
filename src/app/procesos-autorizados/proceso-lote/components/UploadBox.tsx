@@ -1,6 +1,9 @@
-// components/UploadBox.tsx
+"use client";
+
 import { useState } from "react";
 import styles from "./UploadBox.module.css";
+import toast from "react-hot-toast";
+import { Loader2, UploadCloud } from "lucide-react";
 
 interface Props {
   title: string;
@@ -13,24 +16,36 @@ export default function UploadBox({ title, onUpload }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file) {
+      toast.error("Selecciona un archivo antes de subir.");
+      return;
+    }
 
     setStatus("loading");
+
     try {
       await onUpload(file);
       setStatus("success");
-    } catch {
+      toast.success("Archivo subido con éxito.");
+      setFile(null);
+    } catch (error) {
+      console.error(error);
       setStatus("error");
+      toast.error("Hubo un error al subir el archivo.");
+    } finally {
+      setTimeout(() => setStatus("idle"), 3000);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.uploadBox}>
       <h2 className={styles.title}>{title}</h2>
-      
+
       <label className={styles.dropArea}>
-        <span className={styles.icon}>📁</span>
-        <span className={styles.text}>Arrastra o haz clic para subir un archivo .dbf</span>
+        <UploadCloud className={styles.icon} />
+        <span className={styles.text}>
+          {file ? file.name : "Arrastra o haz clic para subir un archivo .dbf"}
+        </span>
         <input
           type="file"
           accept=".dbf"
@@ -39,20 +54,17 @@ export default function UploadBox({ title, onUpload }: Props) {
         />
       </label>
 
-      <button type="submit" className={styles.button}>
-        Subir archivo
+      <button
+        type="submit"
+        className={styles.button}
+        disabled={status === "loading"}
+      >
+        {status === "loading" ? (
+          <Loader2 className={styles.spinner} />
+        ) : (
+          "Subir archivo"
+        )}
       </button>
-
-      {status === "success" && (
-        <p className={`${styles.message} ${styles.success}`}>
-          Archivo subido con éxito.
-        </p>
-      )}
-      {status === "error" && (
-        <p className={`${styles.message} ${styles.error}`}>
-          Error al subir el archivo.
-        </p>
-      )}
     </form>
   );
 }

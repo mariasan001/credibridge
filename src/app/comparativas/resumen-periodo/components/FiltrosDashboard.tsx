@@ -24,6 +24,8 @@ export function FiltrosDashboard({ onFiltrar }: Props) {
     const loadLenders = async () => {
       try {
         const directory = await getLenderDirectory();
+
+        // Extrae todos los lenders únicos activos
         const allLenders = directory.flatMap(d => d.services.map(s => s.lender));
         const lendersMap = new Map<number, typeof allLenders[0]>();
         allLenders.forEach(l => {
@@ -31,14 +33,19 @@ export function FiltrosDashboard({ onFiltrar }: Props) {
             lendersMap.set(l.id, l);
           }
         });
-        setLenders(Array.from(lendersMap.values()));
-        if (lendersMap.size > 0) {
-          setLenderId(Array.from(lendersMap.values())[0].id);
+
+        const uniqueLenders = Array.from(lendersMap.values());
+        setLenders(uniqueLenders);
+
+        if (uniqueLenders.length > 0) {
+          setLenderId(uniqueLenders[0].id);
         }
+
       } catch (error) {
         console.error("Error al cargar lenders:", error);
       }
     };
+
     loadLenders();
   }, []);
 
@@ -49,7 +56,7 @@ export function FiltrosDashboard({ onFiltrar }: Props) {
         startDateFrom,
         startDateTo,
         lenderId,
-        contractStatusIds: [1, 2, 3, 4, 5, 6],
+        contractStatusIds: [1, 2, 3, 4, 5, 6], // Puedes hacerlo dinámico si luego quieres filtrar por status
       });
     }
   };
@@ -58,15 +65,26 @@ export function FiltrosDashboard({ onFiltrar }: Props) {
     <form onSubmit={handleSubmit} className="filtros-form">
       <div className="campo">
         <label>Desde:</label>
-        <input type="date" value={startDateFrom} onChange={(e) => setStartDateFrom(e.target.value)} />
+        <input
+          type="date"
+          value={startDateFrom}
+          onChange={(e) => setStartDateFrom(e.target.value)}
+        />
       </div>
       <div className="campo">
         <label>Hasta:</label>
-        <input type="date" value={startDateTo} onChange={(e) => setStartDateTo(e.target.value)} />
+        <input
+          type="date"
+          value={startDateTo}
+          onChange={(e) => setStartDateTo(e.target.value)}
+        />
       </div>
       <div className="campo">
         <label>Financiera:</label>
-        <select value={lenderId ?? ''} onChange={(e) => setLenderId(Number(e.target.value))}>
+        <select
+          value={lenderId ?? ''}
+          onChange={(e) => setLenderId(Number(e.target.value))}
+        >
           {lenders.map((lender) => (
             <option key={lender.id} value={lender.id}>
               {lender.lenderName}
@@ -75,7 +93,9 @@ export function FiltrosDashboard({ onFiltrar }: Props) {
         </select>
       </div>
       <div className="boton-container">
-        <button type="submit" className="boton-buscar">Buscar</button>
+        <button type="submit" className="boton-buscar">
+          Buscar
+        </button>
       </div>
     </form>
   );

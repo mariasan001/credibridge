@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { PageLayout } from "@/components/PageLayout";
 import { Pagination } from "@/app/cartera-clientes/components/Pagination";
 import ContractsAdminTable from "./components/ContractsAdminTable";
@@ -15,11 +16,21 @@ export default function ContractsAdminPage() {
   const [filteredContracts, setFilteredContracts] = useState<ContractAdmin[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [contractsPerPage] = useState(10); // puedes cambiarlo si quieres más por página
+  const [contractsPerPage] = useState(10);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  useEffect(() => {
+    setLoading(true);
+    fetchContractsAdmin([1, 2, 3], { page: 0, size: 9999 })
+      .then((data) => {
+        setAllContracts(data.content);
+        setFilteredContracts(data.content);
+      })
+      .catch((error) => {
+        console.error("Error al cargar contratos:", error);
+        toast.error("Ocurrió un error al cargar los contratos");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleFiltersChange = (filters: FiltersState) => {
     const filtrados = allContracts.filter((c) =>
@@ -29,25 +40,19 @@ export default function ContractsAdminPage() {
       (filters.servicio === "" || c.typeService === filters.servicio)
     );
     setFilteredContracts(filtrados);
-    setCurrentPage(1); // Reinicia a la primera página al filtrar
+    setCurrentPage(1);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    fetchContractsAdmin([1, 2, 3], { page: 0, size: 9999 }) // Traer todos los contratos
-      .then((data) => {
-        setAllContracts(data.content);
-        setFilteredContracts(data.content);
-      })
-      .catch((error) => console.error("Error al cargar contratos:", error))
-      .finally(() => setLoading(false));
-  }, []);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
+  // Opciones únicas para los filtros
   const financieras = [...new Set(allContracts.map((c) => c.lenderName))];
   const estatuses = [...new Set(allContracts.map((c) => c.contractStatusDesc))];
   const servicios = [...new Set(allContracts.map((c) => c.typeService))];
 
-  // Datos para la página actual
+  // Contratos de la página actual
   const totalPages = Math.ceil(filteredContracts.length / contractsPerPage);
   const currentContracts = filteredContracts.slice(
     (currentPage - 1) * contractsPerPage,

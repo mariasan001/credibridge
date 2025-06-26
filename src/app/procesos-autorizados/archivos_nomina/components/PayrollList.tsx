@@ -7,6 +7,7 @@ import {
   downloadPayrollFile,
 } from "../service/payrollServiceFile";
 import { FileText, Download } from "lucide-react";
+import toast from "react-hot-toast";
 import "./PayrollListCards.css";
 
 export default function PayrollList() {
@@ -14,26 +15,43 @@ export default function PayrollList() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const data = await getAllPayrollFiles();
-        setFiles(data);
-      } catch (error) {
-        console.error("Error al cargar archivos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchFiles = async () => {
+    try {
+      const data = await getAllPayrollFiles();
+      setFiles(data);
+    } catch (error) {
+      console.error("Error al cargar archivos:", error);
+      toast.error("Ocurrió un error al cargar los archivos.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchFiles();
-  }, []);
+  // Llamada inicial
+  fetchFiles();
+
+  // Establecer el intervalo para hacer polling
+  const intervalId = setInterval(fetchFiles, 30000); // cada 30 segundos
+
+  // Limpiar el intervalo al desmontar
+  return () => clearInterval(intervalId);
+}, []);
+
 
   const filteredFiles = files.filter((file) =>
     `${file.originalName} ${file.year} ${file.period}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
+
+  const handleDownload = async (id: number, name: string) => {
+    toast.promise(downloadPayrollFile(id, name), {
+      loading: "Descargando archivo...",
+      success: "Archivo descargado correctamente.",
+      error: "Error al descargar el archivo.",
+    });
+  };
 
   return (
     <div className="payroll-list-container">
@@ -49,7 +67,7 @@ export default function PayrollList() {
       </div>
 
       {loading ? (
-        <p className="loading-text">Cargando...</p>
+        <p className="loading-text">Cargando archivos...</p>
       ) : filteredFiles.length === 0 ? (
         <p className="empty-text">No hay archivos que coincidan con tu búsqueda.</p>
       ) : (
@@ -63,7 +81,9 @@ export default function PayrollList() {
                 <h3 className="file-name" title={file.originalName}>
                   {file.originalName}
                 </h3>
-                <p className="file-info">Periodo {file.period}, Año {file.year}</p>
+                <p className="file-info">
+                  Periodo {file.period}, Año {file.year}
+                </p>
                 <p className="file-date">
                   Subido el{" "}
                   {new Date(file.uploadDate).toLocaleDateString("es-MX", {
@@ -75,7 +95,7 @@ export default function PayrollList() {
               </div>
               <button
                 className="download-icon-button"
-                onClick={() => downloadPayrollFile(file.id, file.originalName)}
+                onClick={() => handleDownload(file.id, file.originalName)}
               >
                 <Download className="download-icon" />
               </button>

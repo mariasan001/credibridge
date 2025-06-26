@@ -6,6 +6,7 @@ import UploadBox from "./components/UploadBox";
 import { uploadCatalogFile, uploadPayrollFile } from "./service/uploadService";
 import { getUserAudit, getCatalogAudit } from "./service/auditService";
 import styles from "./UploadFilesPage.module.css";
+import { CarteraHeader } from "./components/CarteraHeader";
 
 export default function UploadFilesPage() {
   const [userLogs, setUserLogs] = useState([]);
@@ -25,6 +26,7 @@ export default function UploadFilesPage() {
 
   return (
     <PageLayout>
+      <CarteraHeader/>
       <div className={styles.container}>
         <h1 className={styles.heading}></h1>
 

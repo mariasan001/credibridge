@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { capitalizeWords } from "@/app/prospectos/utils/capitalize"
 import { Ticket } from "../model/ticket.model"
 import "./TicketsTableAdmin.css"
@@ -44,6 +45,51 @@ function calcularTiempoDeResolucion(ticket: Ticket): string {
 }
 
 export default function TicketsTableAdmin({ tickets }: Props) {
+  const filas = useMemo(() => {
+    return tickets.map(ticket => {
+      const tiempoRestante = calcularTiempoRestante(ticket)
+      const claseTiempo = getTiempoClass(tiempoRestante)
+
+      const tipo = capitalizeWords(ticket.ticketType)
+      const estatus = capitalizeWords(ticket.status)
+      const financiera = capitalizeWords(ticket.lenderName)
+      const aclaracion = capitalizeWords(ticket.clarificationType || "—")
+      const asignado = capitalizeWords(ticket.assignedTo || "No asignado")
+      const usuario = capitalizeWords(ticket.user)
+
+      const claseEstatus =
+        ticket.status === "ABIERTO"
+          ? "tag blue"
+          : ticket.status === "RESUELTO"
+          ? "tag green"
+          : "tag gray"
+
+      return (
+        <tr key={ticket.ticketId}>
+          <td>{ticket.ticketId}</td>
+          <td><span className="tag gray">{tipo}</span></td>
+          <td><span className={claseEstatus}>{estatus}</span></td>
+          <td className="cell-ellipsis">{financiera}</td>
+          <td className="cell-ellipsis">{aclaracion}</td>
+          <td className="cell-ellipsis">{asignado}</td>
+          <td className="cell-ellipsis">{usuario}</td>
+          <td>
+            {tiempoRestante && (
+              <span className={`tag ${claseTiempo}`}>{tiempoRestante}</span>
+            )}
+          </td>
+          <td>
+            {ticket.status === "RESUELTO" ? (
+              <span className="tag gray">{calcularTiempoDeResolucion(ticket)}</span>
+            ) : (
+              "—"
+            )}
+          </td>
+        </tr>
+      )
+    })
+  }, [tickets])
+
   return (
     <div className="tickets-table-admin">
       <table className="tabla-contratos contracts-table">
@@ -60,46 +106,7 @@ export default function TicketsTableAdmin({ tickets }: Props) {
             <th>Tiempo de resolución</th>
           </tr>
         </thead>
-        <tbody>
-          {tickets.map(ticket => {
-            const tiempoRestante = calcularTiempoRestante(ticket)
-            const claseTiempo = getTiempoClass(tiempoRestante)
-            const claseEstatus =
-              ticket.status === "ABIERTO"
-                ? "tag blue"
-                : ticket.status === "RESUELTO"
-                ? "tag green"
-                : "tag gray"
-
-            return (
-              <tr key={ticket.ticketId}>
-                <td>{ticket.ticketId}</td>
-                <td>
-                  <span className="tag gray">{capitalizeWords(ticket.ticketType)}</span>
-                </td>
-                <td>
-                  <span className={claseEstatus}>{capitalizeWords(ticket.status)}</span>
-                </td>
-                <td className="cell-ellipsis">{capitalizeWords(ticket.lenderName)}</td>
-                <td className="cell-ellipsis">{capitalizeWords(ticket.clarificationType || "—")}</td>
-                <td className="cell-ellipsis">{capitalizeWords(ticket.assignedTo || "No asignado")}</td>
-                <td className="cell-ellipsis">{capitalizeWords(ticket.user)}</td>
-                <td>
-                  {tiempoRestante && (
-                    <span className={`tag ${claseTiempo}`}>{tiempoRestante}</span>
-                  )}
-                </td>
-                <td>
-                  {ticket.status === "RESUELTO" ? (
-                    <span className="tag gray">{calcularTiempoDeResolucion(ticket)}</span>
-                  ) : (
-                    "—"
-                  )}
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
+        <tbody>{filas}</tbody>
       </table>
     </div>
   )

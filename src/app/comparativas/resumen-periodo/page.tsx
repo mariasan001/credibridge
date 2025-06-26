@@ -16,6 +16,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // 🎯 Filtros iniciales por defecto
   const [filtros, setFiltros] = useState({
     startDateFrom: "2025-01-01",
     startDateTo: "2025-12-31",
@@ -23,6 +25,7 @@ export default function DashboardPage() {
     lenderId: 16,
   });
 
+  // 🔄 Función para cargar contratos con filtros y paginación
   const loadData = async () => {
     setLoading(true);
     try {
@@ -36,33 +39,38 @@ export default function DashboardPage() {
     }
   };
 
+  // 🔁 Ejecutar cada vez que cambian filtros o página
   useEffect(() => {
     loadData();
   }, [filtros, currentPage]);
 
   return (
     <PageLayout>
+      {loading ? (
+        <ResumenSkeleton />
+      ) : (
+        <>
+          <ResumenHeader />
 
-        {loading ? (
-          <ResumenSkeleton />
-        ) : (
-          <>
-            <ResumenHeader />
-            <FiltrosDashboard
-              onFiltrar={(f) => {
-                setCurrentPage(1);
-                setFiltros(f);
-              }}
-            />
-            <DashboardContractsTable contratos={contratos} />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        )}
+          {/* 🔍 Filtros */}
+          <FiltrosDashboard
+            onFiltrar={(filtrosActualizados) => {
+              setCurrentPage(1); // Reinicia a página 1
+              setFiltros(filtrosActualizados);
+            }}
+          />
 
+          {/* 📋 Tabla de contratos */}
+          <DashboardContractsTable contratos={contratos} />
+
+          {/* 📄 Paginación */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      )}
     </PageLayout>
   );
 }

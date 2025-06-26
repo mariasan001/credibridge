@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 import { ArrowDown, ArrowUp } from "lucide-react"
+import toast from "react-hot-toast"
 import "./TablaResumen.css"
 
 interface DatoResumen {
@@ -31,6 +32,28 @@ interface DatoResumen {
 
 type ColumnaKey = keyof DatoResumen
 
+const columnas: { key: ColumnaKey; label: string }[] = [
+  { key: "periodo", label: "Periodo" },
+  { key: "institucion", label: "Nombre de la Institución" },
+  { key: "concepto", label: "Concepto" },
+  { key: "modalidad", label: "Modalidad" },
+  { key: "estatus", label: "Estatus" },
+  { key: "cuotas", label: "Cuotas" },
+  { key: "interes", label: "Tasa de interés" },
+  { key: "contratos", label: "Cantidad de contratos" },
+  { key: "valor", label: "Valor total" },
+  { key: "saldoDeudor", label: "Saldo Deudor" },
+  { key: "valorQuin", label: "Valor Quin" },
+  { key: "altas", label: "Altas" },
+  { key: "valorAltasQuincenal", label: "Valor de Altas Quincenal" },
+  { key: "valor1P", label: "Valor 1P total" },
+  { key: "valorTotal", label: "Valor Total Altas" },
+  { key: "valorTasa", label: "Valor Tasa" },
+  { key: "contratosTotales", label: "Contratos Totales" },
+  { key: "totalValorQuincenal", label: "Total Valor Quincenal" },
+  { key: "totalSaldo", label: "Total Saldo por Quincenal" },
+]
+
 const mockData: DatoResumen[] = [...Array(20)].map((_, i) => ({
   periodo: "202304",
   institucion: `Institución ${i + 1}`,
@@ -54,28 +77,6 @@ const mockData: DatoResumen[] = [...Array(20)].map((_, i) => ({
   totalSaldo: 0.0,
 }))
 
-const columnas: { key: ColumnaKey; label: string }[] = [
-  { key: "periodo", label: "Periodo" },
-  { key: "institucion", label: "Nombre de la Institución" },
-  { key: "concepto", label: "Concepto" },
-  { key: "modalidad", label: "Modalidad" },
-  { key: "estatus", label: "Estatus" },
-  { key: "cuotas", label: "Cuotas" },
-  { key: "interes", label: "Tasa de interés" },
-  { key: "contratos", label: "Cantidad de contratos" },
-  { key: "valor", label: "Valor total" },
-  { key: "saldoDeudor", label: "Saldo Deudor" },
-  { key: "valorQuin", label: "Valor Quin" },
-  { key: "altas", label: "Altas" },
-  { key: "valorAltasQuincenal", label: "valor de Altas Quincenal" },
-  { key: "valor1P", label: "Valor 1P total" },
-  { key: "valorTotal", label: "Valor Total Altas" },
-  { key: "valorTasa", label: "Valor Tasa" },
-  { key: "contratosTotales", label: "Contra Totales" },
-  { key: "totalValorQuincenal", label: "Total Valor Quincenal" },
-  { key: "totalSaldo", label: "Total Saldo por Quincenal" },
-]
-
 export const TablaResumen = () => {
   const [loading, setLoading] = useState(true)
   const [ordenColumna, setOrdenColumna] = useState<ColumnaKey>("periodo")
@@ -85,20 +86,18 @@ export const TablaResumen = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 1500)
+
     return () => clearTimeout(timeout)
   }, [])
 
   const ordenar = (a: DatoResumen, b: DatoResumen) => {
     const valA = a[ordenColumna]
     const valB = b[ordenColumna]
+
     if (valA < valB) return ascendente ? -1 : 1
     if (valA > valB) return ascendente ? 1 : -1
     return 0
   }
-
-  const datosFiltrados = mockData.sort(ordenar)
-  const totalPaginas = Math.ceil(datosFiltrados.length / filasPorPagina)
-  const datos = datosFiltrados.slice((pagina - 1) * filasPorPagina, pagina * filasPorPagina)
 
   const cambiarOrden = (key: ColumnaKey) => {
     if (ordenColumna === key) {
@@ -108,6 +107,12 @@ export const TablaResumen = () => {
       setAscendente(true)
     }
   }
+
+  const datosOrdenados = [...mockData].sort(ordenar)
+  const totalPaginas = Math.ceil(datosOrdenados.length / filasPorPagina)
+  const datosPaginados = datosOrdenados.slice((pagina - 1) * filasPorPagina, pagina * filasPorPagina)
+
+  const handleError = (mensaje: string) => toast.error(mensaje)
 
   return (
     <div className="tabla-resumen">
@@ -143,7 +148,7 @@ export const TablaResumen = () => {
                 </tr>
               ))
             ) : (
-              datos.map((item, i) => (
+              datosPaginados.map((item, i) => (
                 <tr key={i}>
                   {columnas.map((col, index) => {
                     const valor = item[col.key]

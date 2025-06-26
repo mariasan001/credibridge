@@ -1,5 +1,4 @@
-/* ===== Contenedor Principal ===== */
-.model-container_PayrollUploader {
+.payrollUploader-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,36 +7,7 @@
   min-height: 60vh;
 }
 
-/* ===== Títulos y Textos ===== */
-.title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
-  color: #111;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #111;
-}
-
-.description {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 1.5rem;
-}
-
-.status {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #2e7d32; /* éxito */
-}
-
-/* ===== Tarjeta de Subida ===== */
-.upload-card {
+.payrollUploader-card {
   border: 1px solid #eee;
   border-radius: 12px;
   padding: 3rem 2rem;
@@ -48,15 +18,26 @@
   text-align: center;
 }
 
-/* ===== Icono de Subida ===== */
-.upload-icon {
+.payrollUploader-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+.payrollUploader-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.payrollUploader-icon {
   color: #555;
   margin-bottom: 1rem;
   font-size: 2rem;
 }
 
-/* ===== Formulario ===== */
-.form-group {
+.payrollUploader-formGroup {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
@@ -73,13 +54,25 @@ input[type="file"] {
   outline: none;
 }
 
-input[type="file"] {
-  width: 100%;
-  margin-top: 1rem;
+.payrollUploader-dropFile {
+  position: relative;
+  border: 2px dashed #999;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+  color: #555;
+  cursor: pointer;
 }
 
-/* ===== Botón ===== */
-button {
+.payrollUploader-fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.buttonn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -91,68 +84,15 @@ button {
   cursor: pointer;
   font-weight: 500;
   font-size: 1rem;
+  margin-left: 10px;
   transition: background-color 0.2s ease-in-out;
-  margin-left: 20px;
 }
 
-button:hover {
+.buttonn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.buttonn:hover:enabled {
   background-color: #1a1a1a;
-}
-
-/* ===== Subida de Archivos ===== */
-.file-upload-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.file-label {
-  background-color: #000;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.file-label:hover {
-  background-color: #333;
-}
-
-.file-name {
-  font-size: 0.95rem;
-  color: #333;
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hidden-input {
-  display: none;
-}
-
-/* ===== Zona de Drop File ===== */
-.file-drop {
-  position: relative;
-  border: 2px dashed #999;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: #f9f9f9;
-  color: #555;
-  cursor: pointer;
-
-}
-
-.file-input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-
 }

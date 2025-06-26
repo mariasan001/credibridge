@@ -3,23 +3,28 @@
 import { capitalizeWords } from "@/app/prospectos/utils/capitalize";
 import { ContractAdmin } from "../model/ticket.model";
 import "./ContractsAdminTable.css";
+import { memo } from "react";
 
 interface Props {
   contracts: ContractAdmin[];
 }
 
-// 🔧 Función para normalizar texto a clase CSS (p. ej. "En Proceso" → "en-proceso")
+// 🔧 Normaliza texto para usar como clase CSS
 function normalizeClass(text: string) {
   return text
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // elimina acentos
-    .replace(/\s+/g, "-"); // reemplaza espacios por guiones
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
 }
 
-export default function ContractsAdminTable({ contracts }: Props) {
+function ContractsAdminTableComponent({ contracts }: Props) {
+  if (contracts.length === 0) {
+    return <p className="no-data-msg">No hay contratos que mostrar.</p>;
+  }
+
   return (
-    <div className="contracts-admin-table">
+    <div className="contracts-admin-table overflow-auto">
       <table className="tabla-contratos">
         <thead>
           <tr>
@@ -40,26 +45,18 @@ export default function ContractsAdminTable({ contracts }: Props) {
               <td>{capitalizeWords(c.lenderName)}</td>
               <td>{capitalizeWords(c.nombre)}</td>
               <td>
-                <span
-                  className={`badge estatus ${normalizeClass(
-                    c.contractStatusDesc
-                  )}`}
-                >
-                  {(c.contractStatusDesc)}
+                <span className={`badge estatus ${normalizeClass(c.contractStatusDesc)}`}>
+                  {c.contractStatusDesc}
                 </span>
               </td>
               <td>
-                <span
-                  className={`badge servicio ${normalizeClass(
-                    c.typeService || "otro"
-                  )}`}
-                >
-                  {(c.typeService || "Otro")}
+                <span className={`badge servicio ${normalizeClass(c.typeService || "otro")}`}>
+                  {c.typeService || "Otro"}
                 </span>
               </td>
               <td>{c.installments}</td>
-              <td>${c.biweeklyDiscount.toFixed(2)}</td>
-              <td>
+              <td className="text-end">${c.biweeklyDiscount.toFixed(2)}</td>
+              <td className="text-end">
                 ${c.amount.toLocaleString("es-MX", { minimumFractionDigits: 2 })}
               </td>
             </tr>
@@ -69,3 +66,6 @@ export default function ContractsAdminTable({ contracts }: Props) {
     </div>
   );
 }
+
+const ContractsAdminTable = memo(ContractsAdminTableComponent);
+export default ContractsAdminTable;
