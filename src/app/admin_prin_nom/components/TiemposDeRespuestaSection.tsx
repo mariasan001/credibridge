@@ -1,20 +1,14 @@
+import { memo } from "react";
 import { TiempoRespuesta } from "../model/ranking-dashboard.model";
 import "./TiemposDeRespuestaSection.css";
+import { getEtiquetaColor } from "../utils/tags";
+import { capitalize } from "../utils/text";
 
 interface Props {
   data: TiempoRespuesta[];
 }
 
-export default function TiemposDeRespuestaSection({ data }: Props) {
-  const getEtiquetaColor = (dias: number) => {
-    if (dias <= 2) return "etiqueta-verde";
-    if (dias <= 6) return "etiqueta-amarilla";
-    return "etiqueta-roja";
-  };
-
-  const capitalizar = (texto: string) =>
-    texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
-
+const TiemposDeRespuestaSection = memo(function TiemposDeRespuestaSection({ data }: Props) {
   return (
     <section className="ranking-card-tiempo">
       <div className="ranking-card-header-tiempo">
@@ -40,11 +34,11 @@ export default function TiemposDeRespuestaSection({ data }: Props) {
                     {item.tiempoRespuesat} días
                   </span>
                 </td>
-                <td>{capitalizar(item.financiera)}</td>
-                <td>{item.solicitudes}</td>
-                <td>{item.quejas}</td>
-                <td>{item.activas}</td>
-                <td>{item.total}</td>
+                <td>{capitalize(item.financiera)}</td>
+                <td>{item.solicitudes ?? 0}</td>
+                <td>{item.quejas ?? 0}</td>
+                <td>{item.activas ?? 0}</td>
+                <td>{item.total ?? 0}</td>
               </tr>
             ))}
           </tbody>
@@ -52,4 +46,6 @@ export default function TiemposDeRespuestaSection({ data }: Props) {
       </div>
     </section>
   );
-}
+});
+
+export default TiemposDeRespuestaSection;
