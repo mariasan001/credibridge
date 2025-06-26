@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { ResumenDashboard } from "../model/ranking-dashboard.model";
 import "./ResumenSection.css";
 import { TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react";
@@ -6,7 +7,7 @@ interface Props {
   resumen: ResumenDashboard;
 }
 
-export default function ResumenSection({ resumen }: Props) {
+const ResumenSection = memo(function ResumenSection({ resumen }: Props) {
   const cards = [
     {
       label: "Total",
@@ -41,8 +42,8 @@ export default function ResumenSection({ resumen }: Props) {
   return (
     <section className="resumen-section">
       <div className="resumen-grid">
-        {cards.map((card, idx) => (
-          <div className="resumen-card" key={idx}>
+        {cards.map((card) => (
+          <div className="resumen-card" key={card.label}>
             <div className="resumen-card-header">
               <span className="resumen-icon">{card.icon}</span>
               <span className="resumen-label">{card.label}</span>
@@ -59,4 +60,6 @@ export default function ResumenSection({ resumen }: Props) {
       </div>
     </section>
   );
-}
+});
+
+export default ResumenSection;
