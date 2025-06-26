@@ -1,40 +1,62 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useLenderSearch } from "./hook/useLenderSearch";
 import { PageLayout } from "@/components/PageLayout";
 
 import { LenderHeader } from "./components/LenderHeader";
 import { DiscountLimitBox } from "./components/DiscountLimitBox";
 import { ContractTable } from "./components/ContractTable";
+
 import { LenderSearchSkeleton } from "./LenderSearchSkeleton";
+import BuscarServidorSkeleton from "./BuscarServidorSkeleton";
+
+import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast"; // ✅ Manejo de errores
 
 import "./lender-search.css";
-import BuscarServidorSkeleton from "./BuscarServidorSkeleton";
-import { useAuth } from "@/context/AuthContext"; // ✅ Asegúrate de tener este hook importado
 
 export default function LenderSearchPage() {
   const [input, setInput] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const { data, loading, error, buscar } = useLenderSearch();
-  const { user } = useAuth(); // ✅ Obtener usuario actual del contexto
+  const { user } = useAuth();
 
-  // Simular carga inicial
+  // Simula carga inicial (primer skeleton)
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsFirstLoad(false);
     }, 800);
-
     return () => clearTimeout(timeout);
   }, []);
 
-  const handleSearch = () => {
+  // Mostrar error con toast
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  // Buscar servidor público
+  const handleSearch = useCallback(() => {
     if (input.trim()) {
       buscar(input.trim());
       setHasSearched(true);
     }
-  };
+  }, [input, buscar]);
+
+  // Resultado memoizado
+  const resultadoMemo = useMemo(() => {
+    if (!data || !user) return null;
+    return (
+      <div className="result-data">
+        <LenderHeader data={data} />
+        <div className="discounts-section">
+          <DiscountLimitBox limit={data.discountLimit} />
+          <ContractTable data={data} usuarioActual={user} />
+        </div>
+      </div>
+    );
+  }, [data, user]);
 
   return (
     <PageLayout>
@@ -55,27 +77,22 @@ export default function LenderSearchPage() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
-            <button onClick={handleSearch}>Buscar</button>
+            <button
+              onClick={handleSearch}
+              disabled={loading || !input.trim()}
+            >
+              {loading ? "Buscando..." : "Buscar"}
+            </button>
           </div>
 
           <div className="result-container">
             {hasSearched && loading && <LenderSearchSkeleton />}
-            {hasSearched && error && <p>{error}</p>}
             {!hasSearched && (
               <div className="empty-state">
                 <p>🔍 No hay resultados. Realiza una búsqueda para comenzar.</p>
               </div>
             )}
-
-            {data && user && (
-              <div className="result-data">
-                <LenderHeader data={data} />
-                <div className="discounts-section">
-                  <DiscountLimitBox limit={data.discountLimit} />
-                  <ContractTable data={data} usuarioActual={user} /> {/* ✅ AQUÍ */}
-                </div>
-              </div>
-            )}
+            {resultadoMemo}
           </div>
         </div>
       )}

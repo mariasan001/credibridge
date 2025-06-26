@@ -1,6 +1,6 @@
 .discount-box {
-  background-color: var(--color-general-naranja);
-  color: var(  --color-bg-container);
+  background-color: #000000;
+  color: #fff;
   border-radius: 8px;
   padding: 40px 24px;
   display: flex;
@@ -11,14 +11,14 @@
   min-height: 350px;
   text-align: center;
   max-width: 180px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .discount-box .amount {
   font-size: 48px;
   font-weight: 800;
   line-height: 1;
-  color: var(--color-bg-container);
+  color: #fff;
 }
 
 .discount-box .subtitle {
@@ -26,5 +26,5 @@
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.4px;
-  color: var(--color-bg-container);
+  color: #fff;
 }

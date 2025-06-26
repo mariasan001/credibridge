@@ -1,14 +1,17 @@
-import { LenderSearchResponse } from "../model/lender_search_model"
-import { LaborInfoCard } from "./LaborInfoCard"
-import { PersonalInfoCard } from "./PersonalInfoCard"
-import { UserInfoCard } from "./UserInfoCard"
-import "./LenderHeader.css"
+"use client";
+
+import React from "react";
+import { LenderSearchResponse } from "../model/lender_search_model";
+import { LaborInfoCard } from "./LaborInfoCard";
+import { PersonalInfoCard } from "./PersonalInfoCard";
+import { UserInfoCard } from "./UserInfoCard";
+import "./LenderHeader.css";
 
 interface Props {
-  data: LenderSearchResponse
+  data: LenderSearchResponse;
 }
 
-export function LenderHeader({ data }: Props) {
+function LenderHeaderComponent({ data }: Props) {
   return (
     <div className="lender-header-container">
       <div className="column">
@@ -21,5 +24,7 @@ export function LenderHeader({ data }: Props) {
         <LaborInfoCard data={data} />
       </div>
     </div>
-  )
+  );
 }
+
+export const LenderHeader = React.memo(LenderHeaderComponent);

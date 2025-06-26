@@ -47,27 +47,49 @@
   background-color:var(  --color-general-naranja);
 }
 
-
-.result-container {
-  margin-top: 20px;
-}
+/* 🟠 Contenedor horizontal */
 .discounts-section {
   display: flex;
   gap: 20px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: stretch; /* fuerza igual alto */
+  min-height: 280px; /* igual o mayor que el alto del DiscountLimitBox */
 }
 
-.discounts-section > .discount-box {
-  flex: 0 0 280px;
-  min-width: 240px;
+/* 🟠 Caja de descuento (lado izquierdo) */
+.discount-limit-box {
+  width: 260px;
+  min-height: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.discounts-section > .contract-table {
+/* ⚪ Tabla a la derecha: debe adaptarse a 100% de alto del padre */
+.contract-table-container {
   flex: 1;
-  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+.table-blur-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.result-data {
+  display: flex;
+  flex-direction: column;
 }
 
+.discounts-section {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  min-height: 300px; /* 🧩 Clave: darle una altura mínima */
+}
 
 .lender-search-page h1 {
   font-size: 24px;
@@ -92,4 +114,20 @@
   font-size: 16px;
   color: #6b7280;
   font-weight: 500;
+}
+.tabla-y-resumen {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  align-items: stretch;
+}
+
+.filtros-compra, .tabla-container {
+  height: 100%;
+}
+.resumen-compra {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

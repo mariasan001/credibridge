@@ -11,8 +11,8 @@ import {
 } from "recharts";
 import { useDashboard } from "../hook/useDashboard";
 import "./DashboardHistorialContratos.css";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // 👈 Agregado
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const MESES_ES = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -20,22 +20,11 @@ const MESES_ES = [
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
+  if (active && payload?.length) {
     return (
-      <div
-        style={{
-          backgroundColor: "#fff",
-          border: "1px solid #ccc",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          fontSize: "14px",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-        }}
-      >
-        <strong style={{ display: "block", marginBottom: 4 }}>{label}</strong>
-        <span style={{ color: "#2D9CDB" }}>
-          Contratos cerrados: {payload[0].value}
-        </span>
+      <div className="custom-tooltip">
+        <strong>{label}</strong>
+        <span>Contratos cerrados: {payload[0].value}</span>
       </div>
     );
   }
@@ -46,79 +35,74 @@ export function DashboardHistorialContratos() {
   const { data, error, loading } = useDashboard();
   const [vista, setVista] = useState<"mes" | "trimestre" | "anio">("mes");
 
-  if (loading || !data) return null;
-  if (error) return <p>{error}</p>;
-  if (!data.contratosCerradosPorMes.length) return null;
-
   const currentYear = new Date().getFullYear();
 
-  const filteredByYear = data.contratosCerradosPorMes.filter((item) =>
-    item.month.startsWith(`${currentYear}-`)
-  );
+  const formattedData = useMemo(() => {
+    if (!data) return [];
 
-  let formattedData: { label: string; contractCount: number }[] = [];
+    const filtered = data.contratosCerradosPorMes.filter((item) =>
+      item.month.startsWith(`${currentYear}-`)
+    );
 
-  if (vista === "mes") {
-    const dataPorMes: { [mes: number]: number } = {};
-    for (let i = 1; i <= 12; i++) dataPorMes[i] = 0;
+    if (vista === "mes") {
+      const porMes = Array(12).fill(0);
+      filtered.forEach((item) => {
+        const mes = parseInt(item.month.split("-")[1], 10) - 1;
+        porMes[mes] += item.contractCount;
+      });
+      return porMes.map((value, i) => ({
+        label: MESES_ES[i],
+        contractCount: value,
+      }));
+    }
 
-    filteredByYear.forEach((item) => {
-      const mes = parseInt(item.month.split("-")[1]);
-      dataPorMes[mes] += item.contractCount;
-    });
+    if (vista === "trimestre") {
+      const trimestres = [0, 0, 0, 0];
+      filtered.forEach((item) => {
+        const mes = parseInt(item.month.split("-")[1], 10);
+        const index = Math.floor((mes - 1) / 3);
+        trimestres[index] += item.contractCount;
+      });
+      return trimestres.map((value, i) => ({
+        label: `T${i + 1}`,
+        contractCount: value,
+      }));
+    }
 
-    formattedData = Object.keys(dataPorMes).map((key) => {
-      const mesIndex = parseInt(key) - 1;
-      return {
-        label: MESES_ES[mesIndex],
-        contractCount: dataPorMes[parseInt(key)],
-      };
-    });
-  } else if (vista === "trimestre") {
-    const trimestres: { [key: string]: number } = { T1: 0, T2: 0, T3: 0, T4: 0 };
-
-    filteredByYear.forEach((item) => {
-      const mes = parseInt(item.month.split("-")[1]);
-      const trimestre =
-        mes <= 3 ? "T1" : mes <= 6 ? "T2" : mes <= 9 ? "T3" : "T4";
-      trimestres[trimestre] += item.contractCount;
-    });
-
-    formattedData = ["T1", "T2", "T3", "T4"].map((t) => ({
-      label: t,
-      contractCount: trimestres[t],
-    }));
-  } else if (vista === "anio") {
-    const grouped: { [year: string]: number } = {};
+    // Vista por año
+    const grouped: Record<string, number> = {};
     data.contratosCerradosPorMes.forEach((item) => {
       const year = item.month.split("-")[0];
       grouped[year] = (grouped[year] || 0) + item.contractCount;
     });
-
-    formattedData = Object.entries(grouped)
+    return Object.entries(grouped)
       .sort((a, b) => Number(a[0]) - Number(b[0]))
       .map(([label, contractCount]) => ({ label, contractCount }));
-  }
+  }, [data, vista]);
+
+  if (loading || !data) return null;
+  if (error) return <p className="error-msg">{error}</p>;
+  if (!formattedData.length) return <p>No hay datos para mostrar.</p>;
 
   return (
     <motion.div
       className="dashboard-historial"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
     >
       <div className="historial-header">
         <h3>Contratos cerrados</h3>
         <div className="tabs">
-          <button className={`tab ${vista === "mes" ? "active" : ""}`} onClick={() => setVista("mes")}>
-            Mes
-          </button>
-          <button className={`tab ${vista === "trimestre" ? "active" : ""}`} onClick={() => setVista("trimestre")}>
-            Trimestre
-          </button>
-          <button className={`tab ${vista === "anio" ? "active" : ""}`} onClick={() => setVista("anio")}>
-            Año
-          </button>
+          {["mes", "trimestre", "anio"].map((v) => (
+            <button
+              key={v}
+              className={`tab ${vista === v ? "active" : ""}`}
+              onClick={() => setVista(v as any)}
+            >
+              {v.charAt(0).toUpperCase() + v.slice(1)}
+            </button>
+          ))}
         </div>
       </div>
 

@@ -2,14 +2,23 @@
 
 import Link from "next/link"
 import { ChevronRight, ChevronDown } from "lucide-react"
+import { Usuario } from "@/model/usuario.models" // ajusta si está en otra ruta
+
+interface MenuItem {
+  label: string
+  icon: React.ElementType
+  route: string
+  roles: number[]
+  children?: MenuItem[]
+}
 
 interface Props {
-  item: any
+  item: MenuItem
   isOpen: boolean
   isCollapsed: boolean
   toggleSubmenu: (route: string) => void
   pathname: string
-  user: any
+  user: Usuario
 }
 
 export const SidebarLinkWithSub = ({
@@ -20,13 +29,11 @@ export const SidebarLinkWithSub = ({
   pathname,
   user,
 }: Props) => {
-  // 🚀 Traemos todos los ids de los roles del usuario
-  const userRoles = user?.roles.map((r: any) => r.id) || []
+  const userRoles = user?.roles.map(r => r.id) || []
 
-  // 🚀 Filtramos los submenús permitidos según los roles
-  const children = item.children.filter((child: any) =>
-    child.roles.some((role: number) => userRoles.includes(role))
-  )
+  const children = item.children?.filter(child =>
+    child.roles.some(role => userRoles.includes(role))
+  ) || []
 
   return (
     <li className="sidebar__item">
@@ -47,7 +54,7 @@ export const SidebarLinkWithSub = ({
       {/* Submenú expandido */}
       {!isCollapsed && isOpen && (
         <ul className="sidebar__submenu">
-          {children.map((child: any, j: number) => (
+          {children.map((child, j) => (
             <li key={j}>
               <Link
                 href={child.route}
@@ -65,7 +72,7 @@ export const SidebarLinkWithSub = ({
       {/* Tooltip flotante si el sidebar está colapsado */}
       {isCollapsed && (
         <div className="sidebar__popover">
-          {children.map((child: any, j: number) => (
+          {children.map((child, j) => (
             <Link key={j} href={child.route}>
               {child.label}
             </Link>

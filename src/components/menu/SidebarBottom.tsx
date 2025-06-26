@@ -5,6 +5,24 @@ import { LogOut } from "lucide-react"
 import { SidebarLinkWithSub } from "./SidebarLinkWithSub"
 import { ThemeToggleButton } from "../theme/ThemeToggle"
 import { useAuth } from "@/context/AuthContext"
+import { Usuario } from "@/model/usuario.models" // ajusta la ruta si es necesario
+
+interface MenuItem {
+  label: string
+  icon: React.ElementType
+  route: string
+  roles: number[]
+  children?: MenuItem[]
+}
+
+interface Props {
+  items: MenuItem[]
+  user: Usuario
+  isCollapsed: boolean
+  openMenu: string | null
+  toggleSubmenu: (route: string) => void
+  pathname: string
+}
 
 export const SidebarBottom = ({
   items,
@@ -12,19 +30,19 @@ export const SidebarBottom = ({
   isCollapsed,
   openMenu,
   toggleSubmenu,
-  pathname
-}: any) => {
+  pathname,
+}: Props) => {
   const { logout } = useAuth()
 
-  // Sacamos los ids de roles del usuario
-  const userRoles = user?.roles.map((r: any) => r.id) || []
+  const userRoles = user?.roles.map(r => r.id) || []
 
   return (
     <div className="sidebar__bottom">
-      {/* 🔥 Mapeamos los ítems filtrando por roles */}
       {items
-        .filter((item: any) => item.roles.some((role: number) => userRoles.includes(role)))
-        .map((item: any, i: number) =>
+        .filter((item): item is MenuItem =>
+          item && item.roles?.some(role => userRoles.includes(role))
+        )
+        .map((item, i) =>
           item.children ? (
             <SidebarLinkWithSub
               key={i}
@@ -49,27 +67,24 @@ export const SidebarBottom = ({
             </Link>
           )
         )}
-{/* a funcion que  del menu cambiar como esta modifica do  */}
-      {/* 🌙 Botón de cambio de tema */}
+
       <ThemeToggleButton isCollapsed={isCollapsed} />
 
-      {/* 👤 Perfil de usuario */}
       {!isCollapsed && user && (
         <>
           <div className="sidebar__perfil-label">Perfil</div>
           <div className="sidebar__perfil">
             <div className="sidebar__avatar" />
             <div className="sidebar__perfil-info">
-              <strong>{user.username}</strong> {/* 🔥 Ya no user.nombre, ahora user.username */}
+              <strong>{user.name}</strong>
               <p className="sidebar__perfil-rol">
-                {user.roles.map((role: any) => role.description).join(", ")}
-              </p> {/* 🔥 Mostramos los roles */}
+                {user.roles.map(role => role.description).join(", ")}
+              </p>
             </div>
           </div>
         </>
       )}
 
-      {/* 🔥 Botón para cerrar sesión */}
       <button className="sidebar__logout" title="Cerrar sesión" onClick={logout}>
         <LogOut size={18} />
         {!isCollapsed && <span>Cerrar sesión</span>}

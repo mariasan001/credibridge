@@ -1,22 +1,23 @@
-import { LenderSearchResponse } from "../model/lender_search_model"
-import "./LaborInfoCard.css"
+import React from "react";
+import { LenderSearchResponse } from "../model/lender_search_model";
+import "./LaborInfoCard.css";
 
 interface Props {
-  data: LenderSearchResponse
+  data: LenderSearchResponse;
 }
 
-export function LaborInfoCard({ data }: Props) {
-  const { user } = data
+function LaborInfoCardComponent({ data }: Props) {
+  const { user } = data;
 
   const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return "Sin registro"
-    const fecha = new Date(dateStr)
+    if (!dateStr) return "Sin registro";
+    const fecha = new Date(dateStr);
     return fecha.toLocaleDateString("es-MX", {
       year: "numeric",
       month: "long",
-      day: "numeric"
-    })
-  }
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="labor-info-card">
@@ -44,7 +45,7 @@ export function LaborInfoCard({ data }: Props) {
         </div>
         <div>
           <span>Situación</span>
-          <strong className="status-label">{user.positionStatus?.desc}</strong>
+          <strong className="status-label">{user.positionStatus?.desc || "Sin registro"}</strong>
         </div>
         <div>
           <span>Fecha de ingreso</span>
@@ -59,5 +60,7 @@ export function LaborInfoCard({ data }: Props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+export const LaborInfoCard = React.memo(LaborInfoCardComponent);

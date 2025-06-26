@@ -2,6 +2,25 @@
 
 import Link from "next/link"
 import { SidebarLinkWithSub } from "./SidebarLinkWithSub"
+import { Usuario } from "@/model/usuario.models" // Asegúrate de ajustar esta ruta si varía
+
+// Definimos el tipo del item del menú
+interface MenuItem {
+  label: string
+  icon: React.ElementType
+  route: string
+  roles: number[]
+  children?: MenuItem[]
+}
+
+interface Props {
+  items: MenuItem[]
+  user: Usuario
+  isCollapsed: boolean
+  openMenu: string | null
+  toggleSubmenu: (route: string) => void
+  pathname: string
+}
 
 export const SidebarMenu = ({
   items,
@@ -10,16 +29,18 @@ export const SidebarMenu = ({
   openMenu,
   toggleSubmenu,
   pathname,
-}: any) => {
-  // Sacamos los ids de roles que tiene el usuario
-  const userRoleIds = user.roles.map((r: any) => r.id)
+}: Props) => {
+  const userRoleIds = user.roles.map(r => r.id)
 
   return (
     <div className="sidebar__scroll-area">
       <ul className="sidebar__menu">
         {items
-          .filter((item: any) => item.roles.some((role: number) => userRoleIds.includes(role))) // 🔥 Aquí corregimos
-          .map((item: any, i: number) =>
+          .filter(
+            (item): item is MenuItem =>
+              !!item && item.roles?.some(role => userRoleIds.includes(role))
+          )
+          .map((item, i) =>
             item.children ? (
               <SidebarLinkWithSub
                 key={i}

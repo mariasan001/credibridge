@@ -1,22 +1,29 @@
+/* === CONTENEDOR GENERAL === */
 .contract-table-container {
-  position: relative; /* ✅ Necesario para posicionar el overlay */
-  max-height: 80vh;
+   height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 10%;
   max-width: 79%;
-  overflow: auto;
-  padding: 16px;
   background: #ffffff;
   border-radius: 12px;
+  padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
-
-/* ✅ Difuminado si está activado */
-.table-blur-wrapper.blurred {
-  filter: blur(1px);
-  opacity: 0.2;
-  pointer-events: none;
+.table-blur-wrapper {
+  flex: 1;
+  max-height: 310px; /* 🔧 Ajusta este valor según tu diseño */
+  overflow-y: auto;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
 }
-
-/* ✅ Overlay con efecto vidrio esmerilado */
+/* === OVERLAY INICIAL CON GLASSMORPHISM === */
 .overlay-inside {
   position: absolute;
   inset: 0;
@@ -24,8 +31,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* Glassmorphism */
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -33,8 +38,7 @@
   border-radius: 12px;
 }
 
-
-/* ✅ Botón "Compra de deuda" */
+/* === BOTÓN DE COMPRA DE DEUDA === */
 .btn-compra-deuda {
   background-color: #000000;
   color: white;
@@ -52,24 +56,41 @@
   background-color: #373737;
 }
 
-/* Scroll más delgado y tenue */
-.contract-table-container::-webkit-scrollbar {
-  width: 6px;
+/* === CONTENEDOR DE TABLA CON SCROLL HORIZONTAL SI ES NECESARIO === */
+.table-blur-wrapper {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-blur-wrapper.blurred {
+  filter: blur(1px);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.table-scroll-wrapper {
+  overflow-x: auto;
+  height: 100%;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar {
   height: 6px;
 }
-.contract-table-container::-webkit-scrollbar-thumb {
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
-.contract-table-container::-webkit-scrollbar-track {
+.table-scroll-wrapper::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
-/* Tabla */
+/* === TABLA === */
 .contract-table {
   min-width: 1100px;
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
   font-size: 14px;
 }
 
@@ -98,14 +119,13 @@
   color: #4b5563;
 }
 
-/* Hover en filas */
 .contract-table tbody tr:hover {
   background-color: #f3f4f6;
   transition: background-color 0.2s ease;
   cursor: pointer;
 }
 
-/* Íconos alineados */
+/* === ÍCONOS Y COLORES POR TIPO === */
 .icon-cell {
   display: flex;
   align-items: center;
@@ -113,21 +133,19 @@
 }
 
 .icon-cell svg {
-  color: #6b7280; /* color gris por defecto */
+  color: #6b7280;
 }
-
-/* Colores por tipo de contrato */
 .icon-cell svg.préstamo {
-  color: #059669; /* verde */
+  color: #059669;
 }
 .icon-cell svg.seguro {
-  color: #3b82f6; /* azul */
+  color: #3b82f6;
 }
 .icon-cell svg.otro {
-  color: #000000; /* negro o gris oscuro */
+  color: #000000;
 }
 
-/* Estatus estilos */
+/* === ESTILOS POR ESTATUS === */
 .estatus {
   padding: 4px 8px;
   border-radius: 8px;
@@ -154,18 +172,7 @@
   color: #991b1b;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .contract-table-container {
-    max-width: 100%;
-    padding: 12px;
-  }
-
-  .contract-table {
-    font-size: 13px;
-    min-width: 950px;
-  }
-}
+/* === MODAL GENÉRICO === */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -186,4 +193,27 @@
   min-width: 300px;
   max-width: 90%;
   text-align: center;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .contract-table-container {
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  .contract-table {
+    font-size: 13px;
+    min-width: 950px;
+  }
+}
+.table-blur-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.table-blur-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+.table-blur-wrapper::-webkit-scrollbar-track {
+  background-color: transparent;
 }

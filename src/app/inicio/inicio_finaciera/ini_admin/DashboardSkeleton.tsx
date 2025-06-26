@@ -5,23 +5,23 @@ import "./DashboardSkeleton.css";
 export default function DashboardSkeleton() {
   return (
     <div className="dashboard-page">
-      <h2 className="dashboard-title">Panel de Control</h2>
-      <p className="dashboard-subtitle">
-        podrás ver tu tendencia de préstamos obtenidos a tiempo real
-      </p>
+      <div className="skeleton-header">
+        <div className="skeleton-title shimmer" />
+        <div className="skeleton-subtitle shimmer" />
+      </div>
 
       <div className="skeleton-top-row">
-        <div className="skeleton-card" />
-        <div className="skeleton-card" />
-        <div className="skeleton-card" />
+        <div className="skeleton-card shimmer" />
+        <div className="skeleton-card shimmer" />
+        <div className="skeleton-card shimmer" />
       </div>
 
       <div className="skeleton-graph-section">
-        <div className="skeleton-graph" />
+        <div className="skeleton-graph shimmer" />
         <div className="skeleton-side-column">
-          <div className="skeleton-side-box" />
-          <div className="skeleton-side-box" />
-          <div className="skeleton-side-box" />
+          <div className="skeleton-side-box shimmer" />
+          <div className="skeleton-side-box shimmer" />
+          <div className="skeleton-side-box shimmer" />
         </div>
       </div>
     </div>

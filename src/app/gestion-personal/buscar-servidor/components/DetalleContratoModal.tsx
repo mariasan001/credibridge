@@ -1,7 +1,6 @@
 "use client";
 
 import { enviarSolicitudPaso2 } from "../service/debtPurchaseService";
-import "./ContratoModal.css";
 
 interface Props {
     contrato: any;

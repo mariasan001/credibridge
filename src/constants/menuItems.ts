@@ -1,6 +1,6 @@
 "use client";
 
-// Importaciones de íconos desde lucide-react
+// Importación de íconos desde lucide-react
 import {
   Home,
   Users,
@@ -14,17 +14,10 @@ import {
   BadgeCheck,
   BookUser,
   Megaphone,
-  Target,
-  ClipboardList,
 } from "lucide-react";
 
-// Arreglo de elementos del menú lateral con rutas, íconos y permisos por rol
-//1	"ADMIN"
-//2	"ADMIN_NOM"
-//3	"USER"
-//4	"FINANCIERA_ADM"
-//5	"FINANCIERA_EJEC"
-//6	"FINANCIERA_ASES"
+// Si tienes un tipo `MenuItem`, mejor aún
+// import { MenuItem } from "@/types/menu"; 
 
 export const menuItems = [
   {
@@ -51,14 +44,12 @@ export const menuItems = [
     route: "/inicio/inicio_finaciera/ini_admin",
     roles: [4, 5],
   },
-
   {
     label: "Inicio Asesor",
     icon: Home,
     route: "/prospectos",
     roles: [6],
   },
-
   {
     label: "Gestión de Personal",
     icon: Users,
@@ -74,6 +65,11 @@ export const menuItems = [
         label: "Valoracion",
         route: "/valoracion",
         roles: [4],
+      },
+      {
+        label: "Compra/ Venta de deuda",
+        route: "/gestion-personal/compra_de_deuda",
+        roles: [1, 2, 4, 5],
       },
     ],
   },
@@ -94,7 +90,6 @@ export const menuItems = [
         route: "/comparativas/ranking-instituciones",
         roles: [],
       },
-
       {
         label: "Resumen de Periodos",
         route: "/comparativas/resumen-periodo",
@@ -102,7 +97,6 @@ export const menuItems = [
       },
     ],
   },
-  ,
   {
     label: "Reportes y Consultas",
     icon: FileText,
@@ -203,10 +197,10 @@ export const menuItems = [
         route: "/procesos-autorizados/proceso-lote",
         roles: [1, 2],
       },
-           {
+      {
         label: "Actualizar Archivos de Nomina ",
         route: "/procesos-autorizados/archivos_nomina",
-        roles: [1,2],
+        roles: [1, 2],
       },
     ],
   },
@@ -216,7 +210,6 @@ export const menuItems = [
     route: "/cartera-clientes",
     roles: [4, 5],
   },
-
   {
     label: "Centro de Comunicación",
     icon: MessageCircle,
@@ -258,7 +251,6 @@ export const menuItems = [
       },
     ],
   },
-
   {
     label: "Configuración",
     icon: Settings,
@@ -279,16 +271,13 @@ export const menuItems = [
       { label: "Perfil", route: "/perfil_user/perfil", roles: [1, 2, 4, 5, 6] },
     ],
   },
-
   {
     label: " Difusión Comercial ",
     icon: Megaphone,
     route: "/difucion",
     roles: [4, 5],
   },
-
-  // ESTAS OPCIONES SON ESCLUCIDIVAS PARA USUARIOS / SERVIDORES PUBLICOS
-
+  // --- EXCLUSIVOS PARA SERVIDORES PÚBLICOS ---
   {
     label: "Simulación",
     icon: Cpu,

@@ -1,67 +1,77 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { usePathname } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
-import { menuItems } from "@/constants/menuItems"
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { menuItems } from "@/constants/menuItems";
 
-import "@/styles/sidebar.css"
-import { SidebarHeader } from "./SidebarHeader"
-import { SidebarBottom } from "./SidebarBottom"
-import { SidebarMenu } from "./SidebarMenu"
-import { abortOnSynchronousPlatformIOAccess } from "next/dist/server/app-render/dynamic-rendering"
+import "@/styles/sidebar.css";
+import { SidebarHeader } from "./SidebarHeader";
+import { SidebarMenu } from "./SidebarMenu";
+import { SidebarBottom } from "./SidebarBottom";
+import { MenuItem } from "./types/menu";
 
 export const Sidebar = () => {
-  const { user, loading } = useAuth()
-  const [openMenu, setOpenMenu] = useState<string | null>(null)
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const pathname = usePathname()
+  const { user, loading } = useAuth();
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true); // ✅ Tipo explícito
+  const pathname = usePathname();
 
-  const isBrowser = typeof window !== "undefined"
+  const isBrowser = typeof window !== "undefined";
 
-useEffect(() => {
-  if (isBrowser) {
-    // Forzar colapsado siempre al inicio
-    setIsCollapsed(true)
-    localStorage.setItem("sidebar-collapsed", "true")
-    document.body.classList.add("sidebar-collapsed")
-  }
-}, [])
-
-
+  // 🧠 Cargar estado inicial del sidebar desde localStorage
   useEffect(() => {
     if (isBrowser) {
-      localStorage.setItem("sidebar-collapsed", String(isCollapsed))
-      document.body.classList.toggle("sidebar-collapsed", isCollapsed)
+      const saved = localStorage.getItem("sidebar-collapsed");
+      const initial = saved === "false" ? false : true;
+      setIsCollapsed(initial);
+      document.body.classList.toggle("sidebar-collapsed", initial);
     }
-  }, [isCollapsed])
+  }, []);
 
-  const toggleSidebar = () => setIsCollapsed(prev => !prev)
+  // 💾 Guardar en localStorage cada vez que cambia
+  useEffect(() => {
+    if (isBrowser) {
+      localStorage.setItem("sidebar-collapsed", String(isCollapsed));
+      document.body.classList.toggle("sidebar-collapsed", isCollapsed);
+    }
+  }, [isCollapsed]);
+
+  // ✅ Corrigiendo el tipo de parámetro
+  const toggleSidebar = () => {
+    setIsCollapsed(prev => !prev);
+  };
+
   const toggleSubmenu = (route: string) =>
-    setOpenMenu(prev => (prev === route ? null : route))
+    setOpenMenu(prev => (prev === route ? null : route));
 
-  // 🧠 Validaciones de seguridad
-  if (loading) return null
-  if (!user || !Array.isArray(user.roles)) return null
+  if (loading) return null;
+  if (!user || !Array.isArray(user.roles)) return null;
 
-  // ✅ Ahora ya seguro tienes usuario y roles
-  const userRoles = user.roles.map(r => r.id)
+  const userRoles = user.roles.map(r => r.id);
 
-  const filteredMenuItems = menuItems.filter(item =>
-    item.roles.some(role => userRoles.includes(role))
-  )
+  const filteredMenuItems: MenuItem[] = menuItems.filter(
+    (item): item is MenuItem =>
+      !!item && item.roles?.some(role => userRoles.includes(role))
+  );
 
-  const mainItems = filteredMenuItems.filter(
-    item => !["/configuracion", "/centro-de-comunicacion"].includes(item.route)
-  )
+  const mainItems: MenuItem[] = filteredMenuItems.filter(
+    (item): item is MenuItem =>
+      !["/configuracion", "/centro-de-comunicacion"].includes(item.route)
+  );
 
-  const bottomItems = filteredMenuItems.filter(
-    item => ["/configuracion", "/centro-de-comunicacion"].includes(item.route)
-  )
+  const bottomItems: MenuItem[] = filteredMenuItems.filter(
+    (item): item is MenuItem =>
+      ["/configuracion", "/centro-de-comunicacion"].includes(item.route)
+  );
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
-      <SidebarHeader isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+      <SidebarHeader
+        isCollapsed={isCollapsed}
+        toggleSidebar={toggleSidebar}
+      />
+
       <SidebarMenu
         items={mainItems}
         user={user}
@@ -70,6 +80,7 @@ useEffect(() => {
         toggleSubmenu={toggleSubmenu}
         pathname={pathname}
       />
+
       <SidebarBottom
         items={bottomItems}
         user={user}
@@ -79,5 +90,5 @@ useEffect(() => {
         pathname={pathname}
       />
     </aside>
-  )
-}
+  );
+};

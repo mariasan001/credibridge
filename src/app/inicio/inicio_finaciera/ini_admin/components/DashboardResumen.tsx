@@ -1,10 +1,11 @@
 "use client";
 
+import React from "react";
 import { useDashboard } from "../hook/useDashboard";
-import { AnimatedCounter } from "../components/AnimatedCounter"; // 👈 Asegúrate de importar bien
+import { AnimatedCounter } from "../components/AnimatedCounter";
 import "./DashboardResumen.css";
 
-export function DashboardResumen() {
+export const DashboardResumen = React.memo(function DashboardResumen() {
   const { data, error, loading } = useDashboard();
 
   if (loading || !data) return null;
@@ -43,4 +44,4 @@ export function DashboardResumen() {
       ))}
     </div>
   );
-}
+});

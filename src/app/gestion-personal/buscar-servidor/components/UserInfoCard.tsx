@@ -1,14 +1,17 @@
-import { User } from "../model/lender_search_model"
-import "./UserInfoCard.css"
-import { UserCircle } from "lucide-react"
+"use client";
+
+import { memo } from "react";
+import { User } from "../model/lender_search_model";
+import "./UserInfoCard.css";
+import { UserCircle } from "lucide-react";
 
 interface Props {
-  user: User
-  totalActivos?: number
-  totalTerminados?: number
+  user: User;
+  totalActivos?: number;
+  totalTerminados?: number;
 }
 
-export function UserInfoCard({ user, totalActivos = 1, totalTerminados = 1 }: Props) {
+function UserInfoCardComponent({ user, totalActivos = 1, totalTerminados = 1 }: Props) {
   return (
     <div className="user-info-card">
       <div className="avatar">
@@ -30,5 +33,8 @@ export function UserInfoCard({ user, totalActivos = 1, totalTerminados = 1 }: Pr
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+// Exportando el componente memoizado
+export const UserInfoCard = memo(UserInfoCardComponent);

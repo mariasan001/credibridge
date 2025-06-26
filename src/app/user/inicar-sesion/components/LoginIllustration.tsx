@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Image from "next/image"
+import Image from "next/image";
 
 interface Props {
-  darkMode: boolean
+  darkMode: boolean;
 }
 
 export function LoginIllustration({ darkMode }: Props) {
@@ -14,8 +14,9 @@ export function LoginIllustration({ darkMode }: Props) {
         alt="CrediBridge ilustración"
         fill
         className="login-image-fill"
-        priority
+        sizes="(min-width: 768px) 50vw, 100vw" // 🧠 Esto ayuda a Next a optimizar
+        priority={false} // ❌ No la forzamos como prioridad
       />
     </div>
-  )
+  );
 }

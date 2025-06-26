@@ -12,7 +12,7 @@
 }
 
 .avatar {
-  background-color: var(  --color-text-secondary); /* tono azul grisáceo */
+  background-color: #e17e32;
   border-radius: 50%;
   width: 84px;
   height: 84px;

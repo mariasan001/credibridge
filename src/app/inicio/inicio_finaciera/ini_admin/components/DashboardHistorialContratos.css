@@ -41,3 +41,11 @@
   color: #fff;
   font-weight: 600;
 }
+.custom-tooltip {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}

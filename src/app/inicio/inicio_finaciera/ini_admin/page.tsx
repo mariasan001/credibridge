@@ -4,20 +4,30 @@ import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
 import { DashboardHistorialContratos } from "./components/DashboardHistorialContratos";
 import { DashboardResumen } from "./components/DashboardResumen";
-import { DashboardResumenTotales } from "./components/DashboardResumenTotales";
-import "./dashboard.css";
-import "./DashboardSkeleton.css"; // si no lo tienes global
 import DashboardSkeletonPage from "./DashboardSkeleton";
+import "./dashboard.css";
+import "./DashboardSkeleton.css";
+import { DashboardResumenTotales } from "./components/DashboardResumenTotales";
+
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Espera al menos 1500ms antes de mostrar componentes
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    const timerId = `🧠 Carga inicial Dashboard ${Date.now()}`;
+    console.time(timerId);
 
-    return () => clearTimeout(timeout);
+    const loadDashboard = async () => {
+      try {
+        await new Promise((res) => setTimeout(res, 1200)); // Simulación de carga
+      } catch (error) {
+        console.error("❌ Error cargando dashboard", error);
+      } finally {
+        setLoading(false);
+        console.timeEnd(timerId);
+      }
+    };
+
+    loadDashboard();
   }, []);
 
   return (
@@ -28,7 +38,7 @@ export default function DashboardPage() {
         <div className="dashboard-page">
           <h2 className="dashboard-title">Panel de Control</h2>
           <p className="dashboard-subtitle">
-            podrás ver tu tendencia de préstamos obtenidos a tiempo real
+            Podrás ver tu tendencia de préstamos obtenidos en tiempo real
           </p>
 
           <DashboardResumenTotales />
