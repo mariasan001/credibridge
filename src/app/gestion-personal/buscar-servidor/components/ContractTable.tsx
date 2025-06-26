@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { LenderSearchResponse } from "../model/lender_search_model"
 import { Usuario } from "@/model/usuario.models"
-import { HandCoins, ShieldCheck, HelpCircle } from "lucide-react"
 import { ContratoModal } from "./ContratoModal"
 import { DetalleContratoModal } from "./DetalleContratoModal"
-import "./ContractTable.css"
+import styles from "./ContractTable.module.css"
 import { formatCurrency, formatDate } from "../utils/formatters"
 
 interface Props {
@@ -18,21 +17,36 @@ export function ContractTable({ data, usuarioActual }: Props) {
   const [mostrarModalDetalle, setMostrarModalDetalle] = useState(false)
   const [contratoSeleccionado, setContratoSeleccionado] = useState<any | null>(null)
 
-  const contracts = data.contracts
-
-  const getIcon = (type: string) => {
-    const tipoClase = type.toLowerCase()
-    switch (tipoClase) {
-      case "préstamo": return <HandCoins size={18} className={tipoClase} />
-      case "seguro": return <ShieldCheck size={18} className={tipoClase} />
-      default: return <HelpCircle size={18} className="otro" />
-    }
-  }
+  const contracts = useMemo(() => data.contracts, [data])
 
   const handleCompraDeudaClick = () => {
     const contrato = contracts[0]
     setContratoSeleccionado(contrato)
     setMostrarModal(true)
+  }
+
+  function getTipoClase(tipo: string) {
+    const tipoNormalizado = tipo.toLowerCase();
+    switch (tipoNormalizado) {
+      case "préstamo":
+        return styles.prestamo;
+      case "seguro":
+        return styles.seguro;
+      case "producto":
+        return styles.producto;
+      default:
+        return styles.otro;
+    }
+  }
+
+  function getEstatusClase(estatus: string) {
+    const key = estatus.toLowerCase().replace(/\s/g, "")
+    return styles[key] || styles.otro
+  }
+
+  function capitalizar(texto: string) {
+    if (!texto) return ""
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase()
   }
 
   const handleModalClose = (exito?: boolean) => {
@@ -52,38 +66,27 @@ export function ContractTable({ data, usuarioActual }: Props) {
     setMostrarModalDetalle(true)
   }
 
-
   return (
-    <div className="contract-table-container">
-      {/* Modales */}
+    <div className={styles.contractTableContainer}>
       {mostrarModal && contratoSeleccionado && (
-        <ContratoModal
-          contrato={contratoSeleccionado}
-          usuarioActual={usuarioActual}
-          onClose={handleModalClose}
-        />
+        <ContratoModal contrato={contratoSeleccionado} usuarioActual={usuarioActual} onClose={handleModalClose} />
       )}
       {mostrarModalDetalle && contratoSeleccionado && (
-        <DetalleContratoModal
-          contrato={contratoSeleccionado}
-          onClose={handleDetalleModalClose}
-        />
+        <DetalleContratoModal contrato={contratoSeleccionado} onClose={handleDetalleModalClose} />
       )}
 
-      {/* Overlay inicial */}
       {!mostrarTabla && (
-        <div className="overlay-inside">
-          <button className="btn-compra-deuda" onClick={handleCompraDeudaClick}>
+        <div className={styles.overlayInside}>
+          <button className={styles.btnCompraDeuda} onClick={handleCompraDeudaClick}>
             Compra de deuda
           </button>
         </div>
       )}
 
-      {/* Contenedor con scroll horizontal si es necesario */}
-      <div className={`table-blur-wrapper ${!mostrarTabla ? "blurred" : ""}`}>
+      <div className={`${styles.tableBlurWrapper} ${!mostrarTabla ? styles.blurred : ""}`}>
         <h4>Detalle de Contratos</h4>
-        <div className="table-scroll-wrapper">
-          <table className="contract-table">
+        <div className={styles.tableScrollWrapper}>
+          <table className={styles.contractTable}>
             <thead>
               <tr>
                 <th>Tipo</th>
@@ -110,10 +113,20 @@ export function ContractTable({ data, usuarioActual }: Props) {
                 const estatus = c.contractStatus?.contractStatusDesc || "N/A"
 
                 return (
-                  <tr key={c.contractId} className="clickable-row" onClick={() => handleRowClick(c)}>
-                    <td className="icon-cell">{getIcon(tipo)} {tipo}</td>
+                  <tr key={c.contractId} className={styles.clickableRow} onClick={() => handleRowClick(c)}>
+                    <td>
+                      <span className={`${styles.tipoBadge} ${getTipoClase(tipo)}`}>
+                        {capitalizar(tipo)}
+                      </span>
+                    </td>
+
                     <td>{financiera}</td>
-                    <td><span className={`estatus ${estatus.toLowerCase()}`}>{estatus}</span></td>
+                    <td>
+                      <span className={`${styles.estatusBadge} ${getEstatusClase(estatus)}`}>
+                        {capitalizar(estatus)}
+                      </span>
+                    </td>
+
                     <td>{c.contractId}</td>
                     <td>{c.installments}</td>
                     <td>{formatCurrency(c.biweeklyDiscount)}</td>
@@ -134,5 +147,5 @@ export function ContractTable({ data, usuarioActual }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

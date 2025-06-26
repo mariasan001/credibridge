@@ -109,3 +109,4 @@ export function ContratoModal({ contrato, usuarioActual, onClose }: Props) {
     </div>
   );
 }
+

@@ -75,3 +75,8 @@ export function DetalleContratoModal({ contrato, onClose }: Props) {
         </div>
     );
 }
+/**
+ * ahora vamos con este componte es un detalle el objetivo de este es confimar la compra de dedua es parasolo confiamr nonmover nada del
+ * pero si de pude mejorar elremieno, velocidad y otimizacion
+ * ESTE COMPONETE NO TOENE DSEÑO CREA UNNO CON CSS AISLADO UN DISEO LIMPOIO MODERNO QUE SEAVA COOL NO SOLO ASI EL TEXTOALANO SIN ESTILO 
+ */
