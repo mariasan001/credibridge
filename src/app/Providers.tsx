@@ -8,10 +8,10 @@ import ClientLayout from "./ClientLayout";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <UIProvider> {/* ← Aquí envolvemos */}
-    <ClientLayout>{children}</ClientLayout>
-    <ToasterConfig />
-  </UIProvider>
+      <UIProvider>
+        <ClientLayout>{children}</ClientLayout>
+        <ToasterConfig />
+      </UIProvider>
     </AuthProvider>
   );
 }

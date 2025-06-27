@@ -202,7 +202,14 @@ export const menuItems = [
         route: "/procesos-autorizados/archivos_nomina",
         roles: [1, 2],
       },
+       {
+        label: "Calendario ",
+        route: "/procesos-autorizados/calendarizacion",
+        roles: [1, 2],
+      },
     ],
+
+   
   },
   {
     label: "Cartera de Clientes",

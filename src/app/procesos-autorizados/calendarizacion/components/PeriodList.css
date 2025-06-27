@@ -1,0 +1,14 @@
+.period-list {
+  margin-top: 2rem;
+}
+
+.period-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.loading {
+  color: #888;
+  font-style: italic;
+}

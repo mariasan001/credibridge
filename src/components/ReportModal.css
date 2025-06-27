@@ -1,0 +1,106 @@
+/* ReportModal.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.modal-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.modal-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  font-size: 0.95rem;
+  transition: 0.2s border;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: white;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+.modal-actions button:first-child {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.modal-actions button:last-child {
+  background: #111827;
+  color: white;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.success {
+  color: #10b981;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
