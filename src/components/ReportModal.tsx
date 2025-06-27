@@ -5,11 +5,12 @@ import { useAuth } from "@/context/AuthContext";
 import { generateReport } from "@/services/reportService";
 import toast from "react-hot-toast";
 import "./ReportModal.css";
+import { GenerateReportRequest, ReportFilters } from "@/types/generateReport";
 
 type ReportModalProps = {
   onClose: () => void;
-  onStart: () => void;      // 🟢 Se ejecuta cuando inicia el reporte
-  onFinish: () => void;     // 🔴 Se ejecuta cuando termina
+  onStart: () => void;
+  onFinish: () => void;
 };
 
 export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) => {
@@ -32,35 +33,49 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
   };
-
   const handleGenerate = async () => {
+    // Validación de fechas
+    if (filters.startDate && filters.endDate && filters.startDate > filters.endDate) {
+      toast.error("La fecha de inicio no puede ser mayor que la fecha de fin");
+      return;
+    }
+
     const toastId = toast.loading("⏳ Generando reporte...");
     setLoading(true);
-    onStart(); // 🟢 Aumenta el contador
+    onStart();
 
     try {
-      await generateReport({
+      // Preparar filtros eliminando claves con undefined
+      const rawFilters = {
+        lenderId: Number(filters.lenderId),
+        userRfc: filters.userRfc,
+        contractStatusId: filters.contractStatusId ? Number(filters.contractStatusId) : undefined,
+        contractType: filters.contractType || undefined,
+        startDate: filters.startDate || undefined,
+        endDate: filters.endDate || undefined,
+      };
+
+      const cleanFilters = Object.fromEntries(
+        Object.entries(rawFilters).filter(([_, v]) => v !== undefined)
+      );
+      const payload: GenerateReportRequest = {
         reportType: "CONTRACTS",
         requestedBy: user?.userId || "desconocido",
-        filters: {
-          lenderId: Number(filters.lenderId),
-          userRfc: filters.userRfc,
-          contractStatusId: filters.contractStatusId
-            ? Number(filters.contractStatusId)
-            : null,
-          contractType: filters.contractType || null,
-          startDate: filters.startDate || null,
-          endDate: filters.endDate || null,
-        },
-      });
+        filters: cleanFilters as ReportFilters,
+      };
+
+      console.log("Payload enviado a generateReport:", payload);
+
+      await generateReport(payload);
 
       toast.success("✅ Reporte generado correctamente", { id: toastId });
       onClose();
-    } catch {
-      toast.error("❌ Error al generar el reporte", { id: toastId });
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Error al generar el reporte";
+      toast.error(`❌ ${errorMessage}`, { id: toastId });
     } finally {
       setLoading(false);
-      onFinish(); // 🔴 Disminuye el contador
+      onFinish();
     }
   };
 
@@ -88,6 +103,7 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 value={filters.lenderId}
                 onChange={handleChange}
                 className="form-input"
+                disabled={loading}
               />
             </div>
 
@@ -99,29 +115,41 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 value={filters.userRfc}
                 onChange={handleChange}
                 className="form-input"
+                disabled={loading}
               />
             </div>
 
             <div className="form-group">
               <label htmlFor="contractType">Tipo de Contrato</label>
-              <input
+              <select
                 id="contractType"
                 name="contractType"
                 value={filters.contractType}
                 onChange={handleChange}
                 className="form-input"
-              />
+                disabled={loading}
+              >
+                <option value="">Todos</option>
+                <option value="PRESTAMO">Préstamo</option>
+                <option value="RENTA">Seguros</option>
+              </select>
             </div>
 
             <div className="form-group">
               <label htmlFor="contractStatusId">Estatus de Contrato</label>
-              <input
+              <select
                 id="contractStatusId"
                 name="contractStatusId"
                 value={filters.contractStatusId}
                 onChange={handleChange}
                 className="form-input"
-              />
+                disabled={loading}
+              >
+                <option value="">Todos</option>
+                <option value="1">Activo</option>
+                <option value="2">Liquidado</option>
+                <option value="3">Cancelado</option>
+              </select>
             </div>
           </div>
 
@@ -135,6 +163,7 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 value={filters.startDate}
                 onChange={handleChange}
                 className="form-input"
+                disabled={loading}
               />
             </div>
 
@@ -147,6 +176,7 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 value={filters.endDate}
                 onChange={handleChange}
                 className="form-input"
+                disabled={loading}
               />
             </div>
           </div>
