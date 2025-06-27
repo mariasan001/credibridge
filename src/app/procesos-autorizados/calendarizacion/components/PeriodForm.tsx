@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { Period } from "../models/types/period";
 import { createPeriod } from "../service/periodService";
+// @ts-ignore
+import { DateRange } from "react-date-range";
+import { format } from "date-fns";
+import toast from "react-hot-toast";
+
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 import "./PeriodForm.css";
 
 const initialForm: Period = {
@@ -15,27 +22,41 @@ const initialForm: Period = {
 export const PeriodForm = () => {
   const [formData, setFormData] = useState<Period>(initialForm);
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    }
+  ]);
+
+  const handleDateChange = (ranges: any) => {
+    const { startDate, endDate } = ranges.selection;
+    setDateRange([ranges.selection]);
+
+    setFormData(prev => ({
+      ...prev,
+      startDate: format(startDate, "yyyy-MM-dd"),
+      endDate: format(endDate, "yyyy-MM-dd"),
+    }));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setAlert(null);
 
     try {
       await createPeriod(formData);
-      setAlert({ type: "success", message: "✅ Periodo creado exitosamente" });
+      toast.success("✅ Periodo creado exitosamente");
       setFormData(initialForm);
     } catch (err: any) {
-      setAlert({
-        type: "error",
-        message: err.response?.data?.message || "❌ Error al crear el periodo",
-      });
+      toast.error(err.response?.data?.message || "❌ Error al crear el periodo");
     } finally {
       setLoading(false);
     }
@@ -43,47 +64,43 @@ export const PeriodForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="period-form">
-      {alert && (
-        <div className={`alert ${alert.type === "success" ? "alert-success" : "alert-error"}`}>
-          {alert.message}
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="period">Periodo</label>
+          <input
+            id="period"
+            name="period"
+            value={formData.period}
+            onChange={handleChange}
+            type="number"
+            className="form-input"
+            placeholder="Ej. 1"
+          />
         </div>
-      )}
 
-      <input
-        name="period"
-        value={formData.period}
-        onChange={handleChange}
-        type="number"
-        className="form-input"
-        placeholder="Periodo"
-      />
+        <div className="form-group">
+          <label htmlFor="year">Año</label>
+          <input
+            id="year"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            type="number"
+            className="form-input"
+            placeholder="Ej. 2025"
+          />
+        </div>
+      </div>
 
-      <input
-        name="year"
-        value={formData.year}
-        onChange={handleChange}
-        type="number"
-        className="form-input"
-        placeholder="Año"
-      />
-
-      <input
-        name="startDate"
-        value={formData.startDate}
-        onChange={handleChange}
-        type="date"
-        className="form-input"
-        placeholder="Fecha de inicio"
-      />
-
-      <input
-        name="endDate"
-        value={formData.endDate}
-        onChange={handleChange}
-        type="date"
-        className="form-input"
-        placeholder="Fecha de fin"
-      />
+      <div className="calendar-container">
+        <div className="calendar-title">Selecciona el rango de fechas</div>
+        <DateRange
+          editableDateInputs={true}
+          onChange={handleDateChange}
+          moveRangeOnFirstSelection={false}
+          ranges={dateRange}
+        />
+      </div>
 
       <button type="submit" disabled={loading} className="form-button">
         {loading ? "Creando..." : "Crear Periodo"}

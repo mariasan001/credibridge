@@ -19,3 +19,8 @@ export const generateReport = async (data: GenerateReportRequest) => {
   const response = await api.post("/api/reports/generate", data);
   return response.data;
 };
+
+export async function getReports(): Promise<Report[]> {
+  const response = await api.get("/api/reports/list");
+  return response.data;
+}

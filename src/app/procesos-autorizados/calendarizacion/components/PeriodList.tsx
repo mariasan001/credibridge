@@ -16,7 +16,7 @@ export const PeriodList = () => {
         const data = await getPeriods();
         setPeriods(data);
       } catch (err: any) {
-        setError("Error al obtener los periodos");
+        setError("❌ Error al obtener los periodos");
       } finally {
         setLoading(false);
       }
@@ -30,14 +30,20 @@ export const PeriodList = () => {
 
   return (
     <div className="period-list">
-      <h2>Lista de Periodos</h2>
-      <ul>
+      <h2 className="list-title">📅 Lista de Periodos Registrados</h2>
+      <div className="period-cards">
         {periods.map((p, index) => (
-          <li key={index} className="period-item">
-            <strong>{p.period} / {p.year}</strong> — {p.startDate} ➜ {p.endDate}
-          </li>
+          <div key={index} className="period-card">
+            <div className="period-header">
+              <span className="period-label">Periodo:</span>
+              <span className="period-value">{p.period} / {p.year}</span>
+            </div>
+            <div className="period-dates">
+              <span className="date-range">{p.startDate} ➜ {p.endDate}</span>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

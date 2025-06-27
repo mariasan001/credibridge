@@ -1,0 +1,17 @@
+.periodos-contenedor {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.formulario {
+  flex: 1 1 400px;
+  max-width: 450px;
+}
+
+.lista {
+  flex: 2;
+  min-width: 300px;
+}

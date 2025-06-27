@@ -1,106 +1,161 @@
-/* ReportModal.css */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  background: transparent;
+  z-index: 9999;
+  pointer-events: none; /* permite clics solo en modal */
 }
 
 .modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  animation: fadeIn 0.3s ease;
+  position: fixed;
+  bottom: 100px; /* espacio sobre el botón flotante */
+  right: 40px;  /* mismo que el botón flotante */
+  background: #fff;
+  padding: 1rem;
+  width: 400px;
+  max-height: 500px;
+  max-width: 90%;
+  border-radius: 8px;
+  box-shadow: 0px 10px 30px rgba(121, 119, 119, 0.25);
+  animation: fadeIn 0.25s ease-out;
+  overflow-y: auto;
+  pointer-events: auto; /* permite interactuar con el modal */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-content h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
 }
 
 .modal-content p {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: #555;
-  margin-bottom: 1.5rem;
+  margin-bottom: .1rem;
 }
 
-.modal-form .form-group {
-  margin-bottom: 1.25rem;
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
 }
 
-.modal-form label {
-  display: block;
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  color: #333;
+  margin-bottom: 0.1rem;
   font-weight: 500;
+}
+
+.form-input {
+  padding: 0.5rem;
+  font-size: 0.7rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  transition: border 0.2s;
+}
+
+.form-input:focus {
+  border-color: #999;
+  outline: none;
+  background: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-actions button[type="button"] {
+  background: #f3f3f3;
+  color: #333;
+}
+
+.modal-actions button[type="submit"] {
+  background: #000;
+  color: #fff;
+}
+
+.modal-actions button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.success {
+  color: green;
+  font-weight: 500;
+  margin-top: -0.5rem;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  margin-top: -0.5rem;
+}
+.date-range {
+  display: flex;
+  gap: 1rem;
+}
+
+.date-range .form-group {
+  flex: 1;
+}
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.form-grid .form-group {
+  flex: 1 1 calc(50% - 1rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
   margin-bottom: 0.5rem;
   color: #333;
 }
 
 .form-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ddd;
-  background: #f9f9f9;
-  font-size: 0.95rem;
-  transition: 0.2s border;
+  padding: 0.6rem;
+  font-size: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
 }
 
 .form-input:focus {
+  border-color: #9f2141;
   outline: none;
-  border-color: #4f46e5;
-  background: white;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.5rem;
-}
-
-.modal-actions button {
-  padding: 0.7rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: 0.2s all;
-}
-
-.modal-actions button:first-child {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.modal-actions button:last-child {
-  background: #111827;
-  color: white;
-}
-
-.modal-actions button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.success {
-  color: #10b981;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.error {
-  color: #ef4444;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
 }

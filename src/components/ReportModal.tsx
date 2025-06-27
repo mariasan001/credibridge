@@ -3,146 +3,164 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { generateReport } from "@/services/reportService";
+import toast from "react-hot-toast";
 import "./ReportModal.css";
 
-export const ReportModal = ({ onClose }: { onClose: () => void }) => {
-    const { user } = useAuth();
+type ReportModalProps = {
+  onClose: () => void;
+  onStart: () => void;      // 🟢 Se ejecuta cuando inicia el reporte
+  onFinish: () => void;     // 🔴 Se ejecuta cuando termina
+};
 
-    const [filters, setFilters] = useState({
-        lenderId: user?.lender?.id || 2,
-        userRfc: user?.rfc || "",
-        contractStatusId: "",
-        contractType: "",
-        startDate: "",
-        endDate: "",
-    });
+export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) => {
+  const { user } = useAuth();
 
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState({
+    lenderId: user?.lender?.id || 2,
+    userRfc: user?.rfc || "",
+    contractStatusId: "",
+    contractType: "",
+    startDate: "",
+    endDate: "",
+  });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFilters({ ...filters, [name]: value });
-    };
+  const [loading, setLoading] = useState(false);
 
-    const handleGenerate = async () => {
-        setLoading(true);
-        setError(null);
-        setSuccess(null);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
 
-        try {
-            await generateReport({
-                reportType: "CONTRACTS",
-                requestedBy: user?.userId || "desconocido",
-                filters: {
-                    lenderId: Number(filters.lenderId),
-                    userRfc: filters.userRfc,
-                    contractStatusId: filters.contractStatusId ? Number(filters.contractStatusId) : null,
-                    contractType: filters.contractType || null, // 👈 Aquí ya no se convierte a número
-                    startDate: filters.startDate || null,
-                    endDate: filters.endDate || null,
-                },
-            });
+  const handleGenerate = async () => {
+    const toastId = toast.loading("⏳ Generando reporte...");
+    setLoading(true);
+    onStart(); // 🟢 Aumenta el contador
 
+    try {
+      await generateReport({
+        reportType: "CONTRACTS",
+        requestedBy: user?.userId || "desconocido",
+        filters: {
+          lenderId: Number(filters.lenderId),
+          userRfc: filters.userRfc,
+          contractStatusId: filters.contractStatusId
+            ? Number(filters.contractStatusId)
+            : null,
+          contractType: filters.contractType || null,
+          startDate: filters.startDate || null,
+          endDate: filters.endDate || null,
+        },
+      });
 
-            setSuccess("✅ Reporte generado correctamente");
-        } catch (err) {
-            setError("❌ Error al generar el reporte");
-        } finally {
-            setLoading(false);
-        }
-    };
+      toast.success("✅ Reporte generado correctamente", { id: toastId });
+      onClose();
+    } catch {
+      toast.error("❌ Error al generar el reporte", { id: toastId });
+    } finally {
+      setLoading(false);
+      onFinish(); // 🔴 Disminuye el contador
+    }
+  };
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>Generar Reporte</h2>
-                <p>Generado por: <strong>{user?.name}</strong> ({user?.email})</p>
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Generador de Reportes</h2>
+        <form
+          className="modal-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleGenerate();
+          }}
+        >
+          <p>
+            Solicitado por: <strong>{user?.name}</strong>
+          </p>
 
-                <form className="modal-form" onSubmit={(e) => { e.preventDefault(); handleGenerate(); }}>
-                    <div className="form-group">
-                        <label>Tipo de Reporte</label>
-                        <input value="CONTRACTS" disabled className="form-input" />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Lender ID</label>
-                        <input
-                            type="number"
-                            name="lenderId"
-                            value={filters.lenderId}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>RFC Usuario</label>
-                        <input
-                            type="text"
-                            name="userRfc"
-                            value={filters.userRfc}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Tipo de Contrato</label>
-                        <input
-                            type="text"
-                            name="contractType"
-                            value={filters.contractType}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Estatus de Contrato</label>
-                        <input
-                            type="number"
-                            name="contractStatusId"
-                            value={filters.contractStatusId}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Fecha Inicio</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            value={filters.startDate}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Fecha Fin</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            value={filters.endDate}
-                            onChange={handleChange}
-                            className="form-input"
-                        />
-                    </div>
-
-                    {success && <p className="success">{success}</p>}
-                    {error && <p className="error">{error}</p>}
-
-                    <div className="modal-actions">
-                        <button type="button" onClick={onClose}>Cancelar</button>
-                        <button type="submit" disabled={loading}>
-                            {loading ? "Generando..." : "Generar"}
-                        </button>
-                    </div>
-                </form>
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="lenderId">ID Financiera</label>
+              <input
+                id="lenderId"
+                name="lenderId"
+                value={filters.lenderId}
+                onChange={handleChange}
+                className="form-input"
+              />
             </div>
-        </div>
-    );
+
+            <div className="form-group">
+              <label htmlFor="userRfc">RFC del Servidor</label>
+              <input
+                id="userRfc"
+                name="userRfc"
+                value={filters.userRfc}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="contractType">Tipo de Contrato</label>
+              <input
+                id="contractType"
+                name="contractType"
+                value={filters.contractType}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="contractStatusId">Estatus de Contrato</label>
+              <input
+                id="contractStatusId"
+                name="contractStatusId"
+                value={filters.contractStatusId}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+          </div>
+
+          <div className="date-range">
+            <div className="form-group">
+              <label htmlFor="startDate">Fecha Inicio</label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                value={filters.startDate}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="endDate">Fecha Fin</label>
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                value={filters.endDate}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+          </div>
+
+          <div className="modal-actions">
+            <button type="button" onClick={onClose} disabled={loading}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={loading}>
+              {loading ? "Generando..." : "Generar"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };

@@ -1,8 +1,17 @@
+// FloatingButton.tsx
 "use client";
 import "./FloatingButton.css";
 
-export const FloatingButton = ({ onClick }: { onClick: () => void }) => (
-  <button className="floating-button" onClick={onClick}>
-    📝 Generar Reporte
-  </button>
-);
+interface FloatingButtonProps {
+  onClick: () => void;
+  reportCount: number;
+}
+
+export const FloatingButton = ({ onClick, reportCount }: FloatingButtonProps) => {
+  return (
+    <button className="floating-button" onClick={onClick}>
+      📝 Generar Reporte
+      {reportCount > 0 && <span className="report-count">{reportCount}</span>}
+    </button>
+  );
+};

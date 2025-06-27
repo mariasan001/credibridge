@@ -113,6 +113,11 @@ export const menuItems = [
         route: "/gestion-personal/contratos",
         roles: [1, 2],
       },
+        {
+        label: "Historial de Reportes  ",
+        route: "/comparativas/reportes",
+        roles: [1, 2, 4,5],
+      },
       {
         label: "Consulta TNIS",
         route: "/reportes-consultas/reporte-tnis",
