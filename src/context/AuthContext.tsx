@@ -1,14 +1,8 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-} from "react";
+import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast"; // 👈 AÑADIDO
+import toast from "react-hot-toast";
 import { loginRequest } from "@/services/auth/authService";
 import { Usuario, LoginPayload } from "@/model/usuario.models";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
@@ -29,9 +23,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const redirigirLogin = () => router.replace("/user/inicar-sesion");
+  const redirigirLogin = () => {
+    if (typeof window !== "undefined") {
+      router.replace("/user/inicar-sesion");
+    }
+  };
 
-  // 🔁 Validar sesión activa al montar
   useEffect(() => {
     const checkSession = async () => {
       console.time("⏱ Validación de sesión");
@@ -39,10 +36,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const res = await api.get("/auth/me");
 
-        if (res.status === 200 && res.data) {
-          const extractedUser = res.data.user ?? res.data;
+        const extractedUser = res.data?.user ?? res.data;
+
+        if (extractedUser?.id) {
           setUser(extractedUser);
         } else {
+          console.warn("⚠️ Usuario no encontrado en respuesta:", res.data);
           setUser(null);
           redirigirLogin();
         }
@@ -59,13 +58,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkSession();
   }, [router]);
 
-  // 🔐 Login
   const login = async (data: LoginPayload) => {
     console.time("🔐 Tiempo total de login");
-    const toastId = toast.loading("Iniciando sesión..."); // 🔄 Mensaje de espera
+    const toastId = toast.loading("Iniciando sesión...");
 
     try {
-      const userData = await loginRequest(data);
+      const userData = await loginRequest(data); // 👈 Aquí el backend debería SET-COOKIE
+
       const extractedUser = userData.user ?? userData;
       setUser(extractedUser);
 
@@ -73,25 +72,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: toastId,
       });
 
-      const rolPrincipal = extractedUser.roles[0];
-      const rutaDestino =
-        RUTAS_POR_ROL_ID[rolPrincipal.id] || "/perfil_user/inicio";
+      const rolPrincipal = extractedUser.roles?.[0];
+      const rutaDestino = RUTAS_POR_ROL_ID[rolPrincipal?.id] || "/perfil_user/inicio";
       router.push(rutaDestino);
     } catch (err) {
-      console.error("Login fallido", err);
-
-      toast.error("Credenciales incorrectas o error del servidor.", {
-        id: toastId,
-      });
+      console.error("❌ Login fallido", err);
+      toast.error("Credenciales incorrectas o error del servidor.", { id: toastId });
     } finally {
       console.timeEnd("🔐 Tiempo total de login");
     }
   };
 
-  // 🔓 Logout
   const logout = async () => {
     try {
-      await api.post("/auth/logout");
+      await api.post("/auth/logout"); // 👈 Asegúrate que borre la cookie del backend
       setUser(null);
       router.replace("/user/inicar-sesion");
     } catch (err) {

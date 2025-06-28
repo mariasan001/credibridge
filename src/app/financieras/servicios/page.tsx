@@ -63,7 +63,7 @@ const LenderServicesPage: React.FC = () => {
         <PageLayout>
             <div>
             
-               <CarteraHeader/>
+               <CarteraHeader></CarteraHeader>
                 {loading ? (
                     <p>Cargando servicios...</p>
                 ) : (

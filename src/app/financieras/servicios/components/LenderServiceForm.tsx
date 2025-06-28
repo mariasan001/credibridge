@@ -26,7 +26,7 @@ const LenderServiceForm: React.FC<Props> = ({ initialData = {}, onSubmit, onCanc
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h3 className={styles.title}>Información del Servicio</h3>
+      
       <div className={styles.grid}>
         <input name="lenderServiceDesc" placeholder="Descripción" value={formData.lenderServiceDesc || ""} onChange={handleChange} required />
         <input name="lenderId" placeholder="Lender ID" type="number" value={formData.lenderId || ""} onChange={handleChange} required />
