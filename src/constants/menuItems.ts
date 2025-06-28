@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 // Si tienes un tipo `MenuItem`, mejor aún
-// import { MenuItem } from "@/types/menu"; 
+// import { MenuItem } from "@/types/menu";
 
 export const menuItems = [
   {
@@ -101,7 +101,7 @@ export const menuItems = [
     label: "Reportes y Consultas",
     icon: FileText,
     route: "/reportes-consultas",
-    roles: [1, 2, ],
+    roles: [1, 2],
     children: [
       {
         label: "Resumen de Periodos",
@@ -113,10 +113,10 @@ export const menuItems = [
         route: "/gestion-personal/contratos",
         roles: [1, 2],
       },
-        {
+      {
         label: "Historial de Reportes  ",
         route: "/comparativas/reportes",
-        roles: [1, 2, 4,5],
+        roles: [1, 2, 4, 5],
       },
       {
         label: "Consulta TNIS",
@@ -187,6 +187,24 @@ export const menuItems = [
     roles: [4, 5],
   },
   {
+    label: "Financieras",
+    icon: BookUser,
+    route: "/financieras",
+    roles: [1, 2],
+    children: [
+      {
+        label: "Nueva Financiera",
+        route: "/financieras/nueva",
+        roles: [1, 2],
+      },
+         {
+        label: "Nuevo Servcio",
+        route: "/financieras/servicios",
+        roles: [1, 2],
+      },
+    ],
+  },
+  {
     label: "Procesos Autorizados",
     icon: BadgeCheck,
     route: "/procesos-autorizados",
@@ -207,14 +225,12 @@ export const menuItems = [
         route: "/procesos-autorizados/archivos_nomina",
         roles: [1, 2],
       },
-       {
+      {
         label: "Calendario ",
         route: "/procesos-autorizados/calendarizacion",
         roles: [1, 2],
       },
     ],
-
-   
   },
   {
     label: "Cartera de Clientes",
@@ -274,7 +290,7 @@ export const menuItems = [
         route: "/configuracion/admin_user",
         roles: [1, 2, 4],
       },
-  
+
       { label: "Perfil", route: "/perfil_user/perfil", roles: [3] },
       { label: "Perfil", route: "/perfil_user/perfil", roles: [1, 2, 4, 5, 6] },
     ],

@@ -1,0 +1,112 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: .4rem;
+  background-color: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+}
+
+.input,
+.textarea {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #9f2141;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button[type="submit"] {
+  background-color: #9f2141;
+  color: #fff;
+}
+
+.button[type="submit"]:hover {
+  background-color: #7c1a33;
+}
+
+.button[type="button"] {
+  background-color: #ccc;
+}
+
+.button[type="button"]:hover {
+  background-color: #aaa;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Estilos para los inputs */
+.form input,
+.form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Contenedor de botones */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Estilo para botones */
+.actions button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Botón principal */
+.actions button[type="submit"] {
+  background-color: #000000;
+  color: white;
+}
+
+/* Botón cancelar */
+.actions button[type="button"] {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.actions button:hover {
+  opacity: 0.85;
+}

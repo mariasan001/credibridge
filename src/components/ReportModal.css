@@ -1,8 +1,8 @@
-.modal-overlay {
+.modal-overlay1 {
   position: fixed;
   inset: 0;
   background: transparent;
-  z-index: 9999;
+  z-index: 99;
   pointer-events: none; /* permite clics solo en modal */
 }
 
