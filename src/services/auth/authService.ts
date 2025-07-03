@@ -1,11 +1,19 @@
-// services/auth/authService.ts
-import { api } from "@/lib/apis"
-import { LoginPayload, Usuario } from "@/model/usuario.models"
+import { api } from "@/lib/apis";
+import { LoginPayload } from "@/model/usuario.models";
 
-// 👉 El backend devuelve { user: Usuario }, por eso ajustamos el tipo de retorno
-export const loginRequest = async (data: LoginPayload): Promise<{ user: Usuario }> => {
-  const response = await api.post<{ user: Usuario }>("/auth/login", data, {
-    withCredentials: true,
-  })
-  return response.data
-}
+// Login: POST /auth/login
+export const loginRequest = async (data: LoginPayload) => {
+  const res = await api.post("/auth/login", data);
+  return res.data;
+};
+
+// Logout: POST /auth/logout
+export const logoutRequest = async () => {
+  return await api.post("/auth/logout");
+};
+
+// Obtener sesión actual: GET /auth/me
+export const getSession = async () => {
+  const res = await api.get("/auth/me");
+  return res.data;
+};

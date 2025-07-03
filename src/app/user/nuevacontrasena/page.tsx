@@ -39,7 +39,7 @@ export default function NuevaContrasenaPage() {
       </div>
       <div className="login-image-section">
         <Image
-          src={darkMode ? "/img/img3-oscuro.png" : "/img/img3.png"}
+          src={darkMode ? "/img/img3-oscuro.png" : "/img/img3.webp"}
           alt="CrediBridge ilustración"
           fill
           className="login-image-fill"

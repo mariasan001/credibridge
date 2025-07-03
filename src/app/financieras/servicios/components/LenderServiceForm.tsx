@@ -28,18 +28,17 @@ const LenderServiceForm: React.FC<Props> = ({ initialData = {}, onSubmit, onCanc
     <form className={styles.form} onSubmit={handleSubmit}>
       
       <div className={styles.grid}>
-        <input name="lenderServiceDesc" placeholder="Descripción" value={formData.lenderServiceDesc || ""} onChange={handleChange} required />
-        <input name="lenderId" placeholder="Lender ID" type="number" value={formData.lenderId || ""} onChange={handleChange} required />
-        <input name="rate" placeholder="Tasa (%)" type="number" value={formData.rate || ""} onChange={handleChange} required />
-        <input name="serviceTypeId" placeholder="Tipo Servicio ID" type="number" value={formData.serviceTypeId || ""} onChange={handleChange} required />
-        <input name="minValue" placeholder="Valor Mínimo" type="number" value={formData.minValue || ""} onChange={handleChange} required />
-        <input name="maxValue" placeholder="Valor Máximo" type="number" value={formData.maxValue || ""} onChange={handleChange} required />
-        <input name="frequency" placeholder="Frecuencia" type="number" value={formData.frequency || ""} onChange={handleChange} required />
-        <input name="minimumDiscountAmountForInclusion" placeholder="Monto mínimo descuento" type="number" value={formData.minimumDiscountAmountForInclusion || ""} onChange={handleChange} required />
-        <input name="minimumAmountPerContract" placeholder="Monto mínimo por contrato" type="number" value={formData.minimumAmountPerContract || ""} onChange={handleChange} required />
-        <input name="minimumTotalAmount" placeholder="Monto total mínimo" type="number" value={formData.minimumTotalAmount || ""} onChange={handleChange} required />
-        <input name="maximumTerm" placeholder="Plazo Máximo" type="number" value={formData.maximumTerm || ""} onChange={handleChange} required />
-        <input name="keyId" placeholder="Key ID" type="number" value={formData.keyId || ""} onChange={handleChange} required />
+        <input name="lenderServiceDesc" placeholder="Descripción" value={formData.lenderServiceDesc || ""} onChange={handleChange}  />
+        <input name="lenderId" placeholder="Lender ID" type="number" value={formData.lenderId || ""} onChange={handleChange}  />
+        <input name="rate" placeholder="Tasa (%)" type="number" value={formData.rate || ""} onChange={handleChange}  />
+        <input name="serviceTypeId" placeholder="Tipo Servicio ID" type="number" value={formData.serviceTypeId || ""} onChange={handleChange}  />
+        <input name="minValue" placeholder="Valor Mínimo" type="number" value={formData.minValue || ""} onChange={handleChange}  />
+        <input name="maxValue" placeholder="Valor Máximo" type="number" value={formData.maxValue || ""} onChange={handleChange}  />
+        <input name="frequency" placeholder="Frecuencia" type="number" value={formData.frequency || ""} onChange={handleChange}  />
+        <input name="minimumDiscountAmountForInclusion" placeholder="Monto mínimo descuento" type="number" value={formData.minimumDiscountAmountForInclusion || ""} onChange={handleChange}  />
+        <input name="minimumAmountPerContract" placeholder="Monto mínimo por contrato" type="number" value={formData.minimumAmountPerContract || ""} onChange={handleChange}  />
+        <input name="minimumTotalAmount" placeholder="Monto total mínimo" type="number" value={formData.minimumTotalAmount || ""} onChange={handleChange}  />
+        <input name="maximumTerm" placeholder="Plazo Máximo" type="number" value={formData.maximumTerm || ""} onChange={handleChange}  />
         <label className={styles.checkbox}>
           <input name="active" type="checkbox" checked={formData.active || false} onChange={handleChange} />
           Activo

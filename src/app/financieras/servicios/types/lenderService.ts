@@ -12,5 +12,5 @@ export interface LenderService {
   minimumTotalAmount: number;
   active: boolean;
   maximumTerm: number;
-  keyId: number;
+  //keyId: number;
 }

@@ -1,46 +1,42 @@
-// lib/api.ts
 import axios from "axios";
 
-// 📦 URL base (desde entorno o localhost por defecto)
+// 📦 URL base (desde entorno o fallback a localhost)
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2910";
 
-// 🔧 Instancia de Axios personalizada
+// 🔧 Instancia personalizada de Axios
 export const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    // 👇 Puedes agregar otras cabeceras comunes si lo necesitas
-    //"Accept": "application/json",
   },
-  withCredentials: true, // 👈 Necesario para que Axios incluya cookies (importantísimo)
+  withCredentials: true, // ✅ Permite enviar cookies automáticamente
 });
 
-// 🛡️ Interceptor de respuestas para manejo global de errores
+// 🛡️ Interceptor global para manejar errores de sesión
 api.interceptors.response.use(
-  (response) => response, // ✅ Pasar respuestas exitosas tal cual
+  (response) => response,
   (error) => {
     const status = error.response?.status;
+    const url = error.config?.url;
 
-    if (status === 401 || status === 403) {
-      console.warn("⛔ Sesión expirada o sin permisos.");
+    // ⚠️ Manejo de errores de sesión
+    if ((status === 401 || status === 403) && !url?.includes("/auth/me")) {
+      console.warn("⛔ Sesión expirada o acceso denegado.");
 
-      // ✅ Puedes redirigir si estás en el navegador:
       if (typeof window !== "undefined") {
-        // Evita bucles infinitos con rutas públicas
-        if (!window.location.pathname.includes("/user/inicar-sesion")) {
-          window.location.href = "/user/inicar-sesion";
+        if (!window.location.pathname.includes("/user/iniciar-sesion")) {
+          window.location.href = "/user/iniciar-sesion";
         }
       }
     }
 
-    // 🐞 Log de errores útiles para debugging
     console.error("❌ Error en petición:", {
-      url: error.config?.url,
+      url,
       status,
       data: error.response?.data,
     });
 
-    return Promise.reject(error); // ⛔ Propaga el error para manejarlo en el componente si quieres
+    return Promise.reject(error);
   }
 );

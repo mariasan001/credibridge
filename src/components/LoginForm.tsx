@@ -1,44 +1,88 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  FormEvent,
+  ChangeEvent,
+} from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import axios from "axios";
 
-export function LoginForm() {
+// Ícono memoizado
+const TogglePasswordIcon = React.memo(({ visible }: { visible: boolean }) => {
+  return visible ? <Eye size={20} /> : <EyeOff size={20} />;
+});
+
+// Validación extraída
+const validarCampos = (username: string, password: string) => {
+  const errors: { username?: string; password?: string } = {};
+  if (!username) errors.username = "Este campo es obligatorio";
+  if (!password) errors.password = "Este campo es obligatorio";
+  return errors;
+};
+
+function LoginFormComponent() {
   const { login, loading } = useAuth();
   const router = useRouter();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
   const [submitError, setSubmitError] = useState("");
 
-  const validate = () => {
-    const newErrors: typeof errors = {};
-    if (!username) newErrors.username = "Este campo es obligatorio";
-    if (!password) newErrors.password = "Este campo es obligatorio";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const isDisabled = useMemo(
+    () => loading || !username || !password,
+    [loading, username, password]
+  );
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitError("");
+  const togglePassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
 
-    if (!validate()) return;
+  const handleUsernameChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setUsername(e.currentTarget.value);
+    },
+    []
+  );
 
-    try {
-      await login({ username, password });
-    } catch (err: any) {
-      const message =
-        err?.response?.data?.message || "Número de servidor o contraseña incorrectos";
-      setSubmitError(message);
-    }
-  };
+  const handlePasswordChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.currentTarget.value);
+    },
+    []
+  );
+
+  const handleLogin = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      setSubmitError("");
+
+      const newErrors = validarCampos(username, password);
+      setErrors(newErrors);
+      if (Object.keys(newErrors).length > 0) return;
+
+      try {
+        await login({ username, password });
+        // router.push("/dashboard");
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          const message =
+            err.response?.data?.message || "Número de servidor o contraseña incorrectos";
+          setSubmitError(message);
+        } else {
+          setSubmitError("Ocurrió un error inesperado.");
+        }
+      }
+    },
+    [login, username, password]
+  );
 
   return (
     <form className="login-form" onSubmit={handleLogin} noValidate>
@@ -49,7 +93,7 @@ export function LoginForm() {
           type="text"
           placeholder="Escribe tu número de servidor público"
           value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
+          onChange={handleUsernameChange}
           className={errors.username ? "input-error" : ""}
           autoFocus
         />
@@ -64,16 +108,16 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             placeholder="Ingresa tu contraseña"
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={handlePasswordChange}
             className={errors.password ? "input-error" : ""}
           />
           <button
             type="button"
             className="eye-toggle"
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={togglePassword}
             aria-label="Mostrar u ocultar contraseña"
           >
-            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            <TogglePasswordIcon visible={showPassword} />
           </button>
         </div>
         {errors.password && <p className="error">{errors.password}</p>}
@@ -85,11 +129,7 @@ export function LoginForm() {
         <Link href="/user/recuperacion">¿Olvidaste tu contraseña?</Link>
       </div>
 
-      <button
-        type="submit"
-        className="login-btn"
-        disabled={loading || !username || !password}
-      >
+      <button type="submit" className="login-btn" disabled={isDisabled}>
         {loading ? "Ingresando..." : "Ingresar al sistema"}
       </button>
 
@@ -99,3 +139,5 @@ export function LoginForm() {
     </form>
   );
 }
+
+export const LoginForm = React.memo(LoginFormComponent);

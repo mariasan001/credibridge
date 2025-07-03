@@ -63,7 +63,8 @@ const LenderServicesPage: React.FC = () => {
         <PageLayout>
             <div>
             
-               <CarteraHeader></CarteraHeader>
+              <CarteraHeader onCreateSuccess={cargarServicios} />
+
                 {loading ? (
                     <p>Cargando servicios...</p>
                 ) : (

@@ -29,7 +29,7 @@ export const menuItems = [
   {
     label: "Inicio Admin Nómina",
     icon: Home,
-    route: "/admin_prin_nom",
+    route: "/inicio_nom",
     roles: [2],
   },
   {

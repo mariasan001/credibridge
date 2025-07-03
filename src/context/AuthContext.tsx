@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const toastId = toast.loading("Iniciando sesión...");
 
     try {
-      const userData = await loginRequest(data); // 👈 Aquí el backend debería SET-COOKIE
+      const userData = await loginRequest(data);
 
       const extractedUser = userData.user ?? userData;
       setUser(extractedUser);
@@ -117,3 +117,5 @@ export function useAuth() {
   if (!context) throw new Error("useAuth debe usarse dentro de AuthProvider");
   return context;
 }
+
+
