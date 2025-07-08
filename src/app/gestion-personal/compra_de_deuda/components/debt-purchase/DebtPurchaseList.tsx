@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import "./DebtPurchaseList.css";
 import { DebtPurchase } from "../../model/DebtPurchase";
 import {
@@ -9,6 +9,8 @@ import {
 } from "../../services/debtPurchaseService";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
+import DebtFilters from "./DebtFiltersRow";
+import StatusBarChart from "./StatusBarChart";
 
 const formatoMoneda = (valor: number | null | undefined) =>
   typeof valor === "number"
@@ -66,6 +68,20 @@ const DebtPurchaseList = () => {
   const [solicitudes, setSolicitudes] = useState<DebtPurchase[]>([]);
   const [loading, setLoading] = useState(true);
   const [clicks, setClicks] = useState<{ [id: number]: number }>({});
+  const [filtros, setFiltros] = useState({
+    id: "",
+    contractId: "",
+    beneficiaryName: "",
+    beneficiaryRfc: "",
+    status: "",
+  });
+
+  const [leftWidth, setLeftWidth] = useState(40); // Porcentaje
+  const [mostrarGrafica, setMostrarGrafica] = useState(true);
+  const [mostrarTabla, setMostrarTabla] = useState(true);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const rolId = user?.roles?.[0]?.id;
   const lenderId = user?.lender?.id;
@@ -77,8 +93,6 @@ const DebtPurchaseList = () => {
     const fetchData = async () => {
       try {
         const data: DebtPurchase[] = await obtenerSolicitudesDeuda();
-
-        // Siempre eliminar los que tengan status INICIADO
         const sinIniciados = data.filter(
           (s) => s.status.toUpperCase() !== "INICIADO"
         );
@@ -86,14 +100,11 @@ const DebtPurchaseList = () => {
         let filtradas: DebtPurchase[] = [];
 
         if (esSoloVisualizacion) {
-          // Roles 1 y 2 → pueden ver todo excepto INICIADO
           filtradas = sinIniciados;
         } else if (puedeEditar && lenderId) {
-          // Roles 4 y 5 → solo si su financiera está involucrada y no INICIADO
           filtradas = sinIniciados.filter(
             (s) =>
-              s.sellingLenderId === lenderId ||
-              s.buyingLenderId === lenderId
+              s.sellingLenderId === lenderId || s.buyingLenderId === lenderId
           );
         }
 
@@ -121,49 +132,133 @@ const DebtPurchaseList = () => {
       });
 
       setSolicitudes((prev) =>
-        prev.map((s) =>
-          s.id === id ? { ...s, status: nuevoEstado } : s
-        )
+        prev.map((s) => (s.id === id ? { ...s, status: nuevoEstado } : s))
       );
       setClicks((prev) => ({ ...prev, [id]: nuevoClick }));
     },
     [clicks]
   );
 
+  const iniciarDrag = () => {
+    isDragging.current = true;
+    document.addEventListener("mousemove", moverSeparador);
+    document.addEventListener("mouseup", finalizarDrag);
+  };
+
+  const moverSeparador = (e: MouseEvent) => {
+    if (!containerRef.current || !isDragging.current) return;
+
+    const containerWidth = containerRef.current.offsetWidth;
+    const nuevaAnchoIzquierda = (e.clientX / containerWidth) * 100;
+
+    if (nuevaAnchoIzquierda < 10) {
+      setMostrarGrafica(false);
+      setLeftWidth(0);
+    } else if (nuevaAnchoIzquierda > 90) {
+      setMostrarTabla(false);
+      setLeftWidth(100);
+    } else {
+      setMostrarGrafica(true);
+      setMostrarTabla(true);
+      setLeftWidth(nuevaAnchoIzquierda);
+    }
+  };
+
+  const finalizarDrag = () => {
+    isDragging.current = false;
+    document.removeEventListener("mousemove", moverSeparador);
+    document.removeEventListener("mouseup", finalizarDrag);
+  };
+
   return (
-    <div className="debt-list-container">
-      {loading ? (
-        <p>Cargando...</p>
+    <div className="split-container" ref={containerRef}>
+      {mostrarGrafica ? (
+        <div className="left-panel" style={{ width: `${leftWidth}%` }}>
+          {loading ? <p>Cargando gráfica...</p> : <StatusBarChart solicitudes={solicitudes} />}
+        </div>
       ) : (
-        <div className="debt-table-responsive">
-          <table className="debt-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Contrato ID</th>
-                <th>Nombre Beneficiario</th>
-                <th>RFC Beneficiario</th>
-                <th>Carta Autorización</th>
-                <th>Contrato Nuevo</th>
-                <th>Status</th>
-                <th className="center-text">Pagos por Cubrir</th>
-                <th className="center-text">Descuento Quincenal</th>
-                <th className="center-text">Saldo Pendiente</th>
-                <th className="center-text">Fecha Creación</th>
-                <th className="center-text">Fecha Actualización</th>
-              </tr>
-            </thead>
-            <tbody>
-              {solicitudes.map((s) => (
-                <FilaSolicitud
-                  key={s.id}
-                  s={s}
-                  cambiarStatus={cambiarStatus}
-                  puedeCambiar={!esSoloVisualizacion && puedeEditar}
-                />
-              ))}
-            </tbody>
-          </table>
+        <div className="left-collapsed">
+          <button
+            onClick={() => {
+              setMostrarGrafica(true);
+              setLeftWidth(40);
+            }}
+          >
+            Mostrar gráfica
+          </button>
+        </div>
+      )}
+
+      <div className="resizer" onMouseDown={iniciarDrag} />
+
+      {mostrarTabla ? (
+        <div className="right-panel" style={{ width: `${100 - leftWidth}%` }}>
+          {loading ? (
+            <p>Cargando tabla...</p>
+          ) : (
+            <>
+              <DebtFilters filtros={filtros} setFiltros={setFiltros} />
+              <div className="debt-table-responsive">
+                <table className="debt-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Contrato ID</th>
+                      <th>Nombre Beneficiario</th>
+                      <th>RFC Beneficiario</th>
+                      <th>Carta Autorización</th>
+                      <th>Contrato Nuevo</th>
+                      <th>Status</th>
+                      <th className="center-text">Pagos por Cubrir</th>
+                      <th className="center-text">Descuento Quincenal</th>
+                      <th className="center-text">Saldo Pendiente</th>
+                      <th className="center-text">Fecha Creación</th>
+                      <th className="center-text">Fecha Actualización</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {solicitudes
+                      .filter((s) => {
+                        const idOk = filtros.id === "" || String(s.id).includes(filtros.id);
+                        const contractOk =
+                          filtros.contractId === "" ||
+                          s.contractId?.toString().toLowerCase().includes(filtros.contractId.toLowerCase());
+                        const nameOk =
+                          filtros.beneficiaryName === "" ||
+                          s.beneficiaryName?.toLowerCase().includes(filtros.beneficiaryName.toLowerCase());
+                        const rfcOk =
+                          filtros.beneficiaryRfc === "" ||
+                          s.beneficiaryRfc?.toLowerCase().includes(filtros.beneficiaryRfc.toLowerCase());
+                        const statusOk =
+                          filtros.status === "" ||
+                          s.status?.toLowerCase().includes(filtros.status.toLowerCase());
+
+                        return idOk && contractOk && nameOk && rfcOk && statusOk;
+                      })
+                      .map((s) => (
+                        <FilaSolicitud
+                          key={s.id}
+                          s={s}
+                          cambiarStatus={cambiarStatus}
+                          puedeCambiar={!esSoloVisualizacion && puedeEditar}
+                        />
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="right-collapsed">
+          <button
+            onClick={() => {
+              setMostrarTabla(true);
+              setLeftWidth(60);
+            }}
+          >
+            Mostrar tabla
+          </button>
         </div>
       )}
     </div>

@@ -1,4 +1,4 @@
-// app/dashboard/model/dashboard.model.ts
+// app/dashboard/model/dashboardts.model.
 
 export interface DashboardContract {
   contractId: number;

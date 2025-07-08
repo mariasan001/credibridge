@@ -39,7 +39,7 @@ export default function DashboardPage() {
         <div className="dashboard-page">
          <CarteraHeader></CarteraHeader>
 
-          <DashboardResumenTotales />
+          <DashboardResumenTotales/>
 
           <div className="dashboard-body">
             <div className="left">

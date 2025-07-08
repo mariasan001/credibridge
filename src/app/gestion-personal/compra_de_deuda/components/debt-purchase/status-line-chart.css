@@ -1,0 +1,78 @@
+.grafico-box {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  width: 100%;
+  height: 90%;
+}
+
+.grafico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.grafico-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.switches {
+  display: flex;
+  gap: 8px;
+}
+
+.switches button {
+  background-color: #f3f4f6;
+  color: #111827;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.switches button:hover {
+  background-color: #e5e7eb;
+}
+
+.switches button.active {
+  background-color: #f68b2c;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.grafico-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #374151;
+}
+
+.leyenda-item .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.grafico-cuerpo {
+  width: 100%;
+  height: 250px;
+}

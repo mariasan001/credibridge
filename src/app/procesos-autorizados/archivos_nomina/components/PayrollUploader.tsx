@@ -5,7 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { uploadPayrollFile } from "../service/payrollService";
 import { Folder } from "lucide-react";
-import "./PayrollUploader.css";
+import "./payrollUploader.css";
+
 
 export default function PayrollUploader() {
   const [file, setFile] = useState<File | null>(null);

@@ -1,12 +1,21 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { loginRequest } from "@/services/auth/authService";
+import {
+  loginRequest,
+  logoutRequest,
+  getSession,
+} from "@/services/auth/authService";
 import { Usuario, LoginPayload } from "@/model/usuario.models";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
-import { api } from "@/lib/apis";
 
 interface AuthContextType {
   user: Usuario | null;
@@ -29,24 +38,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const estaEnLogin = () =>
+    typeof window !== "undefined" &&
+    window.location.pathname.includes("/user/inicar-sesion");
+
   useEffect(() => {
+    // Si estamos en la página de login, no validamos sesión
+    if (estaEnLogin()) {
+      setLoading(false);
+      return;
+    }
+
     const checkSession = async () => {
       console.time("⏱ Validación de sesión");
 
       try {
-        const res = await api.get("/auth/me");
+        const data = await getSession();
+        console.log("✅ Usuario válido:", data);
 
-        const extractedUser = res.data?.user ?? res.data;
-
-        if (extractedUser?.id) {
-          setUser(extractedUser);
+        if (data?.userId) {
+          setUser({ ...data, id: data.userId });
         } else {
-          console.warn("⚠️ Usuario no encontrado en respuesta:", res.data);
           setUser(null);
           redirigirLogin();
         }
       } catch (err) {
-        console.error("❌ Error al verificar sesión:", err);
+        console.error("❌ Error en checkSession:", err);
         setUser(null);
         redirigirLogin();
       } finally {
@@ -56,40 +73,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     checkSession();
-  }, [router]);
+  }, []);
 
-  const login = async (data: LoginPayload) => {
-    console.time("🔐 Tiempo total de login");
-    const toastId = toast.loading("Iniciando sesión...");
+const login = async (data: LoginPayload) => {
+  console.time("🔐 Tiempo total de login");
+  const toastId = toast.loading("Iniciando sesión...");
 
-    try {
-      const userData = await loginRequest(data);
+  try {
+    await loginRequest(data); // solo login, sin usar su respuesta
+    const sessionData = await getSession(); // 🔁 nueva llamada a /auth/me
+    const extractedUser = sessionData.user ?? sessionData;
 
-      const extractedUser = userData.user ?? userData;
-      setUser(extractedUser);
+    setUser(extractedUser);
 
-      toast.success(`¡Bienvenido, ${extractedUser.name || "usuario"}!`, {
-        id: toastId,
-      });
+    toast.success(`¡Bienvenido, ${extractedUser.name || "usuario"}!`, {
+      id: toastId,
+    });
 
-      const rolPrincipal = extractedUser.roles?.[0];
-      const rutaDestino = RUTAS_POR_ROL_ID[rolPrincipal?.id] || "/perfil_user/inicio";
-      router.push(rutaDestino);
-    } catch (err) {
-      console.error("❌ Login fallido", err);
-      toast.error("Credenciales incorrectas o error del servidor.", { id: toastId });
-    } finally {
-      console.timeEnd("🔐 Tiempo total de login");
-    }
-  };
+    const rolPrincipal = extractedUser.roles?.[0];
+    const rutaDestino =
+      RUTAS_POR_ROL_ID[rolPrincipal?.id] || "/perfil_user/inicio";
+    router.push(rutaDestino);
+  } catch (err) {
+    console.error("❌ Login fallido", err);
+    toast.error("Credenciales incorrectas o error del servidor.", {
+      id: toastId,
+    });
+  } finally {
+    console.timeEnd("🔐 Tiempo total de login");
+  }
+};
 
   const logout = async () => {
     try {
-      await api.post("/auth/logout"); // 👈 Asegúrate que borre la cookie del backend
+      await logoutRequest();
       setUser(null);
       router.replace("/user/inicar-sesion");
     } catch (err) {
-      console.error("Error al cerrar sesión", err);
+      console.error("❌ Error al cerrar sesión", err);
       toast.error("Error al cerrar sesión.");
     }
   };
@@ -114,8 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth debe usarse dentro de AuthProvider");
+  if (!context)
+    throw new Error("useAuth debe usarse dentro de un AuthProvider");
   return context;
 }
-
-

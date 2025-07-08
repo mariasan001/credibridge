@@ -77,7 +77,7 @@ export const menuItems = [
     label: "Historial",
     icon: Clock,
     route: "/solcitudes_quejas",
-    roles: [1, 2],
+    roles: [1, 2 ],
   },
   {
     label: "Comparativas",
