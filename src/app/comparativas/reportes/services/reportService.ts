@@ -2,15 +2,18 @@
 
 import { api } from "@/lib/apis";
 
-
 export const downloadReportById = async (id: string): Promise<void> => {
   try {
     const response = await api.get(`/api/reports/download/${id}`, {
       responseType: "blob",
     });
 
+    if (response.status !== 200 || !response.data) {
+      throw new Error("Respuesta inválida");
+    }
+
     const blob = new Blob([response.data], {
-      type: response.headers["content-type"],
+      type: response.headers["content-type"] || "application/octet-stream",
     });
 
     const url = window.URL.createObjectURL(blob);
@@ -28,6 +31,6 @@ export const downloadReportById = async (id: string): Promise<void> => {
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.error("❌ Error al descargar el archivo:", error);
-    alert("No se pudo descargar el archivo.");
+    throw error;
   }
 };
