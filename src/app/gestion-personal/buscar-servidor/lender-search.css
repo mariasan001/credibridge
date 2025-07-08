@@ -33,10 +33,10 @@
 
 .search-bar button {
   padding: 8px 16px;
-  background-color: var( --color-text-warning);
+  background-color: rgb(9, 9, 9);
   border: none;
   border-radius: 8px;
-  color: var(  --color-bg-container);
+  color: rgb(255, 255, 255);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -130,4 +130,52 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.empty-state-bonita {
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-illustration {
+  width: 360px;
+  height: auto;
+  margin-bottom: 10px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.empty-state-bonita h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.empty-state-bonita p {
+  font-size: 11px;
+  line-height: 1.5;
+
+}
+
+.empty-state-bonita .motivador {
+  font-style: italic;
+  color: #6b7280;
+  font-size: 9px;
+}
+
+/* Animación opcional */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

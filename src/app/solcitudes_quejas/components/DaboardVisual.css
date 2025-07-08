@@ -1,0 +1,16 @@
+.ranking-contenedor-secciones {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+  flex-wrap: wrap; /* para que en pantallas pequeñas se apilen */
+}
+
+.ranking-mensual {
+  flex: 2;
+  min-width: 300px;
+}
+
+.ranking-por-institucion {
+  flex: 1;
+  min-width: 240px;
+}

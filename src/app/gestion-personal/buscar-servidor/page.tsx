@@ -87,11 +87,20 @@ export default function LenderSearchPage() {
 
           <div className="result-container">
             {hasSearched && loading && <LenderSearchSkeleton />}
+
             {!hasSearched && (
-              <div className="empty-state">
-                <p>🔍 No hay resultados. Realiza una búsqueda para comenzar.</p>
+              <div className="empty-state-bonita">
+                <img
+                  src="/img/img_buscar_servidor.png" // cambia esto a tu ruta real
+                  alt="Buscar servidor público"
+                  className="empty-illustration"
+                />
+                <h2>Busca a un servidor público</h2>
+                <p>Ingresa el número de servidor público para comenzar.</p>
+                <p className="motivador">“Todo gran historial empieza con una búsqueda. ¿Listo para comenzar?”</p>
               </div>
             )}
+
             {resultadoMemo}
           </div>
         </div>
@@ -99,3 +108,4 @@ export default function LenderSearchPage() {
     </PageLayout>
   );
 }
+

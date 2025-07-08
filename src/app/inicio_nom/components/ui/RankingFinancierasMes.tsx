@@ -2,6 +2,7 @@
 
 import "../../InicioNomina.css";
 import { ContractsDashboardResponse } from "../../model/contractsDashboard.model";
+import "../../InicioNomina.css"; // Asegúrate que los estilos están ahí o enlázalos donde corresponda
 
 interface Props {
   data: ContractsDashboardResponse;

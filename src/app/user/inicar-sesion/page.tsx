@@ -9,7 +9,6 @@ import { LoginIllustration } from "./components/LoginIllustration";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
-import { Loader2 } from "lucide-react"; // Ícono de carga, opcional
 
 export default function IniciarSesionPage() {
   const { saludo, emoji, darkMode } = useSaludo();
@@ -30,12 +29,7 @@ export default function IniciarSesionPage() {
   }, [isAuthenticated, loading, user]);
 
   if (loading || (isAuthenticated && user)) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="animate-spin w-6 h-6 text-gray-500" />
-        <span className="ml-2 text-gray-500">Cargando sesión...</span>
-      </div>
-    );
+
   }
 
   return (

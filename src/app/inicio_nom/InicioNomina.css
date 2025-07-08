@@ -1,12 +1,55 @@
-.inicio-dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 24px;
-  padding: 24px;
-
+/* 🔲 Contenedor general del dashboard */
+.dashboard-container01 {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 🔲 Fila con dos columnas (Top3 + Contratos / Aclaraciones + Ranking) */
+.row {
+  display: flex;
+  flex-wrap: nowrap; /* mantiene en línea horizontal */
+  gap: 34px;
+  align-items: stretch;
+}
+
+/* 🔲 Columnas con proporciones fijas */
+.col {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 0;
+  min-width: 0;
+}
+
+.col > * {
+  width: 100%;
+}
+
+/* 🔢 Anchos proporcionales */
+.col-40 { width: 10%; }
+.col-60 { width: 60%; }
+.col-30 { width: 30%; }
+.col-70 { width: 70%; }
+
+/* 📱 Responsive: todo al 100% en móviles */
+@media (max-width: 900px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .col-40,
+  .col-60,
+  .col-30,
+  .col-70 {
+    width: 100% !important;
+  }
+}
+
+/* 🏆 Podio Top 3 */
 .podio-container {
+  margin: 10px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 16px;
@@ -14,15 +57,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
 }
 
 .podio-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   text-align: center;
 }
 
@@ -30,7 +72,7 @@
   height: 2px;
   width: 100%;
   border-top: 2px dashed #d1d5db;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 }
 
 .podio {
@@ -44,7 +86,7 @@
   position: relative;
   border-radius: 12px;
   padding: 20px 16px;
-  width: 130px;
+  width: 160px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
   display: flex;
@@ -58,21 +100,10 @@
   transform: translateY(-4px);
 }
 
-/* Colores institucionales */
-.podio-1 {
-  background-color: #fff7ed; /* naranja suave */
-  border-top: 4px solid #fb923c;
-}
-
-.podio-2 {
-  background-color: #f3f4f6; /* gris suave */
-  border-top: 4px solid #6b7280;
-}
-
-.podio-3 {
-  background-color: #f9fafb; /* blanco suave */
-  border-top: 4px solid #111827;
-}
+/* 🥇 Colores por posición */
+.podio-1 { background-color: #fff7ed; border-top: 4px solid #fb923c; }
+.podio-2 { background-color: #f3f4f6; border-top: 4px solid #6b7280; }
+.podio-3 { background-color: #f9fafb; border-top: 4px solid #111827; }
 
 .podio-icon {
   position: absolute;
@@ -80,22 +111,21 @@
   left: 50%;
   transform: translateX(-50%);
 }
-
 .podio-icon img {
   width: 40px;
   height: 40px;
 }
 
 .podio-pos {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 900;
   color: #111827;
   margin-top: 20px;
 }
 
 .podio-nombre {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 400;
   color: #1f2937;
   margin-top: 6px;
 }
@@ -112,56 +142,16 @@
   margin-top: 6px;
 }
 
-
-
-/* Estilo gráfico tipo balance */
-.inicio-dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 24px;
-  padding: 24px;
-}
-
-.financiera-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #4b5563;
-  margin-bottom: 12px;
-}
-
-.financiera-nombre {
-  font-size: 24px;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 12px;
-}
-
-.financiera-detalle {
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-
-/* --- Gráfico estilo profesional --- */
-
+/* 📊 Gráfico de Contratos */
 .grafico-box {
   background: #fff;
+  margin: 10px;
   border-radius: 16px;
   border: 1px solid #e5e7eb;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   width: 100%;
+
 }
 
 .grafico-header {
@@ -177,11 +167,11 @@
   color: #111827;
 }
 
+/* 🧭 Botones para cambiar periodo */
 .switches {
   display: flex;
   gap: 8px;
 }
-
 .switches button {
   background-color: transparent;
   border: 1px solid #d1d5db;
@@ -192,7 +182,6 @@
   color: #6b7280;
   transition: all 0.2s ease-in-out;
 }
-
 .switches button.active {
   background-color: #111827;
   color: white;
@@ -207,234 +196,160 @@
   margin-bottom: 8px;
   color: #4b5563;
 }
-
 .leyenda-item {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  display: inline-block;
 }
-
 .dot.naranja {
   background-color: #fb923c;
 }
-
 .dot.gris {
   border: 2px dashed #6b7280;
   background: transparent;
 }
 
-/* --- Monto dinámico + porcentaje --- */
-
+/* 📈 Monto dinámico */
 .monto-dinamico {
+    background: #fff;
+  margin: 10px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
   display: flex;
   align-items: baseline;
   gap: 10px;
-  margin-top: 10px;
-  margin-bottom: 12px;
+  margin: 10px 0 12px;
 }
-
 .simbolo {
   font-size: 30px;
   color: #fb923c;
   font-weight: 800;
 }
-
 .monto-num {
   font-size: 32px;
   font-weight: 400;
   color: #111827;
 }
-
 .porcentaje-cambio {
   font-size: 14px;
   font-weight: 600;
 }
-
-.porcentaje-cambio.positivo {
-  color: #22c55e;
-}
-
-.porcentaje-cambio.negativo {
-  color: #ef4444;
-}
+.porcentaje-cambio.positivo { color: #22c55e; }
+.porcentaje-cambio.negativo { color: #ef4444; }
 
 
-
-
-
-.experiencia-box {
-  background: white;
+/* 📢 Indicador de Aclaraciones Moderno */
+.indicador-box {
+  background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 36px 28px;
   width: 100%;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 550px;
+  transition: box-shadow 0.3s ease;
 }
 
-.experiencia-title {
-  font-size: 16px;
+.indicador-box:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.indicador-title {
+  font-size: 1.1rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 16px;
-  text-align: center;
+  margin-bottom: 70px;
 }
 
-.gauge-wrapper {
+/* Gauge */
+.gauge-container {
   position: relative;
-  width: 100%;
+  width: 440px;
+  height: 190px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding-bottom: 8px;
+  justify-content: center;
 }
 
-.gauge-center {
+.gauge-value-container {
   position: absolute;
-  top: 58%; /* antes 65% */
+  top: 78%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
 }
 
-
-.gauge-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: #111827;
+.gauge-value-container h2 {
   margin: 0;
+  font-size: 62px;
+  font-weight: 700;
+  color: #1f2937;
 }
 
-.gauge-desc {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.subtitulo {
+.gauge-value-container p {
   font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 0;
+}
+
+.gauge-limits {
+  position: absolute;
+  width: 90%;
+  top: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #6b7280;
+  padding: 0 4px;
+}
+
+/* Avatares */
+.subtitulo {
+  font-size: 15px;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 10px;
+  margin: 24px 0 12px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .financieras-avatars {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .avatar-item {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 9999px;
-  overflow: hidden;
-  border: 2px solid #e5e7eb;
-  transition: transform 0.2s ease;
-  cursor: pointer;
+  background-color: #f97316;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: default;
 }
 
 .avatar-item:hover {
-  transform: scale(1.1);
+  background-color: #ea580c;
+  transform: scale(1.05);
 }
 
-.avatar-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* ideal si estás usando logos */
+.avatar-iniciales {
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
-.seccion-indicadores {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: 24px;
-}
-
-.bloque-indicadores {
-  flex: .1;
-}
-
-.indicadores-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.indicador-card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px;
-  width: 200px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  margin-bottom: 1px;
-}
-
-.icono {
-  font-size: 18px;
-}
-
-.titulo {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.valor {
-  font-size: 20px;
-  font-weight: bold;
-  color: #111827;
-  margin: 8px 0;
-}
-
-.progreso-barra {
-  background-color: #f3f4f6;
-  height: 6px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 6px;
-}
-
-.progreso {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.3s ease;
-}
-
-.progreso-texto {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.bloque-ranking {
-  flex: 1;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.ranking-titulo {
-  font-size: 16px;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 16px;
-}
-

@@ -11,6 +11,7 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import { ContratosPorMes } from "../../model/contractsDashboard.model";
+import "../../InicioNomina.css"; // Asegúrate que los estilos están ahí o enlázalos donde corresponda
 
 
 interface Props {

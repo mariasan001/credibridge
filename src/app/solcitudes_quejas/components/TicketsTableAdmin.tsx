@@ -61,8 +61,8 @@ export default function TicketsTableAdmin({ tickets }: Props) {
         ticket.status === "ABIERTO"
           ? "tag blue"
           : ticket.status === "RESUELTO"
-          ? "tag green"
-          : "tag gray"
+            ? "tag green"
+            : "tag gray"
 
       return (
         <tr key={ticket.ticketId}>
@@ -106,7 +106,25 @@ export default function TicketsTableAdmin({ tickets }: Props) {
             <th>Tiempo de resolución</th>
           </tr>
         </thead>
-        <tbody>{filas}</tbody>
+        <tbody>
+          {tickets.length === 0 ? (
+            <tr>
+              <div className="empty-state-solicitudes">
+                <img
+                  src="/img/sinmensajes.png"
+                  alt="Sin solicitudes"
+                  className="empty-solicitudes-img"
+                />
+                <h2>No hay solicitudes registradas aún</h2>
+                <p>Las solicitudes de compra de deuda aparecerán aquí en cuanto estén disponibles.</p>
+                <p className="motivador">¿Esperando el primer movimiento? Aquí lo verás todo cuando empiece.</p>
+              </div>
+            </tr>
+          ) : (
+            filas
+          )}
+        </tbody>
+
       </table>
     </div>
   )

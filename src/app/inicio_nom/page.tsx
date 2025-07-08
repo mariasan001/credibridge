@@ -5,10 +5,12 @@ import { getContractsDashboard } from "./service/contractsDashboard.service";
 import { PageLayout } from "@/components/PageLayout";
 
 // COMPONENTES
-import RankingFinancierasMes from "./components/ui/Card"; // Gráfica de barras de préstamos
-import GraficaTotalContratos from "./components/ui/GraficaTotalContratos"; // Línea de contratos por mes
-import IndicadorAclaraciones from "./components/ui/IndicadorAclaraciones"; // Avatares con % de quejas
-import RankingFinancierasMess from "./components/ui/RankingFinancierasMes"; // Top 3 Financieras
+import RankingFinancierasMes from "./components/ui/Card";
+import GraficaTotalContratos from "./components/ui/GraficaTotalContratos";
+import IndicadorAclaraciones from "./components/ui/IndicadorAclaraciones";
+import RankingFinancierasMess from "./components/ui/RankingFinancierasMes";
+
+import "./InicioNomina.css";
 
 export default function DashboardRankingPage() {
   const [data, setData] = useState<ContractsDashboardResponse | null>(null);
@@ -26,44 +28,40 @@ export default function DashboardRankingPage() {
       {loading ? (
         <p>Cargando...</p>
       ) : (
-        <div style={{ padding: "24px 0" }}>
-          {/* 🟢 1. Indicador de aclaraciones */}
-          <section style={{ marginBottom: "40px" }}>
-            <h3 style={{ fontSize: "1.2rem", marginBottom: "12px", color: "#1f2937" }}>
-              Indicador de Aclaraciones
-            </h3>
-            <IndicadorAclaraciones data={data?.quejasAbiertasPorFinanciera || []} />
-          </section>
+        <div className=".dashboard-container01">
+          {/* 🟢 Fila 1: Top 3 + Contratos */}
+          <div className="row">
+            <section className="col col-40">
+              {data && <RankingFinancierasMess data={data} />}
+            </section>
 
-          {/* 🔵 2. Gráfica de Préstamos por Financiera */}
-          <section style={{ marginBottom: "40px" }}>
-            <h3 style={{ fontSize: "1.2rem", marginBottom: "12px", color: "#1f2937" }}>
-              Préstamos por Financiera
-            </h3>
-            <RankingFinancierasMes data={data?.prestamosPorFinanciera || []} />
-          </section>
+            <section className="col col-60">
+             
+              <GraficaTotalContratos data={data?.contratosPorMes || []} />
+            </section>
+          </div>
 
-          {/* 🟣 3. Contratos por mes (línea) */}
-          <section style={{ marginBottom: "40px" }}>
-            <h3 style={{ fontSize: "1.2rem", marginBottom: "12px", color: "#1f2937" }}>
-              Contratos por Mes
-            </h3>
-            <GraficaTotalContratos data={data?.contratosPorMes || []} />
-          </section>
+          {/* 🟠 Fila 2: Aclaraciones + otra gráfica */}
+          <div className="row">
+            <section className="col col-30">
+            
+              <IndicadorAclaraciones data={data?.quejasAbiertasPorFinanciera || []} />
+            </section>
 
-          {/* 🏆 4. Top 3 Financieras del Mes */}
-          <section style={{ marginBottom: "40px" }}>
-            <h3 style={{ fontSize: "1.2rem", marginBottom: "12px", color: "#1f2937" }}>
-              Top Financieras del Mes
-            </h3>
-            {data && <RankingFinancierasMess data={data} />}
-          </section>
+            <section className="col col-70">
+           
+
+              <RankingFinancierasMes data={data?.prestamosPorFinanciera || []} />
+
+            </section>
+          </div>
         </div>
       )}
     </PageLayout>
   );
 }
+
 /**
- * amm n haber en la page que te pase sin conexio a apis 
- *  venia 
+ * mira ve todo apachurraso hacia un lado  denr de tener una dsipercion en so ompoentes 
+ * 
  */

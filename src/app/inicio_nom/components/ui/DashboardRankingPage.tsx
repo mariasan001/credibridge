@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ContractsDashboardResponse } from "../../model/contractsDashboard.model";
 import { getContractsDashboard } from "../../service/contractsDashboard.service";
+import "../../InicioNomina.css"; // Asegúrate que los estilos están ahí o enlázalos donde corresponda
 
 export default function DashboardRankingPage() {
   const [data, setData] = useState<ContractsDashboardResponse | null>(null);

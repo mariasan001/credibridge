@@ -76,8 +76,8 @@ const DebtPurchaseList = () => {
     status: "",
   });
 
-  const [leftWidth, setLeftWidth] = useState(40); // Porcentaje
-  const [mostrarGrafica, setMostrarGrafica] = useState(true);
+  const [leftWidth, setLeftWidth] = useState(0); // inicia colapsado
+  const [mostrarGrafica, setMostrarGrafica] = useState(false); // gráfica oculta al inicio
   const [mostrarTabla, setMostrarTabla] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -183,6 +183,9 @@ const DebtPurchaseList = () => {
               setMostrarGrafica(true);
               setLeftWidth(40);
             }}
+            disabled={solicitudes.length === 0}
+            className={`btn-mostrar-grafica ${solicitudes.length === 0 ? "disabled" : ""}`}
+            title={solicitudes.length === 0 ? "Sin datos para mostrar la gráfica" : "Mostrar gráfica"}
           >
             Mostrar gráfica
           </button>
@@ -217,32 +220,40 @@ const DebtPurchaseList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {solicitudes
-                      .filter((s) => {
-                        const idOk = filtros.id === "" || String(s.id).includes(filtros.id);
-                        const contractOk =
-                          filtros.contractId === "" ||
-                          s.contractId?.toString().toLowerCase().includes(filtros.contractId.toLowerCase());
-                        const nameOk =
-                          filtros.beneficiaryName === "" ||
-                          s.beneficiaryName?.toLowerCase().includes(filtros.beneficiaryName.toLowerCase());
-                        const rfcOk =
-                          filtros.beneficiaryRfc === "" ||
-                          s.beneficiaryRfc?.toLowerCase().includes(filtros.beneficiaryRfc.toLowerCase());
-                        const statusOk =
-                          filtros.status === "" ||
-                          s.status?.toLowerCase().includes(filtros.status.toLowerCase());
-
-                        return idOk && contractOk && nameOk && rfcOk && statusOk;
-                      })
-                      .map((s) => (
-                        <FilaSolicitud
-                          key={s.id}
-                          s={s}
-                          cambiarStatus={cambiarStatus}
-                          puedeCambiar={!esSoloVisualizacion && puedeEditar}
-                        />
-                      ))}
+                    {solicitudes.length === 0 ? (
+                      <tr>
+                        <td colSpan={13}>
+                          <div className="empty-state-solicitudes">
+                            <img
+                              src="/img/sin_doc.png"
+                              alt="Sin solicitudes"
+                              className="empty-solicitudes-img"
+                            />
+                            <h2>No hay solicitudes registradas aún</h2>
+                            <p>Las solicitudes de compra de deuda aparecerán aquí en cuanto estén disponibles.</p>
+                            <p className="motivador">¿Esperando el primer movimiento? Aquí lo verás todo cuando empiece.</p>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      solicitudes
+                        .filter((s) => {
+                          const idOk = filtros.id === "" || String(s.id).includes(filtros.id);
+                          const contractOk = filtros.contractId === "" || s.contractId?.toString().toLowerCase().includes(filtros.contractId.toLowerCase());
+                          const nameOk = filtros.beneficiaryName === "" || s.beneficiaryName?.toLowerCase().includes(filtros.beneficiaryName.toLowerCase());
+                          const rfcOk = filtros.beneficiaryRfc === "" || s.beneficiaryRfc?.toLowerCase().includes(filtros.beneficiaryRfc.toLowerCase());
+                          const statusOk = filtros.status === "" || s.status?.toLowerCase().includes(filtros.status.toLowerCase());
+                          return idOk && contractOk && nameOk && rfcOk && statusOk;
+                        })
+                        .map((s) => (
+                          <FilaSolicitud
+                            key={s.id}
+                            s={s}
+                            cambiarStatus={cambiarStatus}
+                            puedeCambiar={!esSoloVisualizacion && puedeEditar}
+                          />
+                        ))
+                    )}
                   </tbody>
                 </table>
               </div>
