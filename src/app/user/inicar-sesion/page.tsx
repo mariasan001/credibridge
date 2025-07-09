@@ -7,12 +7,12 @@ import { LoginTitle } from "./components/LoginTitle";
 import { LoginForm } from "../../../components/LoginForm";
 import { LoginIllustration } from "./components/LoginIllustration";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
 
 export default function IniciarSesionPage() {
   const { saludo, emoji, darkMode } = useSaludo();
-  const { isAuthenticated, loading, user } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth(); 
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function IniciarSesionPage() {
   }, [isAuthenticated, loading, user]);
 
   if (loading || (isAuthenticated && user)) {
-
+    return null; // o un loader si prefieres
   }
 
   return (

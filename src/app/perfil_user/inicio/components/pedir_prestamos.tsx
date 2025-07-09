@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { SimulationResult } from "../model/discount_limit_controller";
 import { PromotionCreate } from "../model/PromotionCreate";
 import { createPromotion } from "../services/finpromotionService";

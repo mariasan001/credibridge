@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
-import { useAuth } from "@/context/AuthContext";
+
 import { ReportTicketsList } from "./components/ReportTicketsList";
 import FormularioBroadcastTicket from "./components/FormularioBroadcastTicket";
 import VistaMensajesFijaExtendida from "./components/VistaMensajesFija";
 import { ReportTicket } from "./model/reportTicket.model";
 import "./reports-page.css";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RankingDashboardPage() {
   const { user } = useAuth();

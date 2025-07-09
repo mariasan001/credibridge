@@ -3,12 +3,13 @@
 import "./VistaMensajesFija.css";
 import { useEffect, useRef, useState } from "react";
 import { respondTicket } from "@/app/perfil_user/solicitudes_quejas/service/toketResponService";
-import { useAuth } from "@/context/AuthContext";
+
 import { Upload } from "lucide-react";
 import { uploadTicketFile } from "@/app/perfil_user/solicitudes_quejas/service/ticketFileUploadService";
 import { getTicketFiles } from "@/app/perfil_user/solicitudes_quejas/service/ticketFilesService";
 import { TicketFileBubble } from "@/app/perfil_user/solicitudes_quejas/components/TicketFileBubble";
 import { ReportTicket } from "../model/reportTicket.model";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
     ticket: ReportTicket; // ahora recibe el objeto completo

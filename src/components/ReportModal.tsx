@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth"; // ✅ Zustand
 import { generateReport } from "@/services/reportService";
 import toast from "react-hot-toast";
 import "./ReportModal.css";
@@ -12,6 +12,20 @@ type ReportModalProps = {
   onStart: () => void;
   onFinish: () => void;
 };
+
+// 🔧 Constantes para selects
+const contractTypes = [
+  { label: "Todos", value: "" },
+  { label: "Préstamo", value: "PRESTAMO" },
+  { label: "Seguros", value: "RENTA" },
+];
+
+const contractStatuses = [
+  { label: "Todos", value: "" },
+  { label: "Activo", value: "1" },
+  { label: "Liquidado", value: "2" },
+  { label: "Cancelado", value: "3" },
+];
 
 export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) => {
   const { user } = useAuth();
@@ -33,8 +47,21 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
   };
+
   const handleGenerate = async () => {
-    // Validación de fechas
+    // 🔒 Validación de usuario
+    if (!user) {
+      toast.error("⚠️ No se encontró el usuario actual.");
+      return;
+    }
+
+    // 🔍 Validación de RFC
+    if (filters.userRfc && !/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/.test(filters.userRfc)) {
+      toast.error("⚠️ El RFC no es válido");
+      return;
+    }
+
+    // 🗓️ Validación de fechas
     if (filters.startDate && filters.endDate && filters.startDate > filters.endDate) {
       toast.error("La fecha de inicio no puede ser mayor que la fecha de fin");
       return;
@@ -45,7 +72,6 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
     onStart();
 
     try {
-      // Preparar filtros eliminando claves con undefined
       const rawFilters = {
         lenderId: Number(filters.lenderId),
         userRfc: filters.userRfc,
@@ -58,14 +84,14 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
       const cleanFilters = Object.fromEntries(
         Object.entries(rawFilters).filter(([_, v]) => v !== undefined)
       );
+
       const payload: GenerateReportRequest = {
         reportType: "CONTRACTS",
-        requestedBy: user?.userId || "desconocido",
+        requestedBy: user.userId,
         filters: cleanFilters as ReportFilters,
       };
 
       console.log("Payload enviado a generateReport:", payload);
-
       await generateReport(payload);
 
       toast.success("✅ Reporte generado correctamente", { id: toastId });
@@ -79,6 +105,10 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
     }
   };
 
+  if (!user) {
+    return <p className="text-center mt-6">⚠️ No se encontró el usuario actual.</p>;
+  }
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -91,7 +121,7 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
           }}
         >
           <p>
-            Solicitado por: <strong>{user?.name}</strong>
+            Solicitado por: <strong>{user.name}</strong>
           </p>
 
           <div className="form-grid">
@@ -129,9 +159,11 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 className="form-input"
                 disabled={loading}
               >
-                <option value="">Todos</option>
-                <option value="PRESTAMO">Préstamo</option>
-                <option value="RENTA">Seguros</option>
+                {contractTypes.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -145,10 +177,11 @@ export const ReportModal = ({ onClose, onStart, onFinish }: ReportModalProps) =>
                 className="form-input"
                 disabled={loading}
               >
-                <option value="">Todos</option>
-                <option value="1">Activo</option>
-                <option value="2">Liquidado</option>
-                <option value="3">Cancelado</option>
+                {contractStatuses.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

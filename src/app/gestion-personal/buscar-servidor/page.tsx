@@ -11,24 +11,29 @@ import { ContractTable } from "./components/ContractTable";
 import { LenderSearchSkeleton } from "./LenderSearchSkeleton";
 import BuscarServidorSkeleton from "./BuscarServidorSkeleton";
 
-import { useAuth } from "@/context/AuthContext";
+
 import toast from "react-hot-toast"; // ✅ Manejo de errores
 
 import "./lender-search.css";
+import { useAuth } from "@/hooks/useAuth";
+let lenderSearchLoadedOnce = false; // 🌱 Persiste en la sesión del navegador
+
 
 export default function LenderSearchPage() {
   const [input, setInput] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(!lenderSearchLoadedOnce);
   const { data, loading, error, buscar } = useLenderSearch();
   const { user } = useAuth();
 
-  // Simula carga inicial (primer skeleton)
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsFirstLoad(false);
-    }, 800);
-    return () => clearTimeout(timeout);
+    if (!lenderSearchLoadedOnce) {
+      const timeout = setTimeout(() => {
+        lenderSearchLoadedOnce = true;
+        setIsFirstLoad(false);
+      }, 800);
+      return () => clearTimeout(timeout);
+    }
   }, []);
 
   // Mostrar error con toast

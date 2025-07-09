@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth"; // ✅ Zustand
 import { ChatInputBar } from "@/app/perfil_user/solicitudes_quejas/components/ChatInput";
 import { respondTicket } from "@/app/perfil_user/solicitudes_quejas/service/toketResponService";
 
@@ -32,16 +32,19 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // 📦 Cargar ticket al montar
   useEffect(() => {
     cargarTicket();
   }, [ticketId]);
 
+  // 📜 Scroll automático al fondo al recibir ticket
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [ticket]);
 
+  // 🔄 Obtener detalle y archivos del ticket
   const cargarTicket = async () => {
     try {
       setLoading(true);
@@ -52,13 +55,16 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
       setTicket({ ...detalle, files: archivos });
     } catch (err) {
       console.error("❌ Error al cargar ticket:", err);
+      toast.error("Error al cargar el ticket.");
     } finally {
       setLoading(false);
     }
   };
 
+  // 📤 Enviar nuevo mensaje
   const enviarMensaje = async () => {
     if (!mensaje.trim() || !user) return;
+
     try {
       await respondTicket({
         ticketId,
@@ -66,20 +72,23 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
         message: mensaje.trim(),
         isInternal: false,
       });
+
       setMensaje("");
       await cargarTicket();
     } catch (err) {
       console.error("❌ Error al enviar mensaje:", err);
+      toast.error("No se pudo enviar el mensaje.");
     }
   };
 
+  // ❌ Cerrar ticket
   const cerrarTicket = async () => {
     const confirmar = confirm("¿Estás seguro de cerrar este ticket?");
     if (!confirmar) return;
 
     try {
       await closeTicket(ticketId);
-      toast.success("Ticket cerrado correctamente");
+      toast.success("✅ Ticket cerrado correctamente");
       await cargarTicket();
     } catch (err) {
       toast.error("No se pudo cerrar el ticket");
@@ -87,16 +96,18 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
     }
   };
 
+  // ⌛ Mientras carga
   if (loading || !ticket) {
     return (
       <div className="modal-overlay">
         <div className="modal-container1">
-          <p>Cargando conversación...</p>
+          <p>⏳ Cargando conversación...</p>
         </div>
       </div>
     );
   }
 
+  // 🗂️ Unir mensajes y archivos y ordenarlos
   const itemsConversacion = [
     ...(ticket.messages?.map(msg => ({ tipo: "mensaje" as const, data: msg })) || []),
     ...(ticket.files?.map(file => ({ tipo: "archivo" as const, data: file })) || []),
@@ -118,8 +129,15 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
     <div className="modal-overlay">
       <div className="modal-container1">
         <div className="modal-header">
-          <button className="modal-close-btn" onClick={onClose}>✕</button>
-             {ticket.status.toLowerCase() !== "cerrado" && (
+          <button
+            className="modal-close-btn"
+            onClick={onClose}
+            aria-label="Cerrar modal"
+          >
+            ✕
+          </button>
+
+          {ticket.status.toLowerCase() !== "cerrado" && (
             <div style={{ marginTop: "1rem", textAlign: "right" }}>
               <button className="btn btn-danger" onClick={cerrarTicket}>
                 Cerrar ticket
@@ -159,8 +177,6 @@ export default function DetalleModal({ ticketId, onClose }: Props) {
             onSend={enviarMensaje}
             onUploadSuccess={cargarTicket}
           />
-
-       
         </div>
       </div>
     </div>

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+
+import { useAuth } from "@/hooks/useAuth"; // ✅ Zustand version
 import { menuItems } from "@/constants/menuItems";
 
 import "@/styles/sidebar.css";
@@ -14,7 +15,7 @@ import { MenuItem } from "./types/menu";
 export const Sidebar = () => {
   const { user, loading } = useAuth();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(true); // ✅ Tipo explícito
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const pathname = usePathname();
 
   const isBrowser = typeof window !== "undefined";
@@ -29,7 +30,7 @@ export const Sidebar = () => {
     }
   }, []);
 
-  // 💾 Guardar en localStorage cada vez que cambia
+  // 💾 Guardar estado cada vez que cambia
   useEffect(() => {
     if (isBrowser) {
       localStorage.setItem("sidebar-collapsed", String(isCollapsed));
@@ -37,7 +38,6 @@ export const Sidebar = () => {
     }
   }, [isCollapsed]);
 
-  // ✅ Corrigiendo el tipo de parámetro
   const toggleSidebar = () => {
     setIsCollapsed(prev => !prev);
   };
@@ -45,8 +45,8 @@ export const Sidebar = () => {
   const toggleSubmenu = (route: string) =>
     setOpenMenu(prev => (prev === route ? null : route));
 
-  if (loading) return null;
-  if (!user || !Array.isArray(user.roles)) return null;
+  // 🔒 Protección básica (no renderiza si está cargando o sin user)
+  if (loading || !user?.roles?.length) return null;
 
   const userRoles = user.roles.map(r => r.id);
 

@@ -6,8 +6,9 @@ import { ListaTickets } from "./components/ListaTickets";
 import { useTickets } from "./hook/useTickets";
 import { TicketModel } from "./model/TicketModel";
 import { ChatTicket } from "./components/ChatTicket";
-import { useAuth } from "@/context/AuthContext";
+
 import "./pageSolicitudes.css";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SolicitudesPage() {
   const { tickets, loading } = useTickets();

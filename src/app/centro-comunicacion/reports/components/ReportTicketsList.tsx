@@ -4,8 +4,9 @@ import useSWR from "swr";
 import "./report-tickets.css";
 import { fetchReportTickets } from "../service/reportTicketsService";
 import { TicketModal } from "./TicketModal";
-import { useAuth } from "@/context/AuthContext";
+
 import { ReportTicket } from "../model/reportTicket.model";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   selectedTicketId: number | null;

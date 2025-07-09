@@ -1,39 +1,45 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useAuth } from "@/context/AuthContext"
-import "./CarteraClientesPage.css"
-import { PageLayout } from "@/components/PageLayout"
-import { ContractRow } from "./components/ContractCard"
-import { Pagination } from "./components/Pagination"
-import { ResumenCards } from "./components/ResumenEstado"
-import { CarteraHeader } from "./components/CarteraHeader"
-import { fetchClientPortfolio } from "./service/contract_service"
-import { ClientPortfolioContract } from "./model/contract_model"
-import CarteraSkeleton from "./CarteraSkeleton"
-import { useDebounce } from "use-debounce"
-import { getFechasPorFiltroTiempo } from "./utils/fechasUtils"
+import { useEffect, useState } from "react";
+
+import "./CarteraClientesPage.css";
+import { PageLayout } from "@/components/PageLayout";
+import { ContractRow } from "./components/ContractCard";
+import { Pagination } from "./components/Pagination";
+import { ResumenCards } from "./components/ResumenEstado";
+import { CarteraHeader } from "./components/CarteraHeader";
+import { fetchClientPortfolio } from "./service/contract_service";
+import { ClientPortfolioContract } from "./model/contract_model";
+import CarteraSkeleton from "./CarteraSkeleton";
+import { useDebounce } from "use-debounce";
+import { getFechasPorFiltroTiempo } from "./utils/fechasUtils";
+import { useAuth } from "@/hooks/useAuth";
+
+// 🧠 Flag global para recordar si ya se mostró el skeleton
+let showedCarteraSkeleton = false;
 
 export default function CarteraClientesPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
 
-  const [contracts, setContracts] = useState<ClientPortfolioContract[]>([])
-  const [loading, setLoading] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+  const [contracts, setContracts] = useState<ClientPortfolioContract[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(!showedCarteraSkeleton);
 
-  // Filtros activos
-  const [rfc, setRfc] = useState("")
-  const [status, setStatus] = useState("todos")
-  const [tiempo, setTiempo] = useState("todos")
-  const [debouncedRfc] = useDebounce(rfc, 500)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [rfc, setRfc] = useState("");
+  const [status, setStatus] = useState("todos");
+  const [tiempo, setTiempo] = useState("todos");
+  const [debouncedRfc] = useDebounce(rfc, 500);
 
   const buscar = () => {
-    if (loading) return
-    setLoading(true)
-    setContracts([])
+    if (loading || !user?.lender) return;
 
-    const { fechaInicio, fechaFin } = getFechasPorFiltroTiempo(tiempo)
+    setLoading(true);
+    setContracts([]);
+
+    const { fechaInicio, fechaFin } = getFechasPorFiltroTiempo(tiempo);
 
     fetchClientPortfolio(
       debouncedRfc || undefined,
@@ -43,21 +49,35 @@ export default function CarteraClientesPage() {
       status !== "todos" ? status : undefined
     )
       .then(data => {
-        setContracts(data.content)
-        setTotalPages(data.totalPages)
+        setContracts(data.content);
+        setTotalPages(data.totalPages);
       })
       .catch(error => {
-        console.error("Error al obtener contratos:", error)
+        console.error("Error al obtener contratos:", error);
       })
-      .finally(() => setLoading(false))
-  }
+      .finally(() => {
+        setLoading(false);
+        showedCarteraSkeleton = true;
+        setShowSkeleton(false);
+      });
+  };
 
   useEffect(() => {
-    buscar()
-  }, [currentPage, debouncedRfc, status, tiempo])
+    if (!authLoading && isAuthenticated) {
+      buscar();
+    }
+  }, [currentPage, debouncedRfc, status, tiempo, authLoading, isAuthenticated]);
 
-  if (!user?.lender) {
-    return <p>No tienes una financiera asociada.</p>
+  if (authLoading) {
+    return <p className="text-center mt-10">Cargando sesión...</p>;
+  }
+
+  if (!isAuthenticated || !user) {
+    return null;
+  }
+
+  if (!user.lender) {
+    return <p className="text-center mt-10">No tienes una financiera asociada.</p>;
   }
 
   return (
@@ -65,7 +85,6 @@ export default function CarteraClientesPage() {
       <CarteraHeader />
       <ResumenCards />
 
-      {/* 🎯 Filtros activos */}
       <div className="filtros-cartera">
         <div className="filtro-grupo">
           <label>RFC</label>
@@ -74,19 +93,19 @@ export default function CarteraClientesPage() {
             placeholder="Ej. COSR6709..."
             value={rfc}
             onChange={(e) => {
-              setCurrentPage(1)
-              setRfc(e.target.value)
+              setCurrentPage(1);
+              setRfc(e.target.value);
             }}
           />
         </div>
 
         <div className="filtro-grupo">
-          <label className="text-title">Estatus</label>
+          <label>Estatus</label>
           <select
             value={status}
             onChange={(e) => {
-              setCurrentPage(1)
-              setStatus(e.target.value)
+              setCurrentPage(1);
+              setStatus(e.target.value);
             }}
           >
             <option value="todos">Todos</option>
@@ -100,8 +119,8 @@ export default function CarteraClientesPage() {
           <select
             value={tiempo}
             onChange={(e) => {
-              setCurrentPage(1)
-              setTiempo(e.target.value)
+              setCurrentPage(1);
+              setTiempo(e.target.value);
             }}
           >
             <option value="todos">Todos</option>
@@ -113,7 +132,7 @@ export default function CarteraClientesPage() {
       </div>
 
       <div className="cartera-clientes-page fade-in">
-        {loading ? (
+        {loading && showSkeleton ? (
           <CarteraSkeleton />
         ) : contracts.length === 0 ? (
           <p>No hay contratos registrados.</p>
@@ -149,5 +168,5 @@ export default function CarteraClientesPage() {
         )}
       </div>
     </PageLayout>
-  )
+  );
 }

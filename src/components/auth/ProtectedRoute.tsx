@@ -1,22 +1,21 @@
-"use client"
+"use client";
 
-import { useAuth } from "@/context/AuthContext"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useAuth } from "@/hooks/useAuth"; // ✅ Zustand hook
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, loading } = useAuth()
-  const router = useRouter()
+  const { isAuthenticated, loading } = useAuth(); // ✅ Zustand
+  const router = useRouter();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-       router.push("/user/inicar-sesion")
+      router.push("/user/inicar-sesion");
     }
-  }, [loading, isAuthenticated, router])
+  }, [loading, isAuthenticated, router]);
 
-  if (loading) return <p className="text-center mt-10">Cargando...</p>
+  if (loading) return <p className="text-center mt-10">Cargando...</p>;
+  if (!isAuthenticated) return null;
 
-  if (!isAuthenticated) return null //
-
-  return <>{children}</>
+  return <>{children}</>;
 }

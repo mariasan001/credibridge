@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAuth } from "@/context/AuthContext";
+
 import { SimType } from "../models/tipoSimulacionModel";
 import { SimulationRequest, SimulationResult } from "../models/formularioSolicitud";
 import { SolicitudContrato } from "../models/solicitudContratoModel";
@@ -11,6 +11,7 @@ import { ResultadosSimulacion } from "./ResultadosSimulacion";
 import { getUserDiscountLimit } from "../../inicio/services/limite_service";
 import "./formularioSolicitud.css";
 import { solicitarContrato } from "../services/contrato_service";
+import { useAuth } from "@/hooks/useAuth";
 
 export const SimuladorCreditoForm = () => {
   const { user } = useAuth();

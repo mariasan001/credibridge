@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { SimType } from "../model/simType";
 import { SimulationRequest, SimulationResult } from "../model/discount_limit_controller";
 import { getSimTypes } from "../services/sim_type_service";

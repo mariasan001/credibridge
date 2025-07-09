@@ -10,19 +10,24 @@ import "./DashboardSkeleton.css";
 import { DashboardResumenTotales } from "./components/DashboardResumenTotales";
 import { CarteraHeader } from "./components/CarteraHeader";
 
+let dashboardAlreadyLoaded = false; // 💡 Persistente durante sesión (módulo scope)
+
 export default function DashboardPage() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!dashboardAlreadyLoaded);
 
   useEffect(() => {
+    if (dashboardAlreadyLoaded) return;
+
     const timerId = `🧠 Carga inicial Dashboard ${Date.now()}`;
     console.time(timerId);
 
     const loadDashboard = async () => {
       try {
-        await new Promise((res) => setTimeout(res, 1200)); // Simulación de carga
+        await new Promise((res) => setTimeout(res, 1200)); // Simula carga real
       } catch (error) {
         console.error("❌ Error cargando dashboard", error);
       } finally {
+        dashboardAlreadyLoaded = true;
         setLoading(false);
         console.timeEnd(timerId);
       }
@@ -37,9 +42,9 @@ export default function DashboardPage() {
         <DashboardSkeletonPage />
       ) : (
         <div className="dashboard-page">
-         <CarteraHeader></CarteraHeader>
+          <CarteraHeader />
 
-          <DashboardResumenTotales/>
+          <DashboardResumenTotales />
 
           <div className="dashboard-body">
             <div className="left">

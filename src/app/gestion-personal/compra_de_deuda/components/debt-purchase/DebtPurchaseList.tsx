@@ -8,9 +8,10 @@ import {
   obtenerSolicitudesDeuda,
 } from "../../services/debtPurchaseService";
 import toast from "react-hot-toast";
-import { useAuth } from "@/context/AuthContext";
+
 import DebtFilters from "./DebtFiltersRow";
 import StatusBarChart from "./StatusBarChart";
+import { useAuth } from "@/hooks/useAuth";
 
 const formatoMoneda = (valor: number | null | undefined) =>
   typeof valor === "number"

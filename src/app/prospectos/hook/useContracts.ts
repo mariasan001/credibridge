@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import { Contract } from "../models/Contract";
 import { ContractStatus } from "../models/ContractStatus";
-import { useAuth } from "@/context/AuthContext";
+
 import { getVisibleStatusesByRole } from "../utils/statusHelpers";
 import {
   fetchContracts,
@@ -13,6 +13,7 @@ import {
   fetchAssignableUsers,
 } from "../services/assignService.";
 import { fetchAllStatuses } from "../services/contract-status";
+import { useAuth } from "@/hooks/useAuth";
 
 // 🧠 Opcional: mover a archivo externo para reutilizar
 const filtrarPorFecha = (fecha: Date, rango: string) => {

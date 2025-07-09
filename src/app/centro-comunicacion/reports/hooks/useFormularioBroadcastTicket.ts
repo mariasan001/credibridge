@@ -1,7 +1,7 @@
 // hooks/useFormularioBroadcastTicket.ts
 import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
-import { useAuth } from "@/context/AuthContext";
+
 import { sendBroadcastTicket } from "../service/ticket_service";
 import { fetchTicketTypes, TicketType } from "../service/ticket_type_service";
 import { fetchLenders } from "../service/lender_service";
@@ -9,6 +9,7 @@ import { fetchClarificationTypes } from "../service/clarification_type_service";
 import { ClarificationType } from "../model/ClarificationType";
 import { TicketBroadcastPayload } from "../model/TicketBroadcastPayload";
 import { FormDataState } from "../model/form.types";
+import { useAuth } from "@/hooks/useAuth";
 
 export const useFormularioBroadcastTicket = () => {
   const { user } = useAuth();

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { SimType } from "../models/tipoSimulacionModel";
 import { SimulationRequest, SimulationResult } from "../models/formularioSolicitud";
 import { getSimTypes } from "../services/solicitarPrestamo";

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { PageLayout } from "@/components/PageLayout";
-import { useAuth } from "@/context/AuthContext";
+
 
 import "./portal-comunicacion.css";
 import { ReportTicket } from "../reports/model/reportTicket.model";
 import { ReportTicketsList } from "../reports/components/ReportTicketsList";
 import FormularioBroadcastTicket from "../reports/components/FormularioBroadcastTicket";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ReportesFinancierosPage() {
   const { user } = useAuth();

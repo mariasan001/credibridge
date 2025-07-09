@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pagination } from "@/app/cartera-clientes/components/Pagination";
 import { FiltersBar } from "./FiltersBar";
 import { ContractsTable } from "./ContractsTable";
 import { AssignModal } from "./AssignModal";
 import { ChangeStatusModal } from "./ChangeStatusModal";
 import { useContracts } from "../hook/useContracts";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { ModalProspecto } from "./ModalProspecto";
 import { Contract } from "../models/Contract";
-import ProspectosSkeleton from "../ProspectosSkeleton"; // 👈 Skeleton importado
+import ProspectosSkeleton from "../ProspectosSkeleton";
+
+let showedContractsSkeleton = false; // 🧠 se guarda en memoria local de la sesión
 
 export const ContractsList = () => {
   const {
@@ -41,6 +43,19 @@ export const ContractsList = () => {
 
   const { user } = useAuth();
   const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
+  const [showSkeleton, setShowSkeleton] = useState(!showedContractsSkeleton);
+
+  useEffect(() => {
+    if (showSkeleton && loading) {
+      const timeout = setTimeout(() => {
+        showedContractsSkeleton = true;
+        setShowSkeleton(false);
+      }, 1000); // ⏱️ Puedes ajustar el tiempo
+      return () => clearTimeout(timeout);
+    } else if (!loading) {
+      setShowSkeleton(false);
+    }
+  }, [loading]);
 
   const handleEjecutivoStatusClick = (contract: Contract) => {
     setContractToUpdate(contract);
@@ -57,15 +72,11 @@ export const ContractsList = () => {
 
   return (
     <div className="contracts-container">
-      {loading ? (
-        <ProspectosSkeleton /> 
+      {loading && showSkeleton ? (
+        <ProspectosSkeleton />
       ) : (
         <>
-          <FiltersBar
-            filtros={filtros}
-            setFiltros={setFiltros}
-            setPage={setPage}
-          />
+          <FiltersBar filtros={filtros} setFiltros={setFiltros} setPage={setPage} />
 
           <ContractsTable
             contracts={contratosFiltradosFinal}

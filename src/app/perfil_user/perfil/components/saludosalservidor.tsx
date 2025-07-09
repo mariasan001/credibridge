@@ -1,6 +1,7 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+
+import { useAuth } from "@/hooks/useAuth";
 import "./SaludoServidor.css";
 
 export const SaludoServidor = () => {

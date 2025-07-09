@@ -2,35 +2,36 @@
 
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
+
 import { Ticket } from "../model/ticket_model";
-import { useAuth } from "@/context/AuthContext";
+import { fetchTicketsByStatus } from "../service/ticket_service";
+import { assignTicket } from "../service/assign_ticket_service";
+
 import DetalleModal from "./DetalleModal";
 import AsignarModal from "./AsignarModal";
 import Tabla from "./Tabla";
 import Filtros from "./Filtros";
+import { Pagination } from "@/app/cartera-clientes/components/Pagination";
 
 import "./TablaSolicitudes.css";
-
-import { fetchTicketsByStatus } from "../service/ticket_service";
-import { assignTicket } from "../service/assign_ticket_service";
-import { Pagination } from "@/app/cartera-clientes/components/Pagination";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TablaSolicitudes() {
   const { user } = useAuth();
-
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [showAsignarModal, setShowAsignarModal] = useState(false);
+  const [showModalDetalle, setShowModalDetalle] = useState(false);
+
   const [ticketAAsignar, setTicketAAsignar] = useState<number | null>(null);
+  const [showModalAsignar, setShowModalAsignar] = useState(false);
 
   const [filtroTipo, setFiltroTipo] = useState("TODOS");
   const [filtroTiempo, setFiltroTiempo] = useState("TODOS");
   const [filtroAclaracion, setFiltroAclaracion] = useState("TODOS");
 
-  // Paginación
   const [pagina, setPagina] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(0);
 
@@ -41,8 +42,9 @@ export default function TablaSolicitudes() {
       const solicitudes = data.content.filter(ticket => ticket.ticketType === "SOLICITUD");
       setTickets(solicitudes);
       setTotalPaginas(data.totalPages);
-    } catch (err) {
-      toast.error("Error al cargar tickets");
+    } catch (error) {
+      console.error("❌ Error al cargar tickets:", error);
+      toast.error("No se pudieron cargar los tickets");
     } finally {
       setLoading(false);
     }
@@ -52,31 +54,33 @@ export default function TablaSolicitudes() {
     cargarTickets();
   }, [pagina]);
 
-  const abrirModal = (ticketId: number) => {
+  const abrirModalDetalle = (ticketId: number) => {
     setSelectedTicketId(ticketId);
-    setShowModal(true);
+    setShowModalDetalle(true);
   };
 
-  const abrirAsignarModal = (ticketId: number) => {
+  const abrirModalAsignar = (ticketId: number) => {
     setTicketAAsignar(ticketId);
-    setShowAsignarModal(true);
+    setShowModalAsignar(true);
   };
 
   const handleAsignacion = async (userId: string) => {
     if (!ticketAAsignar) return;
-    const asignacion = toast.promise(
-      assignTicket({ ticketId: ticketAAsignar, userId }),
-      {
-        loading: "Asignando ticket...",
-        success: "Ticket asignado correctamente",
-        error: "No se pudo asignar el ticket",
-      }
-    );
 
     try {
-      await asignacion;
+      await toast.promise(
+        assignTicket({ ticketId: ticketAAsignar, userId }),
+        {
+          loading: "Asignando ticket...",
+          success: "✅ Ticket asignado correctamente",
+          error: "❌ Error al asignar el ticket",
+        }
+      );
+      await cargarTickets(); // Opcional: recargar lista tras asignar
+    } catch (err) {
+      console.error("❌ Error al asignar:", err);
     } finally {
-      setShowAsignarModal(false);
+      setShowModalAsignar(false);
       setTicketAAsignar(null);
     }
   };
@@ -84,6 +88,8 @@ export default function TablaSolicitudes() {
   const tiposAclaracion = Array.from(
     new Set(tickets.map(t => t.clarificationType).filter((t): t is string => !!t))
   );
+
+  if (!user) return null;
 
   return (
     <div className="tabla-solicitudes-container">
@@ -103,8 +109,8 @@ export default function TablaSolicitudes() {
         filtroTipo={filtroTipo}
         filtroTiempo={filtroTiempo}
         filtroAclaracion={filtroAclaracion}
-        abrirModal={abrirModal}
-        abrirAsignarModal={abrirAsignarModal}
+        abrirModal={abrirModalDetalle}
+        abrirAsignarModal={abrirModalAsignar}
       />
 
       <Pagination
@@ -113,21 +119,21 @@ export default function TablaSolicitudes() {
         onPageChange={(newPage) => setPagina(newPage - 1)}
       />
 
-      {showModal && selectedTicketId !== null && (
+      {showModalDetalle && selectedTicketId !== null && (
         <DetalleModal
           ticketId={selectedTicketId}
           onClose={() => {
-            setShowModal(false);
+            setShowModalDetalle(false);
             setSelectedTicketId(null);
           }}
         />
       )}
 
-      {showAsignarModal && ticketAAsignar !== null && (
+      {showModalAsignar && ticketAAsignar !== null && (
         <AsignarModal
           ticketId={ticketAAsignar}
           onClose={() => {
-            setShowAsignarModal(false);
+            setShowModalAsignar(false);
             setTicketAAsignar(null);
           }}
           onSelect={handleAsignacion}
