@@ -54,18 +54,18 @@ export const ContractsTable = ({
               <td className="center">
                 {contract.amount != null
                   ? `$${contract.amount.toLocaleString("es-MX", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })} MXN`
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })} MXN`
                   : "—"}
               </td>
 
               <td className="center">
                 {contract.biweeklyDiscount != null
                   ? `$${contract.biweeklyDiscount.toLocaleString("es-MX", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })} MXN`
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })} MXN`
                   : "—"}
               </td>
 
@@ -86,8 +86,8 @@ export const ContractsTable = ({
                     {capitalizeFirst(contract.contractStatusDesc)}
                   </button>
                 ) : ["reserva", "pendiente"].some((e) =>
-                    contract.contractStatusDesc?.toLowerCase().includes(e)
-                  ) ? (
+                  contract.contractStatusDesc?.toLowerCase().includes(e)
+                ) ? (
                   <button
                     className={`tag ${getTagColorByStatus(contract.contractStatusDesc)} cursor-pointer`}
                     onClick={() => onChangeStatus(contract)}
@@ -114,7 +114,7 @@ export const ContractsTable = ({
                     title="Iniciar proceso de contratación"
                     onClick={() => onClickProspecto(contract)}
                   >
-                    <FolderKanban	 size={20} />
+                    <FolderKanban size={20} />
                   </button>
                 </td>
               )}
@@ -122,8 +122,21 @@ export const ContractsTable = ({
           ))
         ) : (
           <tr>
-            <td colSpan={10} className="center">
-              No hay contratos disponibles
+            <td colSpan={9}>
+              <div className="empty-state-solicitudes">
+                <img
+                  src="/img/sin_prosectos.png"
+                  alt="Sin solicitudes"
+                  className="empty-solicitudes-img"
+                />
+                <h2>"Aún no has creado ningún reporte"</h2>
+                <p>
+                  Aquí aparecerán los reportes que generes desde el sistema.
+                </p>
+                <p className="motivador">
+                  Cuando levantes el primero, lo verás reflejado en esta sección.
+                </p>
+              </div>
             </td>
           </tr>
         )}

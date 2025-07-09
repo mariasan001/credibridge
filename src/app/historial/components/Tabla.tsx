@@ -36,7 +36,20 @@ export default function Tabla({
   });
 
   if (loading) return <p>Cargando solicitudes...</p>;
-  if (ticketsFiltrados.length === 0) return <p>No hay solicitudes pendientes.</p>;
+  if (ticketsFiltrados.length === 0) return <div className="empty-state-solicitudes">
+    <img
+      src="/img/sinmensajes.png"
+      alt="Sin solicitudes"
+      className="empty-solicitudes-img"
+    />
+    <h2>Sin reportes de inconformidad</h2>
+    <p>
+      Hasta ahora, el servidor no ha levantado ninguna queja contra esta financiera.
+    </p>
+    <p className="motivador">
+     ¡Eso habla bien del servicio!
+    </p>
+  </div>;
 
   return (
     <table className="tabla-contratos tabla-solicitudes">

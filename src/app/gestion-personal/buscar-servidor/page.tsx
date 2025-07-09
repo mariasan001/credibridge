@@ -91,7 +91,7 @@ export default function LenderSearchPage() {
             {!hasSearched && (
               <div className="empty-state-bonita">
                 <img
-                  src="/img/img_buscar_servidor.png" // cambia esto a tu ruta real
+                  src="/img/img_buscar_servidor.png"
                   alt="Buscar servidor público"
                   className="empty-illustration"
                 />

@@ -58,7 +58,7 @@ export const ContractsList = () => {
   return (
     <div className="contracts-container">
       {loading ? (
-        <ProspectosSkeleton /> // 👈 Mostramos skeleton si está cargando
+        <ProspectosSkeleton /> 
       ) : (
         <>
           <FiltersBar

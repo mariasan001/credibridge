@@ -288,7 +288,7 @@ export const menuItems = [
       {
         label: "Administración de Usuarios",
         route: "/configuracion/admin_user",
-        roles: [1, 2, 4],
+        roles: [4],
       },
 
       { label: "Perfil", route: "/perfil_user/perfil", roles: [3] },

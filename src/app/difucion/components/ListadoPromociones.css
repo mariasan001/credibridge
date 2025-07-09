@@ -190,3 +190,69 @@
   background-color: #fef9c3;
   color: #92400e;
 }
+
+.tabla-vacia {
+  padding: 48px 24px;
+  text-align: center;
+  background-color: #ffffff !important;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.mensaje-vacio {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.empty-state-solicitudes {
+  text-align: center;
+  padding: 10px 10px;
+  max-width: 600px;
+  margin: 4px auto;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-solicitudes-img {
+  width: 370px;
+  height: auto;
+  margin-bottom: 4px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.empty-state-solicitudes h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #111827;
+}
+
+.empty-state-solicitudes p {
+  font-size: 12px;
+  line-height: 1.5;
+
+}
+
+.empty-state-solicitudes .motivador {
+  font-style: italic;
+  color: #6b7280;
+
+  font-size: 9px;
+}
+
+/* Animación opcional */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
