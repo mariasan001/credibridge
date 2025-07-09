@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from "react";
 import { LenderService } from "./types/lenderService";
-import LenderServiceForm from "./components/LenderServiceForm";
 import LenderServiceTable from "./components/LenderServiceTable";
 import {
     createLenderService,
@@ -13,6 +12,7 @@ import {
 } from "./services/lenderService";
 import { PageLayout } from "@/components/PageLayout";
 import { CarteraHeader } from "./components/CarteraHeader";
+
 
 const LenderServicesPage: React.FC = () => {
     const [lenderServices, setLenderServices] = useState<LenderService[]>([]);

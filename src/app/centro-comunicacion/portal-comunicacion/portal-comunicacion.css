@@ -66,3 +66,17 @@
   color: #666;
   text-align: center;
 }
+.placeholder-contenedor {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  max-width: 400px;
+  margin: 3rem auto;
+}
+
+.placeholder-imagen {
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}

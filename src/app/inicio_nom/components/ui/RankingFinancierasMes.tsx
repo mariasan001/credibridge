@@ -45,7 +45,7 @@ export default function RankingFinancierasMess({ data }: Props) {
             <div className="podio-pos">#{index + 1}</div>
             <div className="podio-nombre">{financiera.name}</div>
             <div className="podio-score">
-              Score: {financiera.score}
+              Contratos: {financiera.score}
             </div>
             <p className="podio-desc">
               {index === 0

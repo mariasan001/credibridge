@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./LenderServiceTable.module.css";
 import { LenderService } from "../types/lenderService";
 import { Pencil, Trash2 } from "lucide-react";
+import { Pagination } from "@/app/cartera-clientes/components/Pagination";
 
 interface Props {
   data: LenderService[];
@@ -9,7 +11,17 @@ interface Props {
   onDelete: (id: number) => void;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 const LenderServiceTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const currentItems = data.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -23,7 +35,7 @@ const LenderServiceTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {currentItems.map((item) => (
             <tr key={item.id}>
               <td>{item.lenderServiceDesc}</td>
               <td>{item.rate}</td>
@@ -34,20 +46,26 @@ const LenderServiceTable: React.FC<Props> = ({ data, onEdit, onDelete }) => {
               <td className={styles.actions}>
                 <button onClick={() => onEdit(item)} className={styles.editBtn}>
                   <Pencil size={16} />
-                  <span></span>
                 </button>
                 <button
                   onClick={() => onDelete(item.id)}
                   className={styles.deleteBtn}
                 >
                   <Trash2 size={16} />
-                  <span></span>
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

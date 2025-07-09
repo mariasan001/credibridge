@@ -10,42 +10,54 @@
   justify-content: center;
   margin-bottom: 3rem;
 }
-
 .auditBox {
-  background-color: #f9fafb;
-  border-radius: 10px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  max-width: 100%;        /* Evita que se expanda más allá del contenedor */
-  width: 100%;            /* Asegura que se adapte dentro de .container */
-  box-sizing: border-box; /* Incluye padding en el ancho total */
+  background-color: #ffffff;
+  border-left: 4px solid #9F2141; /* color institucional */
+  border-radius: 8px;
+  padding: 1.5rem 1.75rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  max-width: 800px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.auditTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .auditList {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-family: "Courier New", monospace;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
 }
 
 .auditList li {
-  background-color: #fff;
-  padding: 0.75rem 1rem;
-  border-left: 4px solid #9ca3af;
-  border-radius: 6px;
-  color: #374151;
-  word-break: break-word; /* Por si hay texto largo o ID largo */
-  overflow-wrap: break-word;
-  transition: background-color 0.2s ease;
+  font-size: 0.95rem;
+  color: #333;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.auditList li:first-child {
-  border-left-color: #38bdf8;
-  background-color: #e0f2fe;
-  box-shadow: 0 0 0 2px #bae6fd;
+.auditList li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .auditBox {
+    padding: 1rem;
+  }
+
+  .auditList li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
 }

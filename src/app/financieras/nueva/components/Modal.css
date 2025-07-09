@@ -16,8 +16,8 @@
   padding: 2rem;
   border-radius: 12px;
   max-width: 600px;
-  height: 700px;
-  width: 90%;
+  max-height: 800px;
+  width: 100%;
   position: relative;
 }
 

@@ -1,70 +1,99 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./UploadBox.module.css";
+import styles from "./AdvancedUploadBox.module.css";
+import { FileText, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { Loader2, UploadCloud } from "lucide-react";
 
 interface Props {
-  title: string;
+  heading: string;
+  description: string;
+  imageSrc?: string;
+  accept?: string;
   onUpload: (file: File) => Promise<void>;
 }
 
-export default function UploadBox({ title, onUpload }: Props) {
+export default function AdvancedUploadBox({
+  heading,
+  description,
+  imageSrc,
+  accept = ".dbf",
+  onUpload,
+}: Props) {
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<"idle" | "success" | "error" | "loading">("idle");
+  const [progress, setProgress] = useState<number>(0);
+  const [status, setStatus] = useState<"idle" | "uploading" | "success" | "error">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) {
-      toast.error("Selecciona un archivo antes de subir.");
-      return;
-    }
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
 
-    setStatus("loading");
+    setFile(selected);
+    setProgress(0);
+    setStatus("uploading");
 
     try {
-      await onUpload(file);
+      const fakeProgress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(fakeProgress);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
+      await onUpload(selected);
+
+      clearInterval(fakeProgress);
+      setProgress(100);
       setStatus("success");
       toast.success("Archivo subido con éxito.");
-      setFile(null);
     } catch (error) {
       console.error(error);
       setStatus("error");
-      toast.error("Hubo un error al subir el archivo.");
-    } finally {
-      setTimeout(() => setStatus("idle"), 3000);
+      toast.error("Error al subir el archivo.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.uploadBox}>
-      <h2 className={styles.title}>{title}</h2>
+    <div className={styles.container}>
+      <h3 className={styles.title}>{heading}</h3>
+      <p className={styles.description}>{description}</p>
 
-      <label className={styles.dropArea}>
-        <UploadCloud className={styles.icon} />
+      <label className={styles.dropZone}>
+        {imageSrc ? (
+          <img src={imageSrc} alt="Ícono de carga" className={styles.image} />
+        ) : (
+          <Loader2 className={styles.icon} />
+        )}
         <span className={styles.text}>
-          {file ? file.name : "Arrastra o haz clic para subir un archivo .dbf"}
+          {file ? file.name : "Arrastra un archivo o haz clic para subir .dbf"}
         </span>
-        <input
-          type="file"
-          accept=".dbf"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className={styles.input}
-        />
+        <input type="file" accept={accept} onChange={handleChange} className={styles.input} />
       </label>
 
-      <button
-        type="submit"
-        className={styles.button}
-        disabled={status === "loading"}
-      >
-        {status === "loading" ? (
-          <Loader2 className={styles.spinner} />
-        ) : (
-          "Subir archivo"
-        )}
-      </button>
-    </form>
+      {file && (
+        <div className={styles.progressBox}>
+          <div className={styles.fileInfo}>
+            <FileText className={styles.fileIcon} />
+            <span className={styles.fileName}>{file.name}</span>
+            <span className={styles.fileSize}>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+          </div>
+          <div className={styles.progressBar}>
+            <div
+              className={`${styles.progress} ${
+                status === "success"
+                  ? styles.success
+                  : status === "error"
+                  ? styles.error
+                  : ""
+              }`}
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

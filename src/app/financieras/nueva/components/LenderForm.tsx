@@ -1,8 +1,10 @@
 'use client';
+
 import { useState, useEffect } from "react";
 import styles from "./LenderForm.module.css";
 import { Lender } from "../types/lender";
 import { createLender, updateLender } from "../services/lenderService";
+import toast from "react-hot-toast";
 
 interface Props {
   selected?: Lender | null;
@@ -40,12 +42,20 @@ export const LenderForm = ({ selected, onSuccess, onCancel }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selected) {
-      await updateLender(selected.id, formData);
-    } else {
-      await createLender(formData);
+    try {
+      if (selected) {
+        await updateLender(selected.id, formData);
+        toast.success("Lender actualizado correctamente");
+      } else {
+        await createLender(formData);
+        toast.success("Lender creado correctamente");
+      }
+      onSuccess();
+    } catch (error: any) {
+      const msg = error?.response?.data?.message || error.message || "Error inesperado";
+      toast.error(`No se pudo guardar: ${msg}`);
+      console.error("Error al guardar lender:", msg);
     }
-    onSuccess();
   };
 
   return (

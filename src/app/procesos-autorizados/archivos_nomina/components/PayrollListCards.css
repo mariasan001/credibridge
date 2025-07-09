@@ -1,5 +1,7 @@
 .payroll-list-container {
   padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
 }
 
 .payroll-header {
@@ -14,23 +16,26 @@
 .payroll-title {
   margin: 0;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .search-input {
   padding: 0.6rem 1rem;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 12px;
+  background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   outline: none;
-  transition: border 0.3s;
+  transition: all 0.3s ease;
   width: 100%;
   max-width: 350px;
 }
 
 .search-input:focus {
   border-color: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
 }
 
 .card-grid {
@@ -47,12 +52,13 @@
   padding: 1rem;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
 }
 
 .file-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .file-icon-wrapper {
@@ -62,16 +68,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .file-icon {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #9ca3af;
 }
 
 .file-details {
   flex: 1;
   margin-left: 1rem;
+  overflow: hidden;
 }
 
 .file-name {
@@ -82,7 +90,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
   cursor: help;
 }
 
@@ -109,6 +116,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .download-icon-button:hover {

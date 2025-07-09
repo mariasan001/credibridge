@@ -3,7 +3,7 @@ import { LenderService } from "../types/lenderService";
 import { createLenderService } from "../services/lenderService";
 import { toast } from "react-hot-toast";
 import ModalContService from "./ModalContService";
-
+import "./CarteraHeader.css"
 // CarteraHeader.tsx
 interface Props {
   onCreateSuccess: () => void; // 🔁 Llamada cuando se crea un servicio

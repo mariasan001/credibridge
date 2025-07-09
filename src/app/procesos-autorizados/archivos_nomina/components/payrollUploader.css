@@ -1,98 +1,94 @@
-.payrollUploader-container {
+.uploader-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  background-color: #f9f9f9;
+  background: #f4f4f4;
   min-height: 60vh;
 }
 
-.payrollUploader-card {
-  border: 1px solid #eee;
+.uploader-card {
+  background: #fff;
   border-radius: 12px;
-  padding: 3rem 2rem;
-  max-width: 840px;
+  padding: 2.5rem;
+  max-width: 600px;
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-.payrollUploader-subtitle {
-  font-size: 1.2rem;
+.uploader-icon {
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.uploader-title {
+  font-size: 1.4rem;
   font-weight: 600;
+  color: #222;
   margin-bottom: 0.5rem;
-  color: #111;
 }
 
-.payrollUploader-description {
+.uploader-description {
   font-size: 0.95rem;
   color: #555;
   margin-bottom: 1.5rem;
 }
 
-.payrollUploader-icon {
-  color: #555;
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
-.payrollUploader-formGroup {
+.uploader-form {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
-input[type="number"],
-input[type="file"] {
+.uploader-form input[type="number"] {
   padding: 0.5rem 0.75rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  outline: none;
+  width: 120px;
 }
 
-.payrollUploader-dropFile {
+.uploader-drop {
   position: relative;
-  border: 2px dashed #999;
+  border: 2px dashed #aaa;
   border-radius: 8px;
   padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: #f9f9f9;
+  background: #fafafa;
+  margin-bottom: 1.5rem;
   color: #555;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.payrollUploader-fileInput {
+.uploader-drop:hover {
+  background: #f0f0f0;
+}
+
+.uploader-input {
   position: absolute;
   inset: 0;
   opacity: 0;
   cursor: pointer;
 }
 
-.buttonn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.2rem;
+.uploader-button {
   background-color: #000;
   color: white;
-  border: none;
+  padding: 0.7rem 1.2rem;
   border-radius: 8px;
+  border: none;
   cursor: pointer;
-  font-weight: 500;
   font-size: 1rem;
-  margin-left: 10px;
   transition: background-color 0.2s ease-in-out;
 }
 
-.buttonn:disabled {
+.uploader-button:disabled {
   background-color: #555;
   cursor: not-allowed;
 }
 
-.buttonn:hover:enabled {
-  background-color: #1a1a1a;
+.uploader-button:hover:enabled {
+  background-color: #111;
 }

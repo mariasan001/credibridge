@@ -10,34 +10,31 @@ import { FileText, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import "./PayrollListCards.css";
 
-export default function PayrollList() {
+type Props = {
+  reloadTrigger: number;
+};
+
+export default function PayrollList({ reloadTrigger }: Props) {
   const [files, setFiles] = useState<PayrollFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-useEffect(() => {
-  const fetchFiles = async () => {
-    try {
-      const data = await getAllPayrollFiles();
-      setFiles(data);
-    } catch (error) {
-      console.error("Error al cargar archivos:", error);
-      toast.error("Ocurrió un error al cargar los archivos.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchFiles = async () => {
+      setLoading(true);
+      try {
+        const data = await getAllPayrollFiles();
+        setFiles(data);
+      } catch (error) {
+        console.error("Error al cargar archivos:", error);
+        toast.error("Ocurrió un error al cargar los archivos.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Llamada inicial
-  fetchFiles();
-
-  // Establecer el intervalo para hacer polling
-  const intervalId = setInterval(fetchFiles, 30000); // cada 30 segundos
-
-  // Limpiar el intervalo al desmontar
-  return () => clearInterval(intervalId);
-}, []);
-
+    fetchFiles();
+  }, [reloadTrigger]); // 🔁 Recarga cada vez que se sube un archivo
 
   const filteredFiles = files.filter((file) =>
     `${file.originalName} ${file.year} ${file.period}`

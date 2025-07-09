@@ -19,7 +19,7 @@ const initialForm: Period = {
   endDate: "",
 };
 
-export const PeriodForm = () => {
+export const PeriodForm = ({ onPeriodCreated }: { onPeriodCreated: () => void }) => {
   const [formData, setFormData] = useState<Period>(initialForm);
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +55,7 @@ export const PeriodForm = () => {
       await createPeriod(formData);
       toast.success("✅ Periodo creado exitosamente");
       setFormData(initialForm);
+      onPeriodCreated(); // <-- actualiza lista
     } catch (err: any) {
       toast.error(err.response?.data?.message || "❌ Error al crear el periodo");
     } finally {

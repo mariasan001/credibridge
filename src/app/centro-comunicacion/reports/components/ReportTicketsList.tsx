@@ -6,13 +6,14 @@ import { fetchReportTickets } from "../service/reportTicketsService";
 import { TicketModal } from "./TicketModal";
 import { useAuth } from "@/context/AuthContext";
 import { ReportTicket } from "../model/reportTicket.model";
+
 interface Props {
   selectedTicketId: number | null;
   onSelectTicket: (ticket: ReportTicket) => void;
   showModal: boolean;
   onCloseModal: () => void;
   ticketsRolesAllowed: boolean;
-  ticketFilter?: (ticket: ReportTicket) => boolean; // ✅ NUEVO
+  ticketFilter?: (ticket: ReportTicket) => boolean;
 }
 
 export const ReportTicketsList = ({
@@ -21,7 +22,7 @@ export const ReportTicketsList = ({
   showModal,
   onCloseModal,
   ticketsRolesAllowed,
-  ticketFilter, // ✅ NUEVO
+  ticketFilter,
 }: Props) => {
   const { user } = useAuth();
   const userId = user?.userId;
@@ -39,10 +40,27 @@ export const ReportTicketsList = ({
 
   if (isLoading) return <p>Cargando tickets...</p>;
   if (error) return <p>Error al cargar tickets.</p>;
-  if (!tickets || tickets.length === 0) return <p>No hay tickets disponibles.</p>;
 
   // ✅ Aplica el filtro si existe
-  const filteredTickets = ticketFilter ? tickets.filter(ticketFilter) : tickets;
+  const filteredTickets = ticketFilter ? tickets?.filter(ticketFilter) : tickets;
+
+  // ✅ Si no hay tickets para mostrar
+  if (!filteredTickets || filteredTickets.length === 0) {
+    return (
+      <div className="empty-state-bonita">
+        <img
+          src="/img/sinmensajes.png"
+          alt="Sin tickets"
+          className="empty-illustration"
+        />
+        <h2 >Este espacio está esperando su primer mensaje</h2>
+        <p>Aquí se mostrarán los comunicados relevantes para ti.</p>
+        <p className="motivador">
+        Toda historia comienza con una palabra. Esta aún está por llegar.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>

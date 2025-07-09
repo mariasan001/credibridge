@@ -1,7 +1,7 @@
 // app/admin/lenders/page.tsx
 'use client';
 import { useState } from "react";
-import { LenderForm } from "./components/LenderForm";
+
 import { LenderTable } from "./components/LenderTable";
 import { Lender } from "./types/lender";
 import { PageLayout } from "@/components/PageLayout";
@@ -14,9 +14,9 @@ export default function LendersPage() {
     return (
         <PageLayout>
             <CarteraHeader></CarteraHeader>
-            <div style={{ display: "flex", gap: "2rem", padding: "1rem" }}>
+            <div>
     
-                <div style={{ flex: 2 }}>
+                <div>
                     <LenderTable key={refresh.toString()} onEdit={setEditing} />
                 </div>
             </div>
