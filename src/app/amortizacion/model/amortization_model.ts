@@ -118,6 +118,10 @@ export interface ActualPayment {
   paymentType: number;
   reshipmentDate: string;
   negppa: string;
+  paymentTypeEvidence:string;
+  coment: string;
+  fileId: number;
+  
 }
 
 export interface SimulatedPayment {

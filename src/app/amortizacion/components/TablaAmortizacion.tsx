@@ -46,6 +46,7 @@ export default function TablaAmortizacion({
           <tbody>
             {pagos.map((pago, index) => (
               <tr key={index} className={index === pagos.length - 1 ? "ultima-cuota" : ""}>
+                
                 <td>{pago.installmentNumber}</td>
                 <td>${pago.outstandingBalance.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</td>
                 <td>${pago.amortization.toLocaleString("es-MX", { minimumFractionDigits: 2 })}</td>

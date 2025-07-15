@@ -1,17 +1,36 @@
+import { useState } from "react";
 import "./TablaDescuentosRecuperados.css";
 import { ActualPayment } from "../model/amortization_model";
+import { CashPaymentModal } from "./CashPaymentModal";
+import { CashPaymentDetailsModal } from "./CashPaymentDetailsModal";
+import { Pencil, Eye, Download } from "lucide-react";
 
 interface Props {
   descuentos: ActualPayment[];
 }
 
 export default function TablaDescuentosRecuperados({ descuentos }: Props) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCreditId, setSelectedCreditId] = useState<number | null>(null);
+  const [selectedDetail, setSelectedDetail] = useState<ActualPayment | null>(null);
+
+  const handleOpenModal = (creditId: number) => {
+    setSelectedCreditId(creditId);
+    setModalOpen(true);
+  };
+
+  const handleViewDetails = (desc: ActualPayment) => {
+    setSelectedDetail(desc);
+  };
+
   return (
     <div className="tabla-scroll">
       <div className="tabla-descuentos-wrapper">
         <div className="tabla-descuentos-header">
           <h4>Descuentos Recuperados</h4>
-          <button title="Descargar" className="icon-btn-descargar">⬇</button>
+          <button title="Descargar" className="icon-btn-descargar">
+            <Download size={16} />
+          </button>
         </div>
 
         <div className="tabla-descuentos-scroll">
@@ -23,6 +42,7 @@ export default function TablaDescuentosRecuperados({ descuentos }: Props) {
                 <th>Clave</th>
                 <th>Estatus</th>
                 <th>Valor desc</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +59,22 @@ export default function TablaDescuentosRecuperados({ descuentos }: Props) {
                       })}`
                       : "-"}
                   </td>
+                  <td className="acciones-directas">
+                    <button
+                      className="icon-btn"
+                      title="Modificar pago"
+                      onClick={() => handleOpenModal(desc.id)}
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      className="icon-btn"
+                      title="Ver detalles"
+                      onClick={() => handleViewDetails(desc)}
+                    >
+                      <Eye size={16} />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -46,12 +82,34 @@ export default function TablaDescuentosRecuperados({ descuentos }: Props) {
         </div>
       </div>
 
-    </div>
+      {modalOpen && selectedCreditId !== null && (
+        <CashPaymentModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          creditId={selectedCreditId}
+        />
+      )}
 
+      {selectedDetail && (
+        <CashPaymentDetailsModal
+          payment={selectedDetail}
+          onClose={() => setSelectedDetail(null)}
+        />
+      )}
+
+    </div>
   );
 }
 
-// Lógica para mostrar el estatus de forma legible
-function getEstatus(desc: ActualPayment) {
-  return desc.paymentAmount > 0 ? "Cuota decontada" : "Cheque cancelado";
+function getEstatus(desc: ActualPayment): string {
+  switch (desc.paymentStatus) {
+    case 0:
+      return "No fue cubierto";
+    case 1:
+      return "Cubierto";
+    case 2:
+      return "Excedente";
+    default:
+      return "Desconocido";
+  }
 }

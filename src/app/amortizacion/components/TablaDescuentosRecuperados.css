@@ -53,3 +53,35 @@
   background-color: var( --color-bg-container);
   color: var( --color-text-strong);
 }
+
+.acciones-directas {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.icon-btn-descargar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+
+.icon-btn-descargar:hover {
+  background-color: #eaeaea;
+}
