@@ -9,16 +9,25 @@ export interface ReportFilters {
   userRfc: string;
 }
 
-export interface GenerateReportRequest {
-  reportType: "CONTRACTS";
-  requestedBy: string;
-  filters: ReportFilters;
+export interface AmortizationFilters {
+  reload: boolean;
+  period: number;
+  year: number;
 }
+
+export type GenerateReportRequest =
+  | {
+      reportType: "CONTRACTS";
+      requestedBy: string;
+      filters: ReportFilters;
+    }
+  | {
+      reportType: "AMORTIZATION_SIMULATION";
+      requestedBy: string;
+      filters: AmortizationFilters;
+    };
 
 export const generateReport = async (data: GenerateReportRequest) => {
   const response = await api.post("/api/reports/generate", data);
   return response.data;
 };
-
-
-

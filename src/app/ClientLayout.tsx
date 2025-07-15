@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
-import { useAuth } from "@/hooks/useAuth"; // ✅ Zustand hook
 
 import { ReportModal } from "@/components/ReportModal";
 import { FloatingButton } from "@/components/loatingButton";
+import { useAuth } from "@/hooks/useAuth";
+
 
 // Lazy load del Sidebar
 const Sidebar = dynamic(
@@ -19,7 +20,7 @@ const Sidebar = dynamic(
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, checkSession, loading } = useAuth(); // ✅ Zustand hook
+  const { user } = useAuth();
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -27,10 +28,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     setMounted(true);
-    checkSession(); // ✅ Validamos sesión solo una vez
   }, []);
 
-  if (!mounted || loading) return null;
+  if (!mounted) return null;
 
   const hideSidebarRoutes = [
     "/user/inicar-sesion",
@@ -41,6 +41,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   const shouldHideSidebar = hideSidebarRoutes.includes(pathname);
 
+  // Funciones para controlar el contador de reportes en proceso
   const handleStartReporte = () => setReportesEnProceso((prev) => prev + 1);
   const handleFinishReporte = () => setReportesEnProceso((prev) => Math.max(prev - 1, 0));
 

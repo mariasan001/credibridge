@@ -4,11 +4,11 @@ import "./styles.css";
 import React, { useEffect } from "react";
 import { useSaludo } from "@/hooks/useSaludo";
 import { LoginTitle } from "./components/LoginTitle";
-import { LoginForm } from "../../../components/LoginForm";
 import { LoginIllustration } from "./components/LoginIllustration";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
+import { LoginForm } from "@/components/LoginForm";
 
 export default function IniciarSesionPage() {
   const { saludo, emoji, darkMode } = useSaludo();

@@ -1,6 +1,7 @@
 export interface LoginPayload {
   username: string;
   password: string;
+  captchaToken?: string | null;
 }
 
 export interface Usuario {
@@ -31,6 +32,7 @@ export interface Usuario {
   lender: Lender | null;
   bank: CatalogoGenerico | null; 
   roles: Rol[];
+  
 }
 
 export interface Rol {

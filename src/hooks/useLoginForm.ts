@@ -1,6 +1,7 @@
-import { useState, useCallback, FormEvent, ChangeEvent } from "react"
+import { useState, useCallback, ChangeEvent, useRef } from "react"
 import { useAuth } from "@/hooks/useAuth"
 import axios from "axios"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export function useLoginForm() {
   const { login, loading } = useAuth()
@@ -10,6 +11,8 @@ export function useLoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({})
   const [submitError, setSubmitError] = useState("")
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   const togglePassword = useCallback(() => setShowPassword(prev => !prev), [])
 
@@ -21,27 +24,37 @@ export function useLoginForm() {
     setPassword(e.target.value)
   }, [])
 
-  const handleLogin = useCallback(async (e: FormEvent) => {
-    e.preventDefault()
-    setSubmitError("")
+  // Ya no pasas el evento, solo token
+  const handleLogin = useCallback(
+    async (captchaToken: string) => {
+      setSubmitError("")
 
-    const newErrors: typeof errors = {}
-    if (!username) newErrors.username = "Este campo es obligatorio"
-    if (!password) newErrors.password = "Este campo es obligatorio"
-    setErrors(newErrors)
-    if (Object.keys(newErrors).length > 0) return
+      const newErrors: typeof errors = {}
+      if (!username) newErrors.username = "Este campo es obligatorio"
+      if (!password) newErrors.password = "Este campo es obligatorio"
+      setErrors(newErrors)
+      if (Object.keys(newErrors).length > 0) return
 
-    try {
-      await login({ username, password })
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        const message = err.response?.data?.message || "Número de servidor o contraseña incorrectos"
-        setSubmitError(message)
-      } else {
-        setSubmitError("Ocurrió un error inesperado.")
+      try {
+        await login({
+          username,
+          password,
+          captchaToken,
+        })
+      } catch (err) {
+        recaptchaRef.current?.reset()
+
+        if (axios.isAxiosError(err)) {
+          const message =
+            err.response?.data?.message || "Número de servidor o contraseña incorrectos"
+          setSubmitError(message)
+        } else {
+          setSubmitError("Ocurrió un error inesperado.")
+        }
       }
-    }
-  }, [login, username, password])
+    },
+    [login, username, password]
+  )
 
   return {
     username,
@@ -54,5 +67,6 @@ export function useLoginForm() {
     handleUsernameChange,
     handlePasswordChange,
     handleLogin,
+    recaptchaRef,
   }
 }

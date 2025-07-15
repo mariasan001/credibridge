@@ -1,5 +1,3 @@
-// types/generateReport.ts
-
 export type ReportFilters = {
   lenderId: number;
   userRfc: string;
@@ -9,8 +7,20 @@ export type ReportFilters = {
   endDate?: string | null;
 };
 
-export type GenerateReportRequest = {
-  reportType: "CONTRACTS";
-  requestedBy: string;
-  filters: ReportFilters;
+export type AmortizationFilters = {
+  reload: boolean;
+  period: number;
+  year: number;
 };
+
+export type GenerateReportRequest =
+  | {
+      reportType: "CONTRACTS";
+      requestedBy: string;
+      filters: ReportFilters;
+    }
+  | {
+      reportType: "AMORTIZATION_SIMULATION";
+      requestedBy: string;
+      filters: AmortizationFilters;
+    };

@@ -16,20 +16,15 @@ interface Props {
 export const ContractRow = memo(function ContractRow({ contract, onView }: Props) {
   const router = useRouter();
 
-  const handleViewClick = () => {
-    if (!contract.contractId || !contract.status) return;
+const handleViewClick = () => {
+  if (!contract.contractId) return;
 
-    if (onView) {
-      onView(contract.contractId);
-    } else {
-      const selectedContract = {
-        id: contract.contractId,
-        status: contract.status,
-      };
-      localStorage.setItem("selectedContract", JSON.stringify(selectedContract));
-      router.push("/amortizacion");
-    }
-  };
+  // Guardamos el ID seleccionado
+  localStorage.setItem("selectedContractId", contract.contractId.toString());
+
+  // Redirigimos sin pasarlo en la URL
+  router.push("/amortizacion");
+};
 
   return (
     <tr className="contract-row">
@@ -75,7 +70,7 @@ export const ContractRow = memo(function ContractRow({ contract, onView }: Props
         <Eye
           className="icon-view"
           onClick={handleViewClick}
-      
+
           aria-label="Ver detalle del contrato"
           role="button"
           tabIndex={0}

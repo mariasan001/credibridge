@@ -1,6 +1,4 @@
-// hooks/useAuth.ts
 "use client";
-
 
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -25,6 +23,13 @@ export function useAuth() {
 
   const login = async (data: LoginPayload) => {
     const toastId = toast.loading("Iniciando sesión...");
+
+    // 🔒 Validación de captchaToken
+    if (!data.captchaToken) {
+      toast.error("Por favor completa el captcha.", { id: toastId });
+      return;
+    }
+
     try {
       const loginRes = await loginRequest(data);
       const session = await getSession();
@@ -37,6 +42,7 @@ export function useAuth() {
     } catch (err) {
       console.error("❌ Login fallido", err);
       toast.error("Credenciales incorrectas o error del servidor.", { id: toastId });
+      throw err; // 👈 Esto permite que useLoginForm resetee el captcha
     }
   };
 

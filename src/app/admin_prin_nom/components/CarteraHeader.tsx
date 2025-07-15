@@ -8,7 +8,6 @@ export function CarteraHeader() {
         <h2>Panel de Control General</h2>
         <p> Quién responde mejor, quién está dejando que arda el sistema. Comparativo en tiempo real.</p>
       </div>
-      
     </div>
   )
 }

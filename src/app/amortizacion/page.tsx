@@ -1,38 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import "./Contratos.css";
 import { AmortizationResponse } from "./model/amortization_model";
 import { getAmortizationDetail } from "./service/getAmortizationDetail";
-
-// Layout general
+import { AmortizationSkeleton } from "./AmortizationSkeleton";
 import { PageLayout } from "@/components/PageLayout";
-
-// Componentes específicos
 import { HeaderContrato } from "./components/HeaderContrato";
 import ResumenContrato from "./components/ResumenContrato";
 import DetalleContrato from "./components/DetalleContrato";
 import TablaAmortizacion from "./components/TablaAmortizacion";
 import TablaDescuentosRecuperados from "./components/TablaDescuentosRecuperados";
 
-import "./Contratos.css";
-import { AmortizationSkeleton } from "./AmortizationSkeleton";
-
 export default function AmortizationPage() {
+  const { id } = useParams();
+  const searchParams = useSearchParams();
+
   const [data, setData] = useState<AmortizationResponse | null>(null);
-  const [statusLocal, setStatusLocal] = useState<string>("N/A");
 
-  useEffect(() => {
-    const id = localStorage.getItem("selectedContractId");
-    const status = localStorage.getItem("selectedContractStatus");
+useEffect(() => {
+  const id = localStorage.getItem("selectedContractId");
 
-    if (status) setStatusLocal(status);
+  if (!id) {
+    console.warn("No se encontró ningún contrato seleccionado.");
+    return;
+  }
 
-    if (id) {
-      getAmortizationDetail(parseInt(id)).then(setData);
-    }
-  }, []);
+  getAmortizationDetail(parseInt(id))
+    .then(setData)
+    .catch((err) => console.error("Error al obtener amortización:", err));
+}, []);
 
-  // 🟡 Mostrar Skeleton mientras se cargan los datos
+
   if (!data) return <AmortizationSkeleton />;
 
   const { contract, actualPayments, simulatedSchedule } = data;
@@ -47,7 +47,7 @@ export default function AmortizationPage() {
           discountsAplied={contract.discountsAplied}
           amount={contract.amount}
           newBalance={contract.newBalance}
-          estatus={statusLocal}
+          estatus={contract.status}
         />
 
         <div className="amortizacion-body">
