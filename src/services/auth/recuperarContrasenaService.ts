@@ -4,7 +4,7 @@ import { RecuperarContrasenaRequest, RecuperarContrasenaResponse } from "@/model
 
 export async function recuperarContrasena(data: RecuperarContrasenaRequest): Promise<RecuperarContrasenaResponse> {
   const response = await axios.post<RecuperarContrasenaResponse>(
-    "http://localhost:2910/auth/forgot-password",
+    "http://10.0.32.52:2910/auth/forgot-password",
     data
   );
   return response.data;

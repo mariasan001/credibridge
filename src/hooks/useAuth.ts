@@ -24,7 +24,7 @@ export function useAuth() {
   const login = async (data: LoginPayload) => {
     const toastId = toast.loading("Iniciando sesión...");
 
-    // 🔒 Validación de captchaToken
+    // Validación de captchaToken
     if (!data.captchaToken) {
       toast.error("Por favor completa el captcha.", { id: toastId });
       return;
@@ -42,7 +42,7 @@ export function useAuth() {
     } catch (err) {
       console.error("❌ Login fallido", err);
       toast.error("Credenciales incorrectas o error del servidor.", { id: toastId });
-      throw err; // 👈 Esto permite que useLoginForm resetee el captcha
+      throw err; //Esto permite que useLoginForm resetee el captcha
     }
   };
 

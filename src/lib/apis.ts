@@ -2,7 +2,7 @@ import axios from "axios";
 import Router from "next/router";
 import toast from "react-hot-toast";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2910";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://10.0.32.54:2910";
 
 export const api = axios.create({
   baseURL: BASE_URL,

@@ -15,7 +15,7 @@ interface Props {
   file: TicketFileModel;
 }
 
-const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2910";
+const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://10.0.32.53:2910";
 
 const getExtension = (filename: string = ""): string => {
   return filename.split(".").pop()?.toLowerCase() || "other";

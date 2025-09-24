@@ -8,10 +8,10 @@
 
 /* Contenedor del modal */
 .cash-payment-modal {
-  background-color: #fff;
+  background-color:var(  --color-bg-sidebar) !important;
   border-radius: 8px;
   padding: 24px;
-  max-width: 400px;
+  max-width: 400px !important;
   width: 100%;
   margin: auto;
   margin-top: 10vh;
@@ -20,7 +20,8 @@
 
 /* Título */
 .cash-payment-modal-title {
-  font-size: 1.25rem;
+  font-size:var(  --text-size-md);
+  color: var(  --color-text-main) !important;
   font-weight: 600;
   margin-bottom: 16px;
 }
@@ -41,7 +42,7 @@
 .cash-payment-modal-field input,
 .cash-payment-modal-field select {
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   font-size: 0.95rem;
 }
@@ -55,7 +56,7 @@
 
 .cash-payment-btn-cancel {
   padding: 8px 14px;
-  background-color: #e5e7eb;
+  background-color:var(  --coilor-fondo-cat);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -67,13 +68,13 @@
 
 .cash-payment-btn-submit {
   padding: 8px 14px;
-  background-color: #2563eb;
-  color: white;
+  background-color: var( --color-text-main);
+  color: var(  --color-bg-container);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .cash-payment-btn-submit:hover {
-  background-color: #1d4ed8;
+  background-color: var( --color-text-strong);
 }
