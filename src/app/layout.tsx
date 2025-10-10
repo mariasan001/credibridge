@@ -1,6 +1,8 @@
+// app/layout.tsx
 import "@/app/globals.css";
 import { Providers } from "./Providers";
 import ClientLayout from "./ClientLayout";
+import RUMInit from "./RUMInit";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Providers>
+          <RUMInit /> {/* ⬅️ corre Web Vitals, observers, contexto */}
           <ClientLayout>{children}</ClientLayout>
         </Providers>
       </body>

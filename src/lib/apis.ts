@@ -1,34 +1,61 @@
-import axios from "axios";
-import Router from "next/router";
-import toast from "react-hot-toast";
+// lib/api.ts
+"use client";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://10.0.32.54:2910";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { track } from "@/lib/rum"; // ← si no lo tienes, quita estas 3 líneas de RUM
+// Si no usas RUM aún, elimina los track(...)
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2910";
 
 export const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true, // Esto asegura que se mande la cookie
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true, // requiere CORS con credentials en tu backend
 });
 
-// Interceptor de respuestas
+// ✅ marca tiempo en salida
+api.interceptors.request.use((cfg) => {
+  (cfg as any).__t0 = typeof performance !== "undefined" ? performance.now() : Date.now();
+  return cfg;
+});
+
+// ✅ mide, notifica y redirige seguro en App Router
 api.interceptors.response.use(
-  (response) => response,
+  (res) => {
+    const t0 = (res.config as any).__t0 ?? Date.now();
+    const dt = (typeof performance !== "undefined" ? performance.now() : Date.now()) - t0;
+
+    // RUM opcional
+    try {
+      track?.({ kind: "api", url: res.config?.url, status: res.status, dt });
+    } catch {}
+
+    return res;
+  },
   (error) => {
-    const status = error?.response?.status;
+    const cfg = error?.config || {};
+    const t0 = (cfg as any).__t0 ?? Date.now();
+    const dt = (typeof performance !== "undefined" ? performance.now() : Date.now()) - t0;
+    const status = error?.response?.status ?? 0;
 
-    // ✅ Si el token o la cookie expiró
+    // RUM opcional
+    try {
+      track?.({ kind: "api", url: cfg?.url, status, dt, error: true });
+    } catch {}
+
     if (status === 401) {
-      toast.error("Tu sesión ha expirado. Inicia sesión nuevamente.", {
-        duration: 5000,
-        icon: "⏰",
-      });
+      toast.error("Tu sesión ha expirado. Inicia sesión nuevamente.", { duration: 5000, icon: "⏰" });
+      // App Router (sin hooks aquí): redirección segura
+      if (typeof window !== "undefined") {
+        window.location.assign("/user/iniciar-sesion");
+      }
+    }
 
-      // Redirige al login
-    Router.push("/user/iniciar-sesion");
-
+    // Tip útil: maneja timeout explícito
+    if (error.code === "ECONNABORTED") {
+      toast.error("La solicitud tardó demasiado. Intenta de nuevo.");
     }
 
     return Promise.reject(error);

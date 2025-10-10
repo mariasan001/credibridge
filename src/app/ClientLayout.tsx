@@ -5,20 +5,32 @@ import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
 import { ReportModal } from "@/components/ReportModal";
-import { FloatingButton } from "@/components/loatingButton";
 import { useAuth } from "@/hooks/useAuth";
 
+// RUM hooks
+import { useRouteMetrics } from "@/lib/route-metrics";
+import { usePerfMark } from "@/lib/usePerfMark";
+import { track } from "../lib/rum";
+import { FloatingButton } from "@/components/loatingButton";
 
-// Lazy load del Sidebar
+// ✅ constante fuera del componente (no es hook)
+const HIDE_SIDEBAR_ROUTES = [
+  "/user/inicar-sesion",
+  "/user/recuperacion",
+  "/user/token",
+  "/user/nuevacontrasena",
+];
+
 const Sidebar = dynamic(
-  () => import("@/components/menu/Sidebar").then((mod) => mod.Sidebar),
-  {
-    ssr: false,
-    loading: () => <div className="w-[250px] bg-neutral-100" />,
-  }
+  () => import("@/components/menu/Sidebar").then((m) => m.Sidebar),
+  { ssr: false, loading: () => <div className="w-[250px] bg-neutral-100" /> }
 );
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
+  // 🔒 Todos los hooks siempre se llaman, en el mismo orden
+  usePerfMark("ClientLayout");
+  useRouteMetrics();
+
   const pathname = usePathname();
   const { user } = useAuth();
 
@@ -26,24 +38,37 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const [open, setOpen] = useState(false);
   const [reportesEnProceso, setReportesEnProceso] = useState(0);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
+  const shouldHideSidebar = HIDE_SIDEBAR_ROUTES.includes(pathname);
+
+  useEffect(() => {
+    track({
+      kind: "ui",
+      name: "layout_state",
+      path: pathname,
+      sidebar: shouldHideSidebar ? "hidden" : "visible",
+      authed: Boolean(user),
+    });
+  }, [pathname, shouldHideSidebar, user]);
+
+  // 👇 El return condicional va DESPUÉS de todos los hooks
   if (!mounted) return null;
 
-  const hideSidebarRoutes = [
-    "/user/inicar-sesion",
-    "/user/recuperacion",
-    "/user/token",
-    "/user/nuevacontrasena",
-  ];
-
-  const shouldHideSidebar = hideSidebarRoutes.includes(pathname);
-
-  // Funciones para controlar el contador de reportes en proceso
-  const handleStartReporte = () => setReportesEnProceso((prev) => prev + 1);
-  const handleFinishReporte = () => setReportesEnProceso((prev) => Math.max(prev - 1, 0));
+  const handleStartReporte = () => {
+    setReportesEnProceso((p) => {
+      const next = p + 1;
+      track({ kind: "ui", name: "reporte_start", count: next });
+      return next;
+    });
+  };
+  const handleFinishReporte = () => {
+    setReportesEnProceso((p) => {
+      const next = Math.max(p - 1, 0);
+      track({ kind: "ui", name: "reporte_finish", count: next });
+      return next;
+    });
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -54,12 +79,18 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         {user && !shouldHideSidebar && (
           <>
             <FloatingButton
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpen(true);
+                track({ kind: "ui", name: "floating_open" });
+              }}
               reportCount={reportesEnProceso}
             />
             {open && (
               <ReportModal
-                onClose={() => setOpen(false)}
+                onClose={() => {
+                  setOpen(false);
+                  track({ kind: "ui", name: "floating_close" });
+                }}
                 onStart={handleStartReporte}
                 onFinish={handleFinishReporte}
               />
