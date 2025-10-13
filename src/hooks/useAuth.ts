@@ -3,57 +3,67 @@
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { loginRequest, logoutRequest, getSession } from "@/services/auth/authService";
-import { LoginPayload } from "@/model/usuario.models";
+import type { LoginPayload, Usuario } from "@/model/usuario.models";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
 import { useAuthStore } from "@/store/userStore";
+
+const LOGIN_PATH = "/user/iniciar-sesion";
 
 export function useAuth() {
   const { user, token, loading, setAuth, clearAuth, setLoading } = useAuthStore();
   const router = useRouter();
 
   const redirigirLogin = () => {
-    if (typeof window !== "undefined") {
-      router.replace("/user/inicar-sesion");
-    }
+    if (typeof window !== "undefined") router.replace(LOGIN_PATH);
   };
-
   const estaEnLogin = () =>
-    typeof window !== "undefined" &&
-    window.location.pathname.includes("/user/inicar-sesion");
+    typeof window !== "undefined" && window.location.pathname.includes(LOGIN_PATH);
 
-  const login = async (data: LoginPayload) => {
+  const login = async (payload: LoginPayload) => {
     const toastId = toast.loading("Iniciando sesión...");
 
-    // Validación de captchaToken
-    if (!data.captchaToken) {
+    if (!payload.captchaToken) {
       toast.error("Por favor completa el captcha.", { id: toastId });
       return;
     }
 
     try {
-      const loginRes = await loginRequest(data);
-      const session = await getSession();
-      setAuth(session, loginRes.token);
+      // ← token y (si tu API lo manda) user
+      const { token: sesToken } = await loginRequest(payload);
 
-      toast.success(`¡Bienvenido, ${session.name}!`, { id: toastId });
+      // ← siempre pedimos la sesión normalizada a Usuario
+      const session: Usuario = await getSession();
 
-      const rutaDestino = RUTAS_POR_ROL_ID[session.roles?.[0]?.id] || "/perfil_user/inicio";
+      if (!session?.userId) {
+        throw new Error("Sesión inválida: el servidor no devolvió userId.");
+      }
+
+      setAuth(session, sesToken ?? "");
+
+      const firstRoleId = session.roles?.[0]?.id;
+      const rutaDestino =
+        (firstRoleId && RUTAS_POR_ROL_ID[firstRoleId as keyof typeof RUTAS_POR_ROL_ID]) ||
+        "/perfil_user/inicio";
+
+      toast.success(`¡Bienvenido, ${session.name ?? "usuario"}!`, { id: toastId });
       router.push(rutaDestino);
-    } catch (err) {
-      console.error("❌ Login fallido", err);
-      toast.error("Credenciales incorrectas o error del servidor.", { id: toastId });
-      throw err; //Esto permite que useLoginForm resetee el captcha
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Credenciales incorrectas o error del servidor.";
+      console.error("❌ Login fallido:", e);
+      toast.error(msg, { id: toastId });
+      throw (e instanceof Error ? e : new Error(String(e))); // para resetear captcha
     }
   };
 
   const logout = async () => {
     try {
       await logoutRequest();
-      clearAuth();
-      router.replace("/user/inicar-sesion");
-    } catch (err) {
-      console.error("❌ Error al cerrar sesión", err);
+    } catch (e) {
+      console.error("❌ Error al cerrar sesión", e);
       toast.error("Error al cerrar sesión.");
+    } finally {
+      clearAuth();
+      router.replace(LOGIN_PATH);
     }
   };
 
@@ -62,17 +72,16 @@ export function useAuth() {
       setLoading(false);
       return;
     }
-
     try {
-      const data = await getSession();
-      if (data?.userId) {
-        setAuth(data, token || "");
+      const session: Usuario = await getSession();
+      if (session?.userId) {
+        setAuth(session, token || "");
       } else {
         clearAuth();
         redirigirLogin();
       }
-    } catch (err) {
-      console.error("❌ Error en checkSession:", err);
+    } catch (e) {
+      console.error("❌ Error en checkSession:", e);
       clearAuth();
       redirigirLogin();
     } finally {
@@ -80,13 +89,5 @@ export function useAuth() {
     }
   };
 
-  return {
-    user,
-    token,
-    loading,
-    isAuthenticated: !!user,
-    login,
-    logout,
-    checkSession,
-  };
+  return { user, token, loading, isAuthenticated: !!user, login, logout, checkSession };
 }
