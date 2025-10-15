@@ -7,7 +7,7 @@ import type { LoginPayload, Usuario } from "@/model/usuario.models";
 import RUTAS_POR_ROL_ID from "@/constants/rutasPorRol";
 import { useAuthStore } from "@/store/userStore";
 
-const LOGIN_PATH = "/user/iniciar-sesion";
+const LOGIN_PATH = "/user/inicar-sesion"; // ✅ tu ruta real
 
 export function useAuth() {
   const { user, token, loading, setAuth, clearAuth, setLoading } = useAuthStore();
@@ -19,19 +19,17 @@ export function useAuth() {
   const estaEnLogin = () =>
     typeof window !== "undefined" && window.location.pathname.includes(LOGIN_PATH);
 
-  const login = async (payload: LoginPayload) => {
+  const login = async (payload: LoginPayload): Promise<void> => {
     const toastId = toast.loading("Iniciando sesión...");
 
     if (!payload.captchaToken) {
       toast.error("Por favor completa el captcha.", { id: toastId });
-      return;
+      // ❗️recházalo como Error; no “return” silencioso
+      throw new Error("Captcha requerido");
     }
 
     try {
-      // ← token y (si tu API lo manda) user
       const { token: sesToken } = await loginRequest(payload);
-
-      // ← siempre pedimos la sesión normalizada a Usuario
       const session: Usuario = await getSession();
 
       if (!session?.userId) {
@@ -48,10 +46,11 @@ export function useAuth() {
       toast.success(`¡Bienvenido, ${session.name ?? "usuario"}!`, { id: toastId });
       router.push(rutaDestino);
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Credenciales incorrectas o error del servidor.";
-      console.error("❌ Login fallido:", e);
-      toast.error(msg, { id: toastId });
-      throw (e instanceof Error ? e : new Error(String(e))); // para resetear captcha
+      const err = e instanceof Error ? e : new Error("Credenciales incorrectas o error del servidor.");
+      console.error("❌ Login fallido:", err);
+      toast.error(err.message, { id: toastId });
+      // Propaga Error real para que el form resetee captcha, etc.
+      throw err;
     }
   };
 
