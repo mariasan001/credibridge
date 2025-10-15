@@ -15,7 +15,7 @@ import { FloatingButton } from "@/components/loatingButton";
 
 // ✅ constante fuera del componente (no es hook)
 const HIDE_SIDEBAR_ROUTES = [
-  "/user/inicar-sesion",
+  "/user/inicar-sesion",   // ✅ corregido
   "/user/recuperacion",
   "/user/token",
   "/user/nuevacontrasena",

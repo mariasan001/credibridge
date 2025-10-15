@@ -1,72 +1,51 @@
-import { useState, useCallback, ChangeEvent, useRef } from "react"
-import { useAuth } from "@/hooks/useAuth"
-import axios from "axios"
-import ReCAPTCHA from "react-google-recaptcha"
+"use client";
+import { useState, useCallback, ChangeEvent, useRef } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 export function useLoginForm() {
-  const { login, loading } = useAuth()
+  const { login, loading } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+  const [submitError, setSubmitError] = useState("");
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState<{ username?: string; password?: string }>({})
-  const [submitError, setSubmitError] = useState("")
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const togglePassword = useCallback(() => setShowPassword(p => !p), []);
+  const handleUsernameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value), []);
+  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), []);
 
-  const togglePassword = useCallback(() => setShowPassword(prev => !prev), [])
-
-  const handleUsernameChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value)
-  }, [])
-
-  const handlePasswordChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-  }, [])
-
-  // Ya no pasas el evento, solo token
   const handleLogin = useCallback(
-    async (captchaToken: string) => {
-      setSubmitError("")
+    async () => {
+      setSubmitError("");
+      const nextErrors: typeof errors = {};
+      if (!username) nextErrors.username = "Este campo es obligatorio";
+      if (!password) nextErrors.password = "Este campo es obligatorio";
+      setErrors(nextErrors);
+      if (Object.keys(nextErrors).length > 0) return;
 
-      const newErrors: typeof errors = {}
-      if (!username) newErrors.username = "Este campo es obligatorio"
-      if (!password) newErrors.password = "Este campo es obligatorio"
-      setErrors(newErrors)
-      if (Object.keys(newErrors).length > 0) return
-
+      let captchaToken: string | null = null;
       try {
-        await login({
-          username,
-          password,
-          captchaToken,
-        })
-      } catch (err) {
-        recaptchaRef.current?.reset()
-
-        if (axios.isAxiosError(err)) {
-          const message =
-            err.response?.data?.message || "Número de servidor o contraseña incorrectos"
-          setSubmitError(message)
-        } else {
-          setSubmitError("Ocurrió un error inesperado.")
+        if (SITE_KEY) {
+          captchaToken = await recaptchaRef.current?.executeAsync() ?? null;
+          recaptchaRef.current?.reset();
+          if (!captchaToken) throw new Error("No se pudo validar el captcha.");
         }
+        await login({ username, password, captchaToken });
+      } catch (e: any) {
+        setSubmitError(e?.message ?? "No se pudo iniciar sesión.");
       }
     },
-    [login, username, password]
-  )
+    [username, password, login]
+  );
 
   return {
-    username,
-    password,
-    showPassword,
-    errors,
-    submitError,
-    loading,
-    togglePassword,
-    handleUsernameChange,
-    handlePasswordChange,
-    handleLogin,
-    recaptchaRef,
-  }
+    username, password, showPassword, errors, submitError, loading,
+    togglePassword, handleUsernameChange, handlePasswordChange,
+    handleLogin, recaptchaRef, SITE_KEY, setSubmitError
+  };
 }

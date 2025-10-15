@@ -2,56 +2,64 @@
 "use client";
 
 import { useEffect } from "react";
-import { initWebVitals } from "@/lib/webvitals";
-import { initPerfObservers } from "@/lib/perf-observers";
-import { pushClientContextOnce } from "@/lib/rum-context";
+
+/** Convierte cualquier razón en un Error con message/stack útiles */
+function ensureError(reason: unknown, fallback = "Unknown promise rejection"): Error {
+  if (reason instanceof Error) return reason;
+  if (typeof reason === "string") return new Error(reason);
+  try {
+    const asObj = (reason && typeof reason === "object") ? reason as any : {};
+    const msg =
+      asObj?.message ||
+      (typeof asObj === "object" ? JSON.stringify(asObj) : String(asObj)) ||
+      fallback;
+    const err = new Error(msg);
+    if (asObj?.stack) (err as any).stack = asObj.stack;
+    return err;
+  } catch {
+    return new Error(fallback);
+  }
+}
 
 export default function RUMInit() {
   useEffect(() => {
-    pushClientContextOnce();
-    initWebVitals();
-    initPerfObservers();
+    // Evita listeners duplicados por Fast Refresh
+    if (typeof window === "undefined" || (window as any).__rumInitInstalled) return;
+    (window as any).__rumInitInstalled = true;
 
-    // Evitar doble parche con HMR
-    const w = window as any;
-    if (!w.__rejectPatchApplied) {
-      const oldReject = Promise.reject.bind(Promise);
-      // parche: log cuando rechazan con null/undefined/obj vacío
-      // @ts-ignore
-      Promise.reject = (reason: any) => {
-        const isEmptyObject =
-          reason && typeof reason === "object" && Object.keys(reason).length === 0;
-        if (reason == null || isEmptyObject) {
-          // stack artificial para ubicar quién llamó reject(...)
-          // eslint-disable-next-line no-console
-          console.error("[REJECT NULL/EMPTY] origen:", new Error().stack);
-        }
-        return oldReject(reason);
+    // (Opcional) Probe para detectar quién llama Promise.reject(null)
+    if (process.env.NODE_ENV !== "production") {
+      const origReject = Promise.reject.bind(Promise);
+      (Promise as any).reject = (reason: any) => {
+        console.groupCollapsed("[Probe] Promise.reject called");
+        console.log("reason:", reason);
+        console.trace("stack (where reject was called)");
+        console.groupEnd();
+        return origReject(reason);
       };
-      w.__rejectPatchApplied = true;
     }
 
-    const onRejection = (e: PromiseRejectionEvent) => {
-      const r: any = e?.reason;
-      // eslint-disable-next-line no-console
-      console.error("[UNHANDLED REJECTION]", r, {
-        type: typeof r,
-        message: r?.message,
-        stack: r?.stack,
-      });
+    const onError = (ev: ErrorEvent) => {
+      const err = ensureError(ev.error ?? ev.message ?? "Unknown error");
+      console.error("[RUM][error]", err);
+      // aquí podrías trackear a tu RUM vendor
     };
 
-    const onError = (e: ErrorEvent) => {
-      // eslint-disable-next-line no-console
-      console.error("[UNCAUGHT ERROR]", e.error || e.message);
+    const onRejection = (ev: PromiseRejectionEvent) => {
+      const err = ensureError(ev.reason);
+      console.error("[RUM][unhandledrejection]", err);
+      // Evita el segundo log del navegador: "Uncaught (in promise) X"
+      ev.preventDefault();
+      // aquí podrías trackear a tu RUM vendor
     };
 
-    window.addEventListener("unhandledrejection", onRejection);
     window.addEventListener("error", onError);
+    window.addEventListener("unhandledrejection", onRejection);
 
     return () => {
-      window.removeEventListener("unhandledrejection", onRejection);
       window.removeEventListener("error", onError);
+      window.removeEventListener("unhandledrejection", onRejection);
+      (window as any).__rumInitInstalled = false;
     };
   }, []);
 
